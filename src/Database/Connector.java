@@ -1,23 +1,53 @@
 package Database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Connector {
+    private Statement statement;
+    private Connection connection;
 
-    public static void main(String[] args) {
+    public void connect() {
         try {
             Class.forName("org.postgresql.Driver");
-            Connection connection = DriverManager.getConnection(
+            this.connection = DriverManager.getConnection(
                     DBContract.HOST+DBContract.DB_NAME,
                     DBContract.USERNAME,
                     DBContract.PASSWORD
             );
 
-            System.out.println("Database connected");
+            this.connection.setAutoCommit(false);
+            this.statement = this.connection.createStatement();
         } catch (ClassNotFoundException|SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void closeConnection(ResultSet resultSet) {
+        try {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+
+            this.statement.close();
+            this.connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Statement getStatement() {
+        return statement;
+    }
+
+    public void setStatement(Statement statement) {
+        this.statement = statement;
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 }

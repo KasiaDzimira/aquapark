@@ -1,0 +1,29 @@
+DROP TABLE attraction CASCADE;
+
+DROP TABLE attraction_type CASCADE;
+
+DROP TABLE client CASCADE;
+
+DROP TABLE days CASCADE;
+
+DROP TABLE daytime CASCADE;
+
+DROP TABLE disc_group CASCADE;
+
+DROP TABLE history CASCADE;
+
+DROP TABLE pass CASCADE;
+
+DROP TABLE pass_prc_lst CASCADE;
+
+DROP TABLE pass_prc_lst_pos CASCADE;
+
+DROP TABLE pass_type CASCADE;
+
+DROP TABLE tckt_prc_lst CASCADE;
+
+DROP TABLE tckt_prc_lst_pos CASCADE;
+
+DROP TABLE ticket CASCADE;
+
+DROP TABLE watch CASCADE;
