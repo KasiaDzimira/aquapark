@@ -47,14 +47,15 @@ CREATE TABLE client (
 	first_name	VARCHAR(20),
 	last_name	VARCHAR(30),
 	email		VARCHAR(30),
-	telephone	VARCHAR(12)
+	telephone	VARCHAR(12),
+	nick		VARCHAR(20),
+	password	VARCHAR(20)
 );
 
 ALTER TABLE client ADD CONSTRAINT client_pk PRIMARY KEY ( id );
 
 CREATE TABLE attraction (
 	id					SERIAL NOT NULL,
-	price				MONEY,
 	status				INTEGER,
 	-- Should be a kind of enum
 	attraction_type_id	INTEGER NOT NULL
@@ -64,7 +65,8 @@ ALTER TABLE attraction ADD CONSTRAINT attraction_pk PRIMARY KEY ( id );
 
 CREATE TABLE attraction_type (
 	id		SERIAL NOT NULL,
-	name	VARCHAR(25)
+	name	VARCHAR(25),
+	price	MONEY
 );
 
 ALTER TABLE attraction_type ADD CONSTRAINT attraction_type_pk PRIMARY KEY ( id );

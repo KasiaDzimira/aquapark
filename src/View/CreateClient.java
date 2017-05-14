@@ -11,7 +11,7 @@ public class CreateClient extends JFrame {
     private Dimension windowSize;
 
     public CreateClient(String windowTitle) {
-        this.windowSize = new Dimension(400, 400);
+        this.windowSize = new Dimension(400, 500);
         this.setTitle(windowTitle);
         this.setSize(this.windowSize);
         this.centeringWindow();
@@ -21,10 +21,14 @@ public class CreateClient extends JFrame {
     public void renderForm() {
         JPanel formPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        JLabel nickLabel = new JLabel("Nick:");
+        JLabel passwordLabel = new JLabel("Password:");
         JLabel firstNameLabel = new JLabel("First name:");
         JLabel lastNameLabel = new JLabel("Last name:");
         JLabel emailLabel = new JLabel("E-mail:");
         JLabel telephoneLabel = new JLabel("Telephone:");
+        JTextField nickField = new JTextField();
+        JTextField passwordField = new JPasswordField();
         JTextField firstNameField = new JTextField();
         JTextField lastNameField = new JTextField();
         JTextField emailField = new JTextField();
@@ -35,11 +39,20 @@ public class CreateClient extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ClientController clientController = new ClientController();
-                String firstName = firstNameField.getText();
-                String lastName = lastNameField.getText();
-                String email = emailField.getText();
-                String telephone = telephoneField.getText();
-                clientController.createClient(firstName, lastName, email, telephone);
+                String nick = nickField.getText();
+                boolean accountExists = clientController.checkIfAccountExist(nick);
+                if (accountExists) {
+                    JOptionPane.showMessageDialog(null, "Account with nick: " + nick + " already exists!");
+                }
+
+                if (!accountExists) {
+                    String password = passwordField.getText();
+                    String firstName = firstNameField.getText();
+                    String lastName = lastNameField.getText();
+                    String email = emailField.getText();
+                    String telephone = telephoneField.getText();
+                    clientController.createClient(nick, password, firstName, lastName, email, telephone);
+                }
             }
         });
 
@@ -50,25 +63,35 @@ public class CreateClient extends JFrame {
         lastNameField.setPreferredSize(fieldSize);
         emailField.setPreferredSize(fieldSize);
         telephoneField.setPreferredSize(fieldSize);
+        nickField.setPreferredSize(fieldSize);
+        passwordField.setPreferredSize(fieldSize);
 
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(10, 0, 0, 0);
-        formPanel.add(firstNameLabel, gridBagConstraints);
+        formPanel.add(nickLabel, gridBagConstraints);
         gridBagConstraints.gridy = 1;
-        formPanel.add(firstNameField, gridBagConstraints);
+        formPanel.add(nickField, gridBagConstraints);
         gridBagConstraints.gridy = 2;
-        formPanel.add(lastNameLabel, gridBagConstraints);
+        formPanel.add(passwordLabel, gridBagConstraints);
         gridBagConstraints.gridy = 3;
-        formPanel.add(lastNameField, gridBagConstraints);
+        formPanel.add(passwordField, gridBagConstraints);
         gridBagConstraints.gridy = 4;
-        formPanel.add(emailLabel, gridBagConstraints);
+        formPanel.add(firstNameLabel, gridBagConstraints);
         gridBagConstraints.gridy = 5;
-        formPanel.add(emailField, gridBagConstraints);
+        formPanel.add(firstNameField, gridBagConstraints);
         gridBagConstraints.gridy = 6;
-        formPanel.add(telephoneLabel, gridBagConstraints);
+        formPanel.add(lastNameLabel, gridBagConstraints);
         gridBagConstraints.gridy = 7;
-        formPanel.add(telephoneField, gridBagConstraints);
+        formPanel.add(lastNameField, gridBagConstraints);
         gridBagConstraints.gridy = 8;
+        formPanel.add(emailLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 9;
+        formPanel.add(emailField, gridBagConstraints);
+        gridBagConstraints.gridy = 10;
+        formPanel.add(telephoneLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 11;
+        formPanel.add(telephoneField, gridBagConstraints);
+        gridBagConstraints.gridy = 12;
         formPanel.add(confirm, gridBagConstraints);
 
         this.add(formPanel);

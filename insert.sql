@@ -15,11 +15,11 @@ INSERT INTO disc_group (name, discount) VALUES ('Kids', 0.6);
 INSERT INTO disc_group (name, discount) VALUES ('Students', 0.3);
 INSERT INTO disc_group (name, discount) VALUES ('Elders', 0.4);
 
-INSERT INTO client (first_name, last_name, email, telephone) VALUES ('Hubert', 'Karewicz', 'hkarewicz@a.com', '111111111');
-INSERT INTO client (first_name, last_name, email, telephone) VALUES ('Jolanta', 'Nowak', 'jnow@b.com', '222222222');
-INSERT INTO client (first_name, last_name, email, telephone) VALUES ('Robert', 'Kowalski', 'rycerz1@c.pl', '333333333');
-INSERT INTO client (first_name, last_name, email, telephone) VALUES ('Jacek', 'Rybak', 'ryby@ryby.ru', '444444444');
-INSERT INTO client (first_name, last_name, email, telephone) VALUES ('Monika', 'Dołęga', 'monisia@cmok.pl', '555555555');
+INSERT INTO client (first_name, last_name, email, telephone, nick, password) VALUES ('Hubert', 'Karewicz', 'hkarewicz@a.com', '111111111', 'hkarewicz', 'karewicz1234');
+INSERT INTO client (first_name, last_name, email, telephone, nick, password) VALUES ('Jolanta', 'Nowak', 'jnow@b.com', '222222222', 'jnow', 'nowak1234');
+INSERT INTO client (first_name, last_name, email, telephone, nick, password) VALUES ('Robert', 'Kowalski', 'rycerz1@c.pl', '333333333', 'rycerz', 'kowalski1234');
+INSERT INTO client (first_name, last_name, email, telephone, nick, password) VALUES ('Jacek', 'Rybak', 'ryby@ryby.ru', '444444444', 'ryby@ryby', 'ryby1234');
+INSERT INTO client (first_name, last_name, email, telephone, nick, password) VALUES ('Monika', 'Dołęga', 'monisia@cmok.pl', '555555555', 'monisia@cmok', 'cmok1234');
 
 -- assuming 1 - in use, 0 - damaged, won't be used
 INSERT INTO watch (status) VALUES (1);
@@ -41,9 +41,9 @@ INSERT INTO watch (status) VALUES (1);
 INSERT INTO pass_type (name) VALUES ('Basic');
 INSERT INTO pass_type (name) VALUES ('Extended');
 
-INSERT INTO attraction_type (name) VALUES ('Pool');
-INSERT INTO attraction_type (name) VALUES ('Slide');
-INSERT INTO attraction_type (name) VALUES ('Sauna');
+INSERT INTO attraction_type (name, price) VALUES ('Pool', 5.00);
+INSERT INTO attraction_type (name, price) VALUES ('Slide', 7.00);
+INSERT INTO attraction_type (name, price) VALUES ('Sauna', 10.00);
 
 INSERT INTO ticket (stamp, watch_id) VALUES ('2017-04-20 10:23:54', 1);
 INSERT INTO ticket (stamp, watch_id) VALUES ('2017-04-20 10:25:17', 2);
