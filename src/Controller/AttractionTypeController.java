@@ -69,6 +69,7 @@ public class AttractionTypeController {
                         rs.getString("name"),
                         rs.getBigDecimal("price")
                 );
+                attractionType.setId(rs.getInt("id"));
                 return attractionType;
             } else {
                 return null;
