@@ -113,7 +113,7 @@ ALTER TABLE pass_prc_lst ADD CONSTRAINT pass_prc_lst_pk PRIMARY KEY ( id );
 
 CREATE TABLE tckt_prc_lst_pos (
 	id					SERIAL NOT NULL,
-	price				MONEY,
+	price				NUMERIC,
 	tckt_prc_lst_id		INTEGER NOT NULL,
 	days_id				INTEGER NOT NULL,
 	disc_group_id		INTEGER NOT NULL,
@@ -126,7 +126,7 @@ days_id, disc_group_id, daytime_id, attraction_type_id );
 
 CREATE TABLE pass_prc_lst_pos (
 	id					SERIAL NOT NULL,
-	price				MONEY,
+	price				NUMERIC,
 	pass_prc_lst_id		INTEGER NOT NULL,
 	disc_group_id		INTEGER NOT NULL,
 	pass_type_id		INTEGER NOT NULL,
