@@ -1,6 +1,4 @@
-import View.AdminView;
-import View.AppView;
-import View.ManagerView;
+import View.manager.ManagerView;
 
 import javax.swing.*;
 

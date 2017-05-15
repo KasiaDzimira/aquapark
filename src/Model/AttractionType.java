@@ -38,7 +38,7 @@ public class AttractionType {
 
     @Override
     public String toString() {
-        return name + " " + Integer.toString(price);
+        return name;
     }
 
 }
