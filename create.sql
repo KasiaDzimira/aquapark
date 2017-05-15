@@ -29,7 +29,7 @@ CREATE TABLE pass (
 	start_date		DATE,
 	end_date		DATE,
 	watch_id		INTEGER NOT NULL,
-	client_id		INTEGER NOT NULL,
+	aquapark_user_id			INTEGER NOT NULL,
 	pass_type_id	INTEGER NOT NULL
 );
 
@@ -42,17 +42,18 @@ CREATE TABLE pass_type (
 
 ALTER TABLE pass_type ADD CONSTRAINT pass_type_pk PRIMARY KEY ( id );
 
-CREATE TABLE client (
+CREATE TABLE aquapark_user (
 	id			SERIAL NOT NULL,
 	first_name	VARCHAR(20),
 	last_name	VARCHAR(30),
 	email		VARCHAR(30),
 	telephone	VARCHAR(12),
 	nick		VARCHAR(20),
-	password	VARCHAR(20)
+	password	VARCHAR(20),
+	role_user	VARCHAR(20)
 );
 
-ALTER TABLE client ADD CONSTRAINT client_pk PRIMARY KEY ( id );
+ALTER TABLE aquapark_user ADD CONSTRAINT aquapark_useruser_pk PRIMARY KEY ( id );
 
 CREATE TABLE attraction (
 	id					SERIAL NOT NULL,
@@ -144,7 +145,7 @@ ALTER TABLE history ADD CONSTRAINT hist_attraction_fk FOREIGN KEY ( attraction_i
 
 ALTER TABLE pass ADD CONSTRAINT pass_watch_fk FOREIGN KEY ( watch_id ) REFERENCES watch ( id );
 
-ALTER TABLE pass ADD CONSTRAINT pass_client_fk FOREIGN KEY ( client_id ) REFERENCES client ( id );
+ALTER TABLE pass ADD CONSTRAINT pass_aquapark_user_fk FOREIGN KEY ( aquapark_user_id ) REFERENCES aquapark_user ( id );
 
 ALTER TABLE pass ADD CONSTRAINT pass_pass_type_fk FOREIGN KEY ( pass_type_id ) REFERENCES pass_type ( id );
 

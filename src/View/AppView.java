@@ -1,6 +1,7 @@
 package View;
 
-import Controller.ClientController;
+import Controller.UserController;
+import Model.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,6 +43,20 @@ public class AppView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 CreateClient createClient = new CreateClient("Create account");
                 createClient.renderForm();
+            }
+        });
+
+        logInBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UserController userController = new UserController();
+                User user = userController.logInAction(nickField.getText(), passwordField.getText());
+
+                if (user != null) {
+                    JOptionPane.showMessageDialog(null, "User has succesfully logged!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Your nick or password are incorrect! Try again!");
+                }
             }
         });
 
