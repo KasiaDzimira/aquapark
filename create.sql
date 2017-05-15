@@ -66,8 +66,7 @@ ALTER TABLE attraction ADD CONSTRAINT attraction_pk PRIMARY KEY ( id );
 
 CREATE TABLE attraction_type (
 	id		SERIAL NOT NULL,
-	name	VARCHAR(25),
-	price	MONEY
+	name	VARCHAR(25)
 );
 
 ALTER TABLE attraction_type ADD CONSTRAINT attraction_type_pk PRIMARY KEY ( id );

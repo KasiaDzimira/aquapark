@@ -1,15 +1,11 @@
 package Model;
 
-import java.math.BigDecimal;
-
 public class AttractionType {
     private int id;
     private String name;
-    private BigDecimal price;
 
-    public AttractionType(String name, BigDecimal price) {
+    public AttractionType(String name) {
         this.name = name;
-        this.price = price;
     }
 
     public int getId() {
@@ -26,13 +22,5 @@ public class AttractionType {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
     }
 }
