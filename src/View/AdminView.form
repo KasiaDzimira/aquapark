@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="View.AdminView">
+  <grid id="27dc6" binding="mainPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="1035" height="627"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="31aa" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints border-constraint="North"/>
+        <properties>
+          <autoscrolls value="false"/>
+          <doubleBuffered value="false"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="5efcf" class="javax.swing.JButton" binding="statisticButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Statistic"/>
+            </properties>
+          </component>
+          <component id="cebc0" class="javax.swing.JButton" binding="createUserButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Create User"/>
+            </properties>
+          </component>
+          <component id="36cf0" class="javax.swing.JButton" binding="editRoleButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Edit Role"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="9fc9b" binding="cardPanel" layout-manager="CardLayout" hgap="0" vgap="0">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <autoscrolls value="false"/>
+          <background color="-1513240"/>
+          <doubleBuffered value="true"/>
+        </properties>
+        <border type="none"/>
+        <children/>
+      </grid>
+    </children>
+  </grid>
+</form>

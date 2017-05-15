@@ -33,4 +33,10 @@ public class AttractionType {
     public void setPrice(int price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return name + " " + Integer.toString(price);
+    }
+
 }
