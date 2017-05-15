@@ -9,6 +9,8 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,7 +19,7 @@ import java.util.Set;
 /**
  * Created by blurpek on 15.05.17.
  */
-public class AttractionUpdatePanel extends JPanel {
+public class UpdateAttractionPanel extends JPanel {
 
     private Dimension panelSize;
     private JList<Attraction> attractionList;
@@ -25,18 +27,20 @@ public class AttractionUpdatePanel extends JPanel {
     private DefaultListModel attractionListModel;
     private DefaultListModel attractionTypeListModel;
     private JPanel options;
+    private JTextField statusField;
 
     private ArrayList<Attraction> allAttraction;
     //controllers
     AttractionTypeController attractionTypeController;
     AttractionController attractionController;
 
-    public AttractionUpdatePanel(Dimension dimension) {
+    public UpdateAttractionPanel(Dimension dimension) {
         panelSize = dimension;
         this.setSize(this.panelSize);
         attractionTypeController = new AttractionTypeController();
         attractionController = new AttractionController();
         allAttraction = new ArrayList<Attraction>();
+        statusField = new JTextField("status");
         prepareGui();
     }
 
@@ -48,11 +52,22 @@ public class AttractionUpdatePanel extends JPanel {
         attractionTypeList.setSize(new Dimension(panelSize.width/3, panelSize.height/3));
         attractionList.setSize(new Dimension(panelSize.width/3, panelSize.height/3));
         options.setSize(new Dimension(panelSize.width/3, panelSize.height/3));
+
         options.setVisible(false);
         this.add(attractionTypeList);
         this.add(attractionList);
         this.add(options);
         this.setVisible(true);
+    }
+
+    private void validateAndUpdate() {
+        //TODO: validation
+
+        int status = Integer.parseInt(statusField.getText());
+        Attraction attraction = attractionList.getSelectedValue();
+        if (attraction == null)
+            return;
+        attractionController.updateAttraction(attraction.getId(), status, attraction.getAttractionType().getId());
     }
 
     private void prepareLists() {
@@ -90,9 +105,6 @@ public class AttractionUpdatePanel extends JPanel {
                     JList list = (JList) e.getSource();
                     int selections[] = list.getSelectedIndices();
                     if (selections != null && selections.length > 0) {
-                        System.out.println(selections[0]);
-                        System.out.println(attractionListModel.size());
-                        System.out.println(attractionListModel);
                         Attraction attraction = (Attraction) attractionListModel.get(selections[0]);
                         setOptions(attraction);
                         options.setVisible(true);
@@ -105,8 +117,7 @@ public class AttractionUpdatePanel extends JPanel {
     }
 
     private void setOptions(Attraction attraction) {
-        System.out.println(attraction);
-        options.add(new JTextField(attraction.toString()));
+        statusField.setText(Integer.toString(attraction.getStatus()));
     }
 
     private void filterAttractions(int[] selectedAttractionTypes) {
@@ -146,8 +157,16 @@ public class AttractionUpdatePanel extends JPanel {
     private void prepareOptions() {
         BoxLayout boxLayout = new BoxLayout(options, BoxLayout.Y_AXIS);
         options.setLayout(boxLayout);
-        options.add(new JButton("dziendobry"));
-        options.add(new JTextField("halo"));
+        JButton updateButton = new JButton("Update");
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                validateAndUpdate();
+            }
+        });
+        options.add(new JLabel("Status"));
+        options.add(statusField);
+        options.add(updateButton);
     }
 
     private void mockUp() {
