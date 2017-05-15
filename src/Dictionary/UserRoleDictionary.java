@@ -11,7 +11,7 @@ public enum  UserRoleDictionary {
             case ROLE_ADMIN:
                 return "ROLE_ADMIN";
             case ROLE_EMPLOYEE:
-                return "ROLE_EMPLUYEE";
+                return "ROLE_EMPLOYEE";
             default:
                 return "UNDEFINED";
         }
