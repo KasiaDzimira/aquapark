@@ -60,6 +60,13 @@ public class AppView extends JFrame {
             }
         });
 
+        forgotPasswordBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Functionality isn't implemented yet!");
+            }
+        });
+
         nickField.setPreferredSize(new Dimension(300, 30));
         passwordField.setPreferredSize(new Dimension(300, 30));
 
@@ -78,7 +85,7 @@ public class AppView extends JFrame {
 
         gridBagConstraints.gridy = 0;
         welcomePanel.add(textFieldPanel, gridBagConstraints);
-        gridBagConstraints.insets = new Insets(20, 0, 0, 0);
+        gridBagConstraints.insets = new Insets(40, 0, 0, 0);
         gridBagConstraints.gridy = 1;
         welcomePanel.add(buttonsPanel, gridBagConstraints);
         mainPanel.add(welcomePanel);
