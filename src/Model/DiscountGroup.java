@@ -5,6 +5,11 @@ public class DiscountGroup {
     private String name;
     private float discount;
 
+    public DiscountGroup(String name, float discount) {
+        this.name = name;
+        this.discount = discount;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
