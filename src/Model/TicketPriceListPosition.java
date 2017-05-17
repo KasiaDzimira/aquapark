@@ -11,6 +11,15 @@ public class TicketPriceListPosition {
     private Daytime daytime;
     private AttractionType attractionType;
 
+    public TicketPriceListPosition(BigDecimal price, TicketPriceList ticketPriceList, Day day, DiscountGroup discountGroup, Daytime daytime, AttractionType attractionType) {
+        this.price = price;
+        this.ticketPriceList = ticketPriceList;
+        this.day = day;
+        this.discountGroup = discountGroup;
+        this.daytime = daytime;
+        this.attractionType = attractionType;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
