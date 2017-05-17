@@ -1,29 +1,32 @@
 package Controller;
 
 import Database.Connector;
-import Model.Attraction;
+import Model.Day;
+import Model.TicketPriceList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class AttractionController {
+public class TicketPriceListController {
     private Connector connector;
 
-    public AttractionController() {
+    public TicketPriceListController() {
         this.connector = new Connector();
     }
 
-    public void createAttraction(String name, int status, int attractionTypeId) {
+    public void createTicketPriceList(Date startDate, Date endDate) {
         this.connector.connect();
         try {
+            String startDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(startDate);
+            String endDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(endDate);
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "INSERT INTO attraction (name, status, attraction_type_id) VALUES ('" +
-                    name + "', " +
-                    status + "," +
-                    attractionTypeId + ")";
+            String sql = "INSERT INTO tckt_prc_lst (start_date, end_date) VALUES ('" +
+                    startDateFormatted + "', '" + endDateFormatted + "')";
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
@@ -33,23 +36,21 @@ public class AttractionController {
         this.connector.closeConnection(null);
     }
 
-    public List<Attraction> getAllAttractions() {
-        List<Attraction> result = new ArrayList<>();
-        AttractionTypeController attractionTypeController = new AttractionTypeController();
+    public List<TicketPriceList> getAllTicketPriceLists() {
+        List<TicketPriceList> result = new ArrayList<>();
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM attraction";
+            String sql = "SELECT * FROM tckt_prc_lst";
             ResultSet rs = st.executeQuery(sql);
 
             if (rs.next()) {
-                Attraction attraction = new Attraction(
-                        rs.getString("name"),
-                        rs.getInt("status"),
-                        attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
+                TicketPriceList ticketPriceList = new TicketPriceList(
+                        rs.getDate("start_date"),
+                        rs.getDate("end_date")
                 );
-                attraction.setId(rs.getInt("id"));
-                result.add(attraction);
+                ticketPriceList.setId(rs.getInt("id"));
+                result.add(ticketPriceList);
             }
             System.out.println("Query has been executed");
         } catch (SQLException e) {
@@ -59,24 +60,21 @@ public class AttractionController {
         return result;
     }
 
-    public Attraction getAttractionById(int id) {
+    public TicketPriceList getTicketPriceListById(int id) {
         this.connector.connect();
 
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM attraction WHERE id=" + id;
+            String sql = "SELECT * FROM tckt_prc_lst WHERE id=" + id;
             ResultSet rs = st.executeQuery(sql);
 
-
             if (rs.next()) {
-                AttractionTypeController attractionTypeController = new AttractionTypeController();
-                Attraction attraction = new Attraction(
-                        rs.getString("name"),
-                        rs.getInt("status"),
-                        attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
+                TicketPriceList ticketPriceList = new TicketPriceList(
+                        rs.getDate("start_date"),
+                        rs.getDate("end_date")
                 );
-                attraction.setId(rs.getInt("id"));
-                return attraction;
+                ticketPriceList.setId(rs.getInt("id"));
+                return ticketPriceList;
             } else {
                 return null;
             }
@@ -87,13 +85,13 @@ public class AttractionController {
         return null;
     }
 
-    public void updateAttraction(int id, String name, int status, int attractionTypeId) {
+    public void updateTicketPriceList(int id, Date startDate, Date endDate) {
         this.connector.connect();
         try {
+            String startDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(startDate);
+            String endDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(endDate);
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "UPDATE attraction SET name='" + name + "', status=" +
-                    status + ", attraction_type_id=" +
-                    attractionTypeId + " WHERE id=" + id;
+            String sql = "UPDATE tckt_prc_lst SET start_date='" + startDateFormatted + "', end_date='" + endDateFormatted + "' WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
@@ -103,11 +101,11 @@ public class AttractionController {
         this.connector.closeConnection(null);
     }
 
-    public void deleteAttraction(int id) {
+    public void deleteTicketPriceList(int id) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "DELETE FROM attraction WHERE id=" + id;
+            String sql = "DELETE FROM tckt_prc_lst WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");

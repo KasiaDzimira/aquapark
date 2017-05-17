@@ -2,10 +2,12 @@ package Model;
 
 public class Attraction {
     private int id;
-    private  int status;
-    private  AttractionType attractionType;
+    private String name;
+    private int status;
+    private AttractionType attractionType;
 
-    public Attraction(int status, AttractionType attractionType) {
+    public Attraction(String name, int status, AttractionType attractionType) {
+        this.name = name;
         this.status = status;
         this.attractionType =attractionType;
     }

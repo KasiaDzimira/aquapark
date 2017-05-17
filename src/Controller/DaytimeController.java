@@ -1,29 +1,32 @@
 package Controller;
 
 import Database.Connector;
-import Model.Attraction;
+import Model.Day;
+import Model.Daytime;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class AttractionController {
+public class DaytimeController {
     private Connector connector;
 
-    public AttractionController() {
+    public DaytimeController() {
         this.connector = new Connector();
     }
 
-    public void createAttraction(String name, int status, int attractionTypeId) {
+    public void createDaytime(String name, Date startHour, Date endHour) {
         this.connector.connect();
         try {
+            String startHourFormatted = new SimpleDateFormat("HH:mm:ss").format(startHour);
+            String endHourFormatted = new SimpleDateFormat("HH:mm:ss").format(endHour);
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "INSERT INTO attraction (name, status, attraction_type_id) VALUES ('" +
-                    name + "', " +
-                    status + "," +
-                    attractionTypeId + ")";
+            String sql = "INSERT INTO daytime (name, start_hour, end_hour) VALUES ('" +
+                    name + "', '" + startHourFormatted + "', '" + endHourFormatted + "')";
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
@@ -33,23 +36,22 @@ public class AttractionController {
         this.connector.closeConnection(null);
     }
 
-    public List<Attraction> getAllAttractions() {
-        List<Attraction> result = new ArrayList<>();
-        AttractionTypeController attractionTypeController = new AttractionTypeController();
+    public List<Daytime> getAllDaytimes() {
+        List<Daytime> result = new ArrayList<>();
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM attraction";
+            String sql = "SELECT * FROM daytime";
             ResultSet rs = st.executeQuery(sql);
 
             if (rs.next()) {
-                Attraction attraction = new Attraction(
+                Daytime daytime = new Daytime(
                         rs.getString("name"),
-                        rs.getInt("status"),
-                        attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
+                        new Date(rs.getTime("start_hour").getTime()),
+                        new Date(rs.getTime("end_hour").getTime())
                 );
-                attraction.setId(rs.getInt("id"));
-                result.add(attraction);
+                daytime.setId(rs.getInt("id"));
+                result.add(daytime);
             }
             System.out.println("Query has been executed");
         } catch (SQLException e) {
@@ -59,24 +61,22 @@ public class AttractionController {
         return result;
     }
 
-    public Attraction getAttractionById(int id) {
+    public Daytime getDaytimeById(int id) {
         this.connector.connect();
 
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM attraction WHERE id=" + id;
+            String sql = "SELECT * FROM daytime WHERE id=" + id;
             ResultSet rs = st.executeQuery(sql);
 
-
             if (rs.next()) {
-                AttractionTypeController attractionTypeController = new AttractionTypeController();
-                Attraction attraction = new Attraction(
+                Daytime daytime = new Daytime(
                         rs.getString("name"),
-                        rs.getInt("status"),
-                        attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
+                        rs.getTime("start_hour"),
+                        rs.getTime("end_hour")
                 );
-                attraction.setId(rs.getInt("id"));
-                return attraction;
+                daytime.setId(rs.getInt("id"));
+                return daytime;
             } else {
                 return null;
             }
@@ -87,13 +87,13 @@ public class AttractionController {
         return null;
     }
 
-    public void updateAttraction(int id, String name, int status, int attractionTypeId) {
+    public void updateDaytime(int id, String name, Date startHour, Date endHour) {
         this.connector.connect();
         try {
+            String startHourFormatted = new SimpleDateFormat("HH:mm:ss").format(startHour);
+            String endHourFormatted = new SimpleDateFormat("HH:mm:ss").format(endHour);
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "UPDATE attraction SET name='" + name + "', status=" +
-                    status + ", attraction_type_id=" +
-                    attractionTypeId + " WHERE id=" + id;
+            String sql = "UPDATE daytime SET name='" + name + "', start_hour='" + startHourFormatted + "', end_hour='" + endHourFormatted + "' WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
@@ -103,11 +103,11 @@ public class AttractionController {
         this.connector.closeConnection(null);
     }
 
-    public void deleteAttraction(int id) {
+    public void deleteDaytime(int id) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "DELETE FROM attraction WHERE id=" + id;
+            String sql = "DELETE FROM daytime WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
