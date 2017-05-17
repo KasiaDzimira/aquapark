@@ -1,28 +1,28 @@
 package Controller;
 
 import Database.Connector;
-import Model.AttractionType;
+import Model.Day;
+import Model.DiscountGroup;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttractionTypeController {
+public class DiscountGroupController {
     private Connector connector;
 
-    public AttractionTypeController() {
+    public DiscountGroupController() {
         this.connector = new Connector();
     }
 
-    public void createAttractionType(String name) {
+    public void createDiscountGroup(String name, float discount) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "INSERT INTO attraction_type (name) VALUES ('" +
-                    name + "')";
+            String sql = "INSERT INTO disc_group (name, discount) VALUES ('" +
+                    name + "', " + discount + ")";
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
@@ -32,20 +32,21 @@ public class AttractionTypeController {
         this.connector.closeConnection(null);
     }
 
-    public List<AttractionType> getAllAttractionTypes() {
-        List<AttractionType> result = new ArrayList<>();
+    public List<DiscountGroup> getAllDiscountGroups() {
+        List<DiscountGroup> result = new ArrayList<>();
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM attraction_type";
+            String sql = "SELECT * FROM disc_group";
             ResultSet rs = st.executeQuery(sql);
 
             if (rs.next()) {
-                AttractionType attractionType = new AttractionType(
-                        rs.getString("name")
+                DiscountGroup discountGroup = new DiscountGroup(
+                        rs.getString("name"),
+                        rs.getFloat("discount")
                 );
-                attractionType.setId(rs.getInt("id"));
-                result.add(attractionType);
+                discountGroup.setId(rs.getInt("id"));
+                result.add(discountGroup);
             }
             System.out.println("Query has been executed");
         } catch (SQLException e) {
@@ -55,20 +56,21 @@ public class AttractionTypeController {
         return result;
     }
 
-    public AttractionType getAttractionTypeById(int id) {
+    public DiscountGroup getDiscountGroupById(int id) {
         this.connector.connect();
+
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM attraction_type WHERE id=" + id;
+            String sql = "SELECT * FROM disc_group WHERE id=" + id;
             ResultSet rs = st.executeQuery(sql);
 
-
             if (rs.next()) {
-                AttractionType attractionType = new AttractionType(
-                        rs.getString("name")
+                DiscountGroup discountGroup = new DiscountGroup(
+                        rs.getString("name"),
+                        rs.getFloat("discount")
                 );
-                attractionType.setId(rs.getInt("id"));
-                return attractionType;
+                discountGroup.setId(rs.getInt("id"));
+                return discountGroup;
             } else {
                 return null;
             }
@@ -79,12 +81,12 @@ public class AttractionTypeController {
         return null;
     }
 
-    public void updateAttractionType(int id, String name) {
+    public void updateDiscountGroup(int id, String name, float discount) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "UPDATE attraction_type SET name='" +
-                    name + "' WHERE id=" + id;
+            String sql = "UPDATE disc_group SET name='" +
+                    name + "', discount=" + discount + " WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
@@ -94,11 +96,11 @@ public class AttractionTypeController {
         this.connector.closeConnection(null);
     }
 
-    public void deleteAttractionType(int id) {
+    public void deleteDiscountGroup(int id) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "DELETE FROM attraction_type WHERE id=" + id;
+            String sql = "DELETE FROM disc_group WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");

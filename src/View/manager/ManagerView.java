@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
  */
 public class ManagerView extends JFrame {
     private Dimension windowSize;
-    private TicketPriceListPanel ticketPriceListPanel;
+    private CreateTicketPriceListPositionPanel createTicketPriceListPositionPanel;
     private JPanel buttonsPanel;
     private JPanel cardsPanel;
     private CreateAttractionPanel createAttraction;
@@ -23,7 +23,7 @@ public class ManagerView extends JFrame {
         this.setTitle(title);
         this.setSize(this.windowSize);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        ticketPriceListPanel = new TicketPriceListPanel(new Dimension(windowSize.width, windowSize.height));
+        createTicketPriceListPositionPanel = new CreateTicketPriceListPositionPanel(new Dimension(windowSize.width, windowSize.height));
         buttonsPanel = new JPanel();
         cardsPanel = new JPanel();
         createAttraction = new CreateAttractionPanel();
@@ -41,7 +41,7 @@ public class ManagerView extends JFrame {
     private void prepareCards() {
         cardsPanel.setLayout(new CardLayout());
         cardsPanel.add(createAttraction, "createAttraction");
-        cardsPanel.add(ticketPriceListPanel, "ticketPriceList");
+        cardsPanel.add(createTicketPriceListPositionPanel, "createTicketPriceListPositionPanel");
         cardsPanel.add(createAttractionTypePanel, "createAttractionType");
         cardsPanel.add(updateAttractionTypePanel, "updateAttractionType");
         cardsPanel.add(updateAttractionPanel, "updateAttraction");
@@ -49,16 +49,16 @@ public class ManagerView extends JFrame {
 
     private void prepareButtons() {
         buttonsPanel.setLayout(new FlowLayout());
-        JButton ticketPriceListButton = new JButton("Ticket Price List");
+        JButton createTicketPriceListPositionButton = new JButton("Create Position");
         JButton createButton = new JButton("Create Attraction");
         JButton createAttractionTypeButton = new JButton("Create Attraction Type");
         JButton updateAttractionTypeButton = new JButton("Update AttractionType");
         JButton updateAttractionButton = new JButton("Update Attraction");
-        ticketPriceListButton.addActionListener(new ActionListener() {
+        createTicketPriceListPositionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                ticketPriceListPanel.loadFromDB();
-                changeCardTo("ticketPriceList");
+//                createTicketPriceListPositionPanel.loadFromDB();
+                changeCardTo("createTicketPriceListPositionPanel");
             }
         });
         createButton.addActionListener(new ActionListener() {
@@ -86,7 +86,7 @@ public class ManagerView extends JFrame {
             }
         });
         buttonsPanel.add(createButton);
-        buttonsPanel.add(ticketPriceListButton);
+        buttonsPanel.add(createTicketPriceListPositionButton);
         buttonsPanel.add(createAttractionTypeButton);
         buttonsPanel.add(updateAttractionTypeButton);
         buttonsPanel.add(updateAttractionButton);

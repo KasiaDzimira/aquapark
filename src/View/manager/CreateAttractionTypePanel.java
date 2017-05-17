@@ -44,7 +44,7 @@ public class CreateAttractionTypePanel extends JPanel {
         //TODO: validation
 
         BigDecimal price = new BigDecimal(Integer.parseInt(priceField.getText()));
-        attractionTypeController.createAttractionType(nameField.getText(), price);
+        attractionTypeController.createAttractionType(nameField.getText());
     }
 
 }

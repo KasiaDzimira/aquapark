@@ -52,6 +52,6 @@ public class UpdateAttractionTypePanel extends JPanel {
         if (attractionType == null)
             return;
         BigDecimal price = new BigDecimal(Integer.parseInt(priceField.getText()));
-        attractionTypeController.updateAttractionType(attractionType.getId(), nameField.getText(), price);
+        attractionTypeController.updateAttractionType(attractionType.getId(), nameField.getText());
     }
 }

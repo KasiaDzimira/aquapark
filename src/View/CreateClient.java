@@ -1,6 +1,6 @@
 package View;
 
-import Controller.ClientController;
+import Controller.UserController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +28,7 @@ public class CreateClient extends JFrame {
         JLabel emailLabel = new JLabel("E-mail:");
         JLabel telephoneLabel = new JLabel("Telephone:");
         JTextField nickField = new JTextField();
-        JTextField passwordField = new JPasswordField();
+        JPasswordField passwordField = new JPasswordField();
         JTextField firstNameField = new JTextField();
         JTextField lastNameField = new JTextField();
         JTextField emailField = new JTextField();
@@ -38,9 +38,9 @@ public class CreateClient extends JFrame {
         confirm.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ClientController clientController = new ClientController();
+                UserController userController = new UserController();
                 String nick = nickField.getText();
-                boolean accountExists = clientController.checkIfAccountExist(nick);
+                boolean accountExists = userController.checkIfAccountExist(nick);
                 if (accountExists) {
                     JOptionPane.showMessageDialog(null, "Account with nick: " + nick + " already exists!");
                 }
@@ -51,7 +51,7 @@ public class CreateClient extends JFrame {
                     String lastName = lastNameField.getText();
                     String email = emailField.getText();
                     String telephone = telephoneField.getText();
-                    clientController.createClient(nick, password, firstName, lastName, email, telephone);
+                    userController.createClient(nick, password, firstName, lastName, email, telephone);
                 }
             }
         });

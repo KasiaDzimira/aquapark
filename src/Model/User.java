@@ -1,25 +1,33 @@
 package Model;
 
-public class Client {
+import Dictionary.UserRoleDictionary;
+
+public class User {
 
     private int id;
     private String firstName;
     private String lastName;
     private String email;
     private String telephone;
+    private String nick;
+    private String password;
+    private UserRoleDictionary role;
 
-    public Client() {
+    public User() {
         this.firstName = null;
         this.lastName  = null;
         this.email = null;
         this.telephone = null;
     }
 
-    public Client(String firstName, String lastName, String email, String telephone) {
+    public User(String firstName, String lastName, String email, String telephone, String nick, String password, UserRoleDictionary role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.telephone = telephone;
+        this.nick = nick;
+        this.password = password;
+        this.role = role;
     }
 
     public int getId() {
@@ -60,5 +68,29 @@ public class Client {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public UserRoleDictionary getRole() {
+        return role;
+    }
+
+    public void setRole(UserRoleDictionary role) {
+        this.role = role;
     }
 }

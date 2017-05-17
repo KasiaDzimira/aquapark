@@ -2,7 +2,7 @@ DROP TABLE attraction CASCADE;
 
 DROP TABLE attraction_type CASCADE;
 
-DROP TABLE client CASCADE;
+DROP TABLE aquapark_user CASCADE;
 
 DROP TABLE days CASCADE;
 

@@ -1,6 +1,7 @@
 package View;
 
-import Controller.ClientController;
+import Controller.UserController;
+import Model.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,6 +46,27 @@ public class AppView extends JFrame {
             }
         });
 
+        logInBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UserController userController = new UserController();
+                User user = userController.logInAction(nickField.getText(), passwordField.getText());
+
+                if (user != null) {
+                    JOptionPane.showMessageDialog(null, "User has succesfully logged!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Your nick or password are incorrect! Try again!");
+                }
+            }
+        });
+
+        forgotPasswordBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Functionality isn't implemented yet!");
+            }
+        });
+
         nickField.setPreferredSize(new Dimension(300, 30));
         passwordField.setPreferredSize(new Dimension(300, 30));
 
@@ -63,7 +85,7 @@ public class AppView extends JFrame {
 
         gridBagConstraints.gridy = 0;
         welcomePanel.add(textFieldPanel, gridBagConstraints);
-        gridBagConstraints.insets = new Insets(20, 0, 0, 0);
+        gridBagConstraints.insets = new Insets(40, 0, 0, 0);
         gridBagConstraints.gridy = 1;
         welcomePanel.add(buttonsPanel, gridBagConstraints);
         mainPanel.add(welcomePanel);

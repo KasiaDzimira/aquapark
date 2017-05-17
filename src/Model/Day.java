@@ -1,31 +1,26 @@
 package Model;
 
-public class AttractionType {
+public class Day {
     private int id;
     private String name;
 
-    public AttractionType(String name) {
+    public Day(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
+    public String getName() {
         return name;
+    }
+
+    public int getId() {
+        return id;
     }
 }

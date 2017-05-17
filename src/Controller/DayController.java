@@ -1,27 +1,27 @@
 package Controller;
 
 import Database.Connector;
-import Model.AttractionType;
+import Model.Attraction;
+import Model.Day;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttractionTypeController {
+public class DayController {
     private Connector connector;
 
-    public AttractionTypeController() {
+    public DayController() {
         this.connector = new Connector();
     }
 
-    public void createAttractionType(String name) {
+    public void createDay(String name) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "INSERT INTO attraction_type (name) VALUES ('" +
+            String sql = "INSERT INTO days (name) VALUES ('" +
                     name + "')";
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
@@ -32,20 +32,20 @@ public class AttractionTypeController {
         this.connector.closeConnection(null);
     }
 
-    public List<AttractionType> getAllAttractionTypes() {
-        List<AttractionType> result = new ArrayList<>();
+    public List<Day> getAllDays() {
+        List<Day> result = new ArrayList<>();
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM attraction_type";
+            String sql = "SELECT * FROM days";
             ResultSet rs = st.executeQuery(sql);
 
             if (rs.next()) {
-                AttractionType attractionType = new AttractionType(
+                Day day = new Day(
                         rs.getString("name")
                 );
-                attractionType.setId(rs.getInt("id"));
-                result.add(attractionType);
+                day.setId(rs.getInt("id"));
+                result.add(day);
             }
             System.out.println("Query has been executed");
         } catch (SQLException e) {
@@ -55,20 +55,20 @@ public class AttractionTypeController {
         return result;
     }
 
-    public AttractionType getAttractionTypeById(int id) {
+    public Day getDayById(int id) {
         this.connector.connect();
+
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM attraction_type WHERE id=" + id;
+            String sql = "SELECT * FROM days WHERE id=" + id;
             ResultSet rs = st.executeQuery(sql);
 
-
             if (rs.next()) {
-                AttractionType attractionType = new AttractionType(
+                Day day = new Day(
                         rs.getString("name")
                 );
-                attractionType.setId(rs.getInt("id"));
-                return attractionType;
+                day.setId(rs.getInt("id"));
+                return day;
             } else {
                 return null;
             }
@@ -79,11 +79,11 @@ public class AttractionTypeController {
         return null;
     }
 
-    public void updateAttractionType(int id, String name) {
+    public void updateDay(int id, String name) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "UPDATE attraction_type SET name='" +
+            String sql = "UPDATE days SET name='" +
                     name + "' WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
@@ -94,11 +94,11 @@ public class AttractionTypeController {
         this.connector.closeConnection(null);
     }
 
-    public void deleteAttractionType(int id) {
+    public void deleteDay(int id) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "DELETE FROM attraction_type WHERE id=" + id;
+            String sql = "DELETE FROM days WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
