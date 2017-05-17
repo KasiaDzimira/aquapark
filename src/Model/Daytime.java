@@ -8,6 +8,12 @@ public class Daytime {
     private Date startHour;
     private Date endHour;
 
+    public Daytime(String name, Date startHour, Date endHour) {
+        this.name = name;
+        this.startHour = startHour;
+        this.endHour = endHour;
+    }
+
     public int getId() {
         return id;
     }

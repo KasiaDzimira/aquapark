@@ -7,6 +7,11 @@ public class TicketPriceList {
     private Date startDate;
     private Date endDate;
 
+    public TicketPriceList(Date startDate, Date endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public int getId() {
         return id;
     }
