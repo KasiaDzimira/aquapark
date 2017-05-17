@@ -1,5 +1,7 @@
 package View.manager;
 
+import Model.TicketPriceList;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,26 +12,26 @@ import java.awt.event.ActionListener;
  */
 public class ManagerView extends JFrame {
     private Dimension windowSize;
-    private CreateTicketPriceListPositionPanel createTicketPriceListPositionPanel;
     private JPanel buttonsPanel;
     private JPanel cardsPanel;
     private CreateAttractionPanel createAttraction;
     private CreateAttractionTypePanel createAttractionTypePanel;
     private UpdateAttractionTypePanel updateAttractionTypePanel;
     private UpdateAttractionPanel updateAttractionPanel;
+    private TicketPriceListPanel ticketPriceListPanel;
 
     public ManagerView(String title) {
         this.windowSize = new Dimension(800, 800);
         this.setTitle(title);
         this.setSize(this.windowSize);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        createTicketPriceListPositionPanel = new CreateTicketPriceListPositionPanel(new Dimension(windowSize.width, windowSize.height));
         buttonsPanel = new JPanel();
         cardsPanel = new JPanel();
         createAttraction = new CreateAttractionPanel();
         createAttractionTypePanel = new CreateAttractionTypePanel();
         updateAttractionTypePanel = new UpdateAttractionTypePanel();
         updateAttractionPanel = new UpdateAttractionPanel(this.windowSize);
+        ticketPriceListPanel = new TicketPriceListPanel();
         prepareGui();
     }
 
@@ -41,24 +43,23 @@ public class ManagerView extends JFrame {
     private void prepareCards() {
         cardsPanel.setLayout(new CardLayout());
         cardsPanel.add(createAttraction, "createAttraction");
-        cardsPanel.add(createTicketPriceListPositionPanel, "createTicketPriceListPositionPanel");
         cardsPanel.add(createAttractionTypePanel, "createAttractionType");
         cardsPanel.add(updateAttractionTypePanel, "updateAttractionType");
         cardsPanel.add(updateAttractionPanel, "updateAttraction");
+        cardsPanel.add(ticketPriceListPanel, "ticketPriceList");
     }
 
     private void prepareButtons() {
         buttonsPanel.setLayout(new FlowLayout());
-        JButton createTicketPriceListPositionButton = new JButton("Create Position");
         JButton createButton = new JButton("Create Attraction");
         JButton createAttractionTypeButton = new JButton("Create Attraction Type");
         JButton updateAttractionTypeButton = new JButton("Update AttractionType");
         JButton updateAttractionButton = new JButton("Update Attraction");
-        createTicketPriceListPositionButton.addActionListener(new ActionListener() {
+        JButton ticketPriceListButton = new JButton("Ticket Price List");
+        ticketPriceListButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                createTicketPriceListPositionPanel.loadFromDB();
-                changeCardTo("createTicketPriceListPositionPanel");
+                changeCardTo("ticketPriceList");
             }
         });
         createButton.addActionListener(new ActionListener() {
@@ -86,10 +87,10 @@ public class ManagerView extends JFrame {
             }
         });
         buttonsPanel.add(createButton);
-        buttonsPanel.add(createTicketPriceListPositionButton);
         buttonsPanel.add(createAttractionTypeButton);
         buttonsPanel.add(updateAttractionTypeButton);
         buttonsPanel.add(updateAttractionButton);
+        buttonsPanel.add(ticketPriceListButton);
     }
 
     private void changeCardTo(String name) {

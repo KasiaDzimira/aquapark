@@ -27,20 +27,21 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
     private JComboBox<Day> dayJComboBox;
     private JComboBox<Daytime> daytimeJComboBox;
     private JComboBox<DiscountGroup> discountGroupJComboBox;
+    private JTextField priceField;
 
     private DayController dayController;
     private DaytimeController daytimeController;
     private DiscountGroupController discountGroupController;
     private TicketPriceListPositionController ticketPriceListPositionController;
 
+    private TicketPriceList ticketPriceList;
     private ArrayList<Attraction> allAttraction;
     //controllers
     AttractionTypeController attractionTypeController;
     AttractionController attractionController;
 
-    public CreateTicketPriceListPositionPanel(Dimension dimension) {
-        panelSize = dimension;
-        this.setSize(this.panelSize);
+    public CreateTicketPriceListPositionPanel(TicketPriceList ticketPriceList) {
+        this.ticketPriceList = ticketPriceList;
         attractionTypeController = new AttractionTypeController();
         attractionController = new AttractionController();
         allAttraction = new ArrayList<Attraction>();
@@ -56,9 +57,6 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
         options = new JPanel();
         prepareOptions();
         prepareLists();
-        attractionTypeList.setSize(new Dimension(panelSize.width/3, panelSize.height/3));
-        attractionList.setSize(new Dimension(panelSize.width/3, panelSize.height/3));
-        options.setSize(new Dimension(panelSize.width/3, panelSize.height/3));
         options.setVisible(false);
         this.add(attractionTypeList);
         this.add(attractionList);
@@ -169,6 +167,9 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
                 validateAndCreate();
             }
         });
+
+        priceField = new JTextField("price");
+        options.add(priceField);
         options.add(dayJComboBox);
         options.add(daytimeJComboBox);
         options.add(discountGroupJComboBox);
@@ -177,7 +178,16 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
 
     private void validateAndCreate() {
         //TODO: validation
-        //TODO: ccreate
+
+        Day day = dayJComboBox.getItemAt(dayJComboBox.getSelectedIndex());
+        Daytime daytime = daytimeJComboBox.getItemAt(dayJComboBox.getSelectedIndex());
+        DiscountGroup discountGroup = discountGroupJComboBox.getItemAt(discountGroupJComboBox.getSelectedIndex());
+        BigDecimal price = new BigDecimal(Integer.parseInt(priceField.getText()));
+        Attraction attraction = attractionList.getSelectedValue();
+
+        if (day != null && daytime != null && discountGroup!= null && attraction != null) {
+            ticketPriceListPositionController.createTicketPriceListPosition(price, ticketPriceList.getId(), day.getId(), discountGroup.getId(), daytime.getId(), attraction.getId());
+        }
     }
 
     private void mockUp() {
