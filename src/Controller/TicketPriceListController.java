@@ -101,7 +101,7 @@ public class TicketPriceListController {
         this.connector.closeConnection(null);
     }
 
-    public void deleteDay(int id) {
+    public void deleteTicketPriceList(int id) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();

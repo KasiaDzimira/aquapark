@@ -57,6 +57,7 @@ ALTER TABLE aquapark_user ADD CONSTRAINT aquapark_useruser_pk PRIMARY KEY ( id )
 
 CREATE TABLE attraction (
 	id					SERIAL NOT NULL,
+	name				VARCHAR(25),
 	status				INTEGER,
 	-- Should be a kind of enum
 	attraction_type_id	INTEGER NOT NULL

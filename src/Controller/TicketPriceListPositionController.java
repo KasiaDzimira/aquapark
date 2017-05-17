@@ -1,7 +1,7 @@
 package Controller;
 
 import Database.Connector;
-import Model.Attraction;
+import Model.Day;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,21 +9,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttractionController {
+public class TicketPriceListPositionController {
     private Connector connector;
 
-    public AttractionController() {
+    public TicketPriceListPositionController() {
         this.connector = new Connector();
     }
 
-    public void createAttraction(String name, int status, int attractionTypeId) {
+    public void createDay(String name) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "INSERT INTO attraction (name, status, attraction_type_id) VALUES ('" +
-                    name + "', " +
-                    status + "," +
-                    attractionTypeId + ")";
+            String sql = "INSERT INTO days (name) VALUES ('" +
+                    name + "')";
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
@@ -33,23 +31,20 @@ public class AttractionController {
         this.connector.closeConnection(null);
     }
 
-    public List<Attraction> getAllAttractions() {
-        List<Attraction> result = new ArrayList<>();
-        AttractionTypeController attractionTypeController = new AttractionTypeController();
+    public List<Day> getAllDays() {
+        List<Day> result = new ArrayList<>();
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM attraction";
+            String sql = "SELECT * FROM days";
             ResultSet rs = st.executeQuery(sql);
 
             if (rs.next()) {
-                Attraction attraction = new Attraction(
-                        rs.getString("name"),
-                        rs.getInt("status"),
-                        attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
+                Day day = new Day(
+                        rs.getString("name")
                 );
-                attraction.setId(rs.getInt("id"));
-                result.add(attraction);
+                day.setId(rs.getInt("id"));
+                result.add(day);
             }
             System.out.println("Query has been executed");
         } catch (SQLException e) {
@@ -59,24 +54,20 @@ public class AttractionController {
         return result;
     }
 
-    public Attraction getAttractionById(int id) {
+    public Day getDayById(int id) {
         this.connector.connect();
 
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM attraction WHERE id=" + id;
+            String sql = "SELECT * FROM days WHERE id=" + id;
             ResultSet rs = st.executeQuery(sql);
 
-
             if (rs.next()) {
-                AttractionTypeController attractionTypeController = new AttractionTypeController();
-                Attraction attraction = new Attraction(
-                        rs.getString("name"),
-                        rs.getInt("status"),
-                        attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
+                Day day = new Day(
+                        rs.getString("name")
                 );
-                attraction.setId(rs.getInt("id"));
-                return attraction;
+                day.setId(rs.getInt("id"));
+                return day;
             } else {
                 return null;
             }
@@ -87,13 +78,12 @@ public class AttractionController {
         return null;
     }
 
-    public void updateAttraction(int id, String name, int status, int attractionTypeId) {
+    public void updateDay(int id, String name) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "UPDATE attraction SET name='" + name + "', status=" +
-                    status + ", attraction_type_id=" +
-                    attractionTypeId + " WHERE id=" + id;
+            String sql = "UPDATE days SET name='" +
+                    name + "' WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
@@ -103,11 +93,11 @@ public class AttractionController {
         this.connector.closeConnection(null);
     }
 
-    public void deleteAttraction(int id) {
+    public void deleteDay(int id) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "DELETE FROM attraction WHERE id=" + id;
+            String sql = "DELETE FROM days WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
