@@ -89,9 +89,6 @@ public class TicketPriceListPanel extends JPanel {
                     JList list = (JList) e.getSource();
                     int selections[] = list.getSelectedIndices();
                     if (selections != null && selections.length > 0) {
-                        System.out.println(selections[0]);
-                        System.out.println(attractionListModel.size());
-                        System.out.println(attractionListModel);
                         Attraction attraction = (Attraction) attractionListModel.get(selections[0]);
                         setOptions(attraction);
                         options.setVisible(true);
@@ -143,8 +140,6 @@ public class TicketPriceListPanel extends JPanel {
     private void prepareOptions() {
         BoxLayout boxLayout = new BoxLayout(options, BoxLayout.Y_AXIS);
         options.setLayout(boxLayout);
-        options.add(new JButton("dziendobry"));
-        options.add(new JTextField("halo"));
     }
 
     private void mockUp() {
