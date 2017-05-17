@@ -1,13 +1,14 @@
 package View.manager;
 
-import Controller.AttractionController;
-import Controller.AttractionTypeController;
+import Controller.*;
 import Model.*;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,6 +28,11 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
     private JComboBox<Daytime> daytimeJComboBox;
     private JComboBox<DiscountGroup> discountGroupJComboBox;
 
+    private DayController dayController;
+    private DaytimeController daytimeController;
+    private DiscountGroupController discountGroupController;
+    private TicketPriceListPositionController ticketPriceListPositionController;
+
     private ArrayList<Attraction> allAttraction;
     //controllers
     AttractionTypeController attractionTypeController;
@@ -38,6 +44,10 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
         attractionTypeController = new AttractionTypeController();
         attractionController = new AttractionController();
         allAttraction = new ArrayList<Attraction>();
+        dayController = new DayController();
+        daytimeController = new DaytimeController();
+        discountGroupController = new DiscountGroupController();
+        ticketPriceListPositionController = new TicketPriceListPositionController();
         prepareGui();
     }
 
@@ -142,19 +152,44 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
     private void prepareOptions() {
         BoxLayout boxLayout = new BoxLayout(options, BoxLayout.Y_AXIS);
         options.setLayout(boxLayout);
+        ArrayList<Day> dayArrayList = (ArrayList<Day>) dayController.getAllDays();
+        ArrayList<Daytime> daytimeArrayList = (ArrayList<Daytime>) daytimeController.getAllDaytimes();
+        ArrayList<DiscountGroup> discountGroupArrayList = (ArrayList<DiscountGroup>) discountGroupController.getAllDiscountGroups();
+        Day[] days = dayArrayList.toArray(new Day[dayArrayList.size()]);
+        Daytime[] daytimes = daytimeArrayList.toArray(new Daytime[daytimeArrayList.size()]);
+        DiscountGroup[] discountGroups = discountGroupArrayList.toArray(new DiscountGroup[discountGroupArrayList.size()]);
 
+        dayJComboBox = new JComboBox<Day>(days);
+        daytimeJComboBox = new JComboBox<Daytime>(daytimes);
+        discountGroupJComboBox = new JComboBox<DiscountGroup>(discountGroups);
+        JButton createButton = new JButton("Create");
+        createButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                validateAndCreate();
+            }
+        });
+        options.add(dayJComboBox);
+        options.add(daytimeJComboBox);
+        options.add(discountGroupJComboBox);
+        options.add(createButton);
+    }
+
+    private void validateAndCreate() {
+        //TODO: validation
+        //TODO: ccreate
     }
 
     private void mockUp() {
         attractionTypeListModel.addElement(new AttractionType("pierwszyTyp"));
         attractionTypeListModel.addElement(new AttractionType("drugiTyp"));
         attractionTypeListModel.addElement(new AttractionType("trzeciTyp"));
-        allAttraction.add(new Attraction(1, (AttractionType) attractionTypeListModel.get(0)));
-        allAttraction.add(new Attraction(0, (AttractionType) attractionTypeListModel.get(1)));
-        allAttraction.add(new Attraction(1, (AttractionType) attractionTypeListModel.get(1)));
+        allAttraction.add(new Attraction("pierwszy", 1, (AttractionType) attractionTypeListModel.get(0)));
+        allAttraction.add(new Attraction("drugi", 0, (AttractionType) attractionTypeListModel.get(1)));
+        allAttraction.add(new Attraction("trzeci", 1, (AttractionType) attractionTypeListModel.get(1)));
 
-        attractionListModel.addElement(new Attraction(1, (AttractionType) attractionTypeListModel.get(0)));
-        attractionListModel.addElement(new Attraction(0, (AttractionType) attractionTypeListModel.get(1)));
-        attractionListModel.addElement(new Attraction(1, (AttractionType) attractionTypeListModel.get(1)));
+        attractionListModel.addElement(new Attraction("pierwszy", 1, (AttractionType) attractionTypeListModel.get(0)));
+        attractionListModel.addElement(new Attraction("drugi", 0, (AttractionType) attractionTypeListModel.get(1)));
+        attractionListModel.addElement(new Attraction("trzeci", 1, (AttractionType) attractionTypeListModel.get(1)));
     }
 }

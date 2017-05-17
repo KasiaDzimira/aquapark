@@ -28,6 +28,7 @@ public class UpdateAttractionPanel extends JPanel {
     private DefaultListModel attractionTypeListModel;
     private JPanel options;
     private JTextField statusField;
+    private JTextField nameField;
 
     private ArrayList<Attraction> allAttraction;
     //controllers
@@ -41,6 +42,7 @@ public class UpdateAttractionPanel extends JPanel {
         attractionController = new AttractionController();
         allAttraction = new ArrayList<Attraction>();
         statusField = new JTextField("status");
+        nameField = new JTextField("name");
         prepareGui();
     }
 
@@ -67,7 +69,7 @@ public class UpdateAttractionPanel extends JPanel {
         Attraction attraction = attractionList.getSelectedValue();
         if (attraction == null)
             return;
-        attractionController.updateAttraction(attraction.getId(), status, attraction.getAttractionType().getId());
+        attractionController.updateAttraction(attraction.getId(),nameField.getText() , status, attraction.getAttractionType().getId());
     }
 
     private void prepareLists() {
@@ -173,12 +175,12 @@ public class UpdateAttractionPanel extends JPanel {
         attractionTypeListModel.addElement(new AttractionType("pierwszyTyp"));
         attractionTypeListModel.addElement(new AttractionType("drugiTyp"));
         attractionTypeListModel.addElement(new AttractionType("trzeciTyp"));
-        allAttraction.add(new Attraction(1, (AttractionType) attractionTypeListModel.get(0)));
-        allAttraction.add(new Attraction(0, (AttractionType) attractionTypeListModel.get(1)));
-        allAttraction.add(new Attraction(1, (AttractionType) attractionTypeListModel.get(1)));
+        allAttraction.add(new Attraction("pierwszy", 1, (AttractionType) attractionTypeListModel.get(0)));
+        allAttraction.add(new Attraction("drugi", 0, (AttractionType) attractionTypeListModel.get(1)));
+        allAttraction.add(new Attraction("trzeci", 1, (AttractionType) attractionTypeListModel.get(1)));
 
-        attractionListModel.addElement(new Attraction(1, (AttractionType) attractionTypeListModel.get(0)));
-        attractionListModel.addElement(new Attraction(0, (AttractionType) attractionTypeListModel.get(1)));
-        attractionListModel.addElement(new Attraction(1, (AttractionType) attractionTypeListModel.get(1)));
+        attractionListModel.addElement(new Attraction("pierwszy", 1, (AttractionType) attractionTypeListModel.get(0)));
+        attractionListModel.addElement(new Attraction("drugi", 0, (AttractionType) attractionTypeListModel.get(1)));
+        attractionListModel.addElement(new Attraction("trzeci", 1, (AttractionType) attractionTypeListModel.get(1)));
     }
 }

@@ -20,6 +20,7 @@ public class CreateAttractionPanel extends JPanel {
     private JComboBox<AttractionType> attractionTypeJComboBox;
     private AttractionTypeController attractionTypeController;
     private AttractionController attractionController;
+    private JTextField nameField;
 
     //TODO: uncomment when DB will be fix
 
@@ -27,6 +28,7 @@ public class CreateAttractionPanel extends JPanel {
         attractionController = new AttractionController();
         statusField = new JTextField("status");
         attractionTypeController = new AttractionTypeController();
+        nameField = new JTextField("name");
 //        ArrayList<AttractionType> attractionTypes = (ArrayList<AttractionType>) attractionTypeController.getAllAttractionTypes();
 //        AttractionType[] attractionTypes1 = attractionTypes.toArray(new AttractionType[attractionTypes.size()]);
 //        attractionTypeJComboBox = new JComboBox<AttractionType>(attractionTypes1);
@@ -54,6 +56,6 @@ public class CreateAttractionPanel extends JPanel {
 
         int status = Integer.parseInt(statusField.getText());
         AttractionType attractionType = (AttractionType) attractionTypeJComboBox.getSelectedItem();
-        attractionController.createAttraction(status, attractionType.getId());
+        attractionController.createAttraction(nameField.getText(), status, attractionType.getId());
     }
 }
