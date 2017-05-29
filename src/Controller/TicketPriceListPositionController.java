@@ -48,7 +48,7 @@ public class TicketPriceListPositionController {
             String sql = "SELECT * FROM tckt_prc_lst_pos";
             ResultSet rs = st.executeQuery(sql);
 
-            if (rs.next()) {
+            while (rs.next()) {
                 TicketPriceListPosition position = new TicketPriceListPosition(
                         new BigDecimal(rs.getString("price")),
                         ticketPriceListController.getTicketPriceListById(rs.getInt("tckt_prc_lst_id")),
@@ -140,6 +140,21 @@ public class TicketPriceListPositionController {
             Statement st = this.connector.getConnection().createStatement();
             String sql = "UPDATE tckt_prc_lst_pos SET price=" +
                     price + " WHERE id=" + id;
+            st.executeUpdate(sql);
+            this.connector.getConnection().commit();
+            System.out.println("Query has been executed");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        this.connector.closeConnection(null);
+    }
+
+    public void updateTicketPriceListPosition(int id, int ticketPriceListId) {
+        this.connector.connect();
+        try {
+            Statement st = this.connector.getConnection().createStatement();
+            String sql = "UPDATE tckt_prc_lst_pos SET tckt_prc_lst_id=" +
+                    ticketPriceListId + " WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
