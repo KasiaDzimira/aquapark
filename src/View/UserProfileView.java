@@ -1,9 +1,11 @@
 package View;
 
+import View.UserProfile.HomeView;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class HomeView extends JFrame {
+public class UserProfileView extends JFrame {
 
     final static String TAB_HOME = "HOME";
     final static String TAB_BUY = "BUY";
@@ -11,21 +13,21 @@ public class HomeView extends JFrame {
     final static String TAB_ACCOUNT = "ACCOUNT";
 
     private Dimension windowSize;
+    private String userNick;
 
-    public HomeView(String windowTitle) {
+    public UserProfileView(String windowTitle, String userNick) {
         this.windowSize = new Dimension(1200, 1000);
         this.setTitle(windowTitle);
         this.setSize(this.windowSize);
         this.centeringWindow();
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.userNick = userNick;
 
     }
 
     public void addComponentToPane() {
         JTabbedPane tabbedPane = new JTabbedPane();
-        JPanel homeCard = new JPanel();
-        homeCard.add(new JButton("homeCardButton"));
 
         JPanel buyCard = new JPanel();
         buyCard.add(new Button("buyCardButton"));
@@ -36,13 +38,28 @@ public class HomeView extends JFrame {
         JPanel accountCard = new JPanel();
         accountCard.add(new Button("accountCardButton"));
 
-        tabbedPane.addTab(TAB_HOME, homeCard);
+        HomeView homeView = new HomeView();
+
+        tabbedPane.addTab(TAB_HOME, homeView.renderView());
         tabbedPane.addTab(TAB_BUY, buyCard);
         tabbedPane.addTab(TAB_HISTORY, historyCard);
         tabbedPane.addTab(TAB_ACCOUNT, accountCard);
 
+        tabbedPane.setTabComponentAt(0, createLabel(TAB_HOME));
+        tabbedPane.setTabComponentAt(1, createLabel(TAB_BUY));
+        tabbedPane.setTabComponentAt(2, createLabel(TAB_HISTORY));
+        tabbedPane.setTabComponentAt(3, createLabel(TAB_ACCOUNT));
+        tabbedPane.setBackground(Color.blue);
+
         Container pane = this.getContentPane();
         pane.add(tabbedPane, BorderLayout.CENTER);
+    }
+
+    private JLabel createLabel(String labelText) {
+        JLabel label = new JLabel(labelText, SwingConstants.CENTER);
+        label.setPreferredSize(new Dimension(273, 50));
+
+        return label;
     }
 
     private void centeringWindow() {

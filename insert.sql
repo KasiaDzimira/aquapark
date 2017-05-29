@@ -20,6 +20,9 @@ INSERT INTO aquapark_user (first_name, last_name, email, telephone, nick, passwo
 INSERT INTO aquapark_user (first_name, last_name, email, telephone, nick, password, role_user) VALUES ('Robert', 'Kowalski', 'rycerz1@c.pl', '333333333', 'rycerz', 'kowalski1234', 'ROLE_USER');
 INSERT INTO aquapark_user (first_name, last_name, email, telephone, nick, password, role_user) VALUES ('Jacek', 'Rybak', 'ryby@ryby.ru', '444444444', 'ryby@ryby', 'ryby1234', 'ROLE_USER');
 INSERT INTO aquapark_user (first_name, last_name, email, telephone, nick, password, role_user) VALUES ('Monika', 'Dołęga', 'monisia@cmok.pl', '555555555', 'monisia@cmok', 'cmok1234', 'ROLE_USER');
+INSERT INTO aquapark_user (first_name, last_name, email, telephone, nick, password, role_user) VALUES ('Tester', 'Admin', 'test@test.com', '555555555', 'TesterAdmin', '12345', 'ROLE_ADMIN');
+INSERT INTO aquapark_user (first_name, last_name, email, telephone, nick, password, role_user) VALUES ('Tester', 'Manager', 'test@test.com', '555555555', 'TesterManager', '12345', 'ROLE_MANAGER');
+INSERT INTO aquapark_user (first_name, last_name, email, telephone, nick, password, role_user) VALUES ('Tester', 'Testowy', 'test@test.com', '555555555', 'TesterTestowy', '12345', 'ROLE_USER');
 
 -- assuming 1 - in use, 0 - damaged, won't be used
 INSERT INTO watch (status) VALUES (1);
