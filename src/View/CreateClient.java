@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 public class CreateClient extends JFrame {
     private Dimension windowSize;
+    private boolean isCreated;
 
     public CreateClient(String windowTitle) {
         this.windowSize = new Dimension(400, 500);
@@ -52,6 +53,9 @@ public class CreateClient extends JFrame {
                     String email = emailField.getText();
                     String telephone = telephoneField.getText();
                     userController.createClient(nick, password, firstName, lastName, email, telephone);
+
+                    JOptionPane.showMessageDialog(null, "User has been successfully created!");
+                    dispose();
                 }
             }
         });
@@ -105,5 +109,9 @@ public class CreateClient extends JFrame {
         this.setLocation(
                 (int) (center.getWidth() - (this.windowSize.getWidth() / 2)),
                 (int) (center.getHeight() - (this.windowSize.getHeight() / 2)));
+    }
+
+    private void disposeFrame() {
+        this.dispose();
     }
 }

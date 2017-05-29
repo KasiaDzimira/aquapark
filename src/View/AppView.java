@@ -2,6 +2,7 @@ package View;
 
 import Controller.UserController;
 import Model.User;
+import View.manager.ManagerView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,8 +54,28 @@ public class AppView extends JFrame {
                 User user = userController.logInAction(nickField.getText(), passwordField.getText());
 
                 if (user != null) {
-                    HomeView homeView = new HomeView("AQUAPARK");
-                    homeView.addComponentToPane();
+                    switch (user.getRole()) {
+                        case ROLE_USER:
+                            UserProfileView userProfileView = new UserProfileView("AQUAPARK", user.getNick());
+                            dispose();
+                            userProfileView.addComponentToPane();
+                            break;
+                        case ROLE_ADMIN:
+                            AdminView adminView = new AdminView("Admin panel");
+                            dispose();
+                            adminView.runWelcome();
+                            break;
+                        case ROLE_MANAGER:
+                            SwingUtilities.invokeLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ManagerView window = new ManagerView("Manager Panel");
+                                    dispose();
+                                    window.runWelcome();
+                                }
+                            });
+                            break;
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "Your nick or password are incorrect! Try again!");
                 }

@@ -174,6 +174,8 @@ public class UserController {
                 return UserRoleDictionary.ROLE_ADMIN;
             case "ROLE_EMPLOYEE":
                 return UserRoleDictionary.ROLE_EMPLOYEE;
+            case "ROLE_MANAGER":
+                return  UserRoleDictionary.ROLE_MANAGER;
             default:
                 return null;
         }
