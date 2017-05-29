@@ -151,6 +151,7 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
         BoxLayout boxLayout = new BoxLayout(options, BoxLayout.Y_AXIS);
         options.setLayout(boxLayout);
         ArrayList<Day> dayArrayList = (ArrayList<Day>) dayController.getAllDays();
+        System.out.println(dayArrayList);
         ArrayList<Daytime> daytimeArrayList = (ArrayList<Daytime>) daytimeController.getAllDaytimes();
         ArrayList<DiscountGroup> discountGroupArrayList = (ArrayList<DiscountGroup>) discountGroupController.getAllDiscountGroups();
         Day[] days = dayArrayList.toArray(new Day[dayArrayList.size()]);

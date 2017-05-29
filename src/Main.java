@@ -1,3 +1,4 @@
+import View.AppView;
 import View.manager.ManagerView;
 
 import javax.swing.*;

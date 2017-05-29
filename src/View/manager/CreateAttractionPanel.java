@@ -29,9 +29,9 @@ public class CreateAttractionPanel extends JPanel {
         statusField = new JTextField("status");
         attractionTypeController = new AttractionTypeController();
         nameField = new JTextField("name");
-//        ArrayList<AttractionType> attractionTypes = (ArrayList<AttractionType>) attractionTypeController.getAllAttractionTypes();
-//        AttractionType[] attractionTypes1 = attractionTypes.toArray(new AttractionType[attractionTypes.size()]);
-//        attractionTypeJComboBox = new JComboBox<AttractionType>(attractionTypes1);
+        ArrayList<AttractionType> attractionTypes = (ArrayList<AttractionType>) attractionTypeController.getAllAttractionTypes();
+        AttractionType[] attractionTypes1 = attractionTypes.toArray(new AttractionType[attractionTypes.size()]);
+        attractionTypeJComboBox = new JComboBox<AttractionType>(attractionTypes1);
         prepareGui();
     }
 
@@ -40,13 +40,13 @@ public class CreateAttractionPanel extends JPanel {
         createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                validateAndCreate();
+                validateAndCreate();
             }
         });
 
         this.setLayout(new FlowLayout());
         this.add(statusField);
-//        this.add(attractionTypeJComboBox);
+        this.add(attractionTypeJComboBox);
         this.add(createButton);
         this.setVisible(true);
     }

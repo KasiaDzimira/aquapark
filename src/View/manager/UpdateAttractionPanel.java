@@ -146,7 +146,6 @@ public class UpdateAttractionPanel extends JPanel {
             allAttraction.add(a);
             attractionListModel.addElement(a);
         }
-        refreshLists();
     }
 
     private void refreshLists() {

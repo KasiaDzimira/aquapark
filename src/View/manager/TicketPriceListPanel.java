@@ -84,25 +84,15 @@ public class TicketPriceListPanel extends JPanel {
         allPositionModel = new DefaultListModel<>();
         choosenPositionModel = new DefaultListModel<>();
 
-//        for (TicketPriceListPosition position : ticketPriceListPositionController.getAllTicketPriceListPositions()) {
-//            allPositionModel.addElement(position);
-//        }
-//        for (TicketPriceListPosition position : ticketPriceListPositionController.getAllTicketPriceListPositionsByTicketPriceList(ticketPriceList.getId())) {
-//            choosenPositionModel.addElement(position);
-//        }
+        for (TicketPriceListPosition position : ticketPriceListPositionController.getAllTicketPriceListPositions()) {
+            allPositionModel.addElement(position);
+        }
+        for (TicketPriceListPosition position : ticketPriceListPositionController.getAllTicketPriceListPositionsByTicketPriceList(ticketPriceList.getId())) {
+            choosenPositionModel.addElement(position);
+        }
 
         allPostition = new JList<>(allPositionModel);
         choosenPosition = new JList<>(choosenPositionModel);
 
-//        attractionTypeListModel = new DefaultListModel();
-//        attractionListModel = new DefaultListModel();
-//
-//        //load data type
-//        mockUp();
-////        loadFromDB();
-//
-//        attractionTypeList = new JList<>(attractionTypeListModel);
-//        attractionList = new JList<>(attractionListModel);
-//        attractionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 }
