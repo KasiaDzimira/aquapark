@@ -18,7 +18,6 @@ import java.util.Set;
  * Created by blurpek on 15.05.17.
  */
 public class CreateTicketPriceListPositionPanel extends JPanel {
-    private Dimension panelSize;
     private JList<Attraction> attractionList;
     private JList<AttractionType> attractionTypeList;
     private DefaultListModel attractionListModel;
@@ -69,8 +68,8 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
         attractionListModel = new DefaultListModel();
 
         //load data type
-        mockUp();
-//        loadFromDB();
+//        mockUp();
+        loadFromDB();
 
         attractionTypeList = new JList<>(attractionTypeListModel);
         attractionList = new JList<>(attractionListModel);
@@ -123,8 +122,10 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
         attractionListModel.removeAllElements();
 
         for (Attraction a : allAttraction) {
-            if (attractionTypeSet.contains(a.getAttractionType())) {
-                attractionListModel.addElement(a);
+            for (AttractionType at : attractionTypeSet) {
+                if (at.getId() == a.getAttractionType().getId()) {
+                    attractionListModel.addElement(a);
+                }
             }
         }
     }
@@ -137,7 +138,6 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
             allAttraction.add(a);
             attractionListModel.addElement(a);
         }
-        refreshLists();
     }
 
     private void refreshLists() {

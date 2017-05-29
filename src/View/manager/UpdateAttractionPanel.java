@@ -77,8 +77,8 @@ public class UpdateAttractionPanel extends JPanel {
         attractionListModel = new DefaultListModel();
 
         //load data type
-        mockUp();
-//        loadFromDB();
+//        mockUp();
+        loadFromDB();
 
         attractionTypeList = new JList<>(attractionTypeListModel);
         attractionList = new JList<>(attractionListModel);
@@ -132,8 +132,10 @@ public class UpdateAttractionPanel extends JPanel {
         attractionListModel.removeAllElements();
 
         for (Attraction a : allAttraction) {
-            if (attractionTypeSet.contains(a.getAttractionType())) {
-                attractionListModel.addElement(a);
+            for (AttractionType at : attractionTypeSet) {
+                if (at.getId() == a.getAttractionType().getId()) {
+                    attractionListModel.addElement(a);
+                }
             }
         }
     }

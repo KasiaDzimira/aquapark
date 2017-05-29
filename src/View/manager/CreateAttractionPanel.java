@@ -22,8 +22,6 @@ public class CreateAttractionPanel extends JPanel {
     private AttractionController attractionController;
     private JTextField nameField;
 
-    //TODO: uncomment when DB will be fix
-
     public CreateAttractionPanel() {
         attractionController = new AttractionController();
         statusField = new JTextField("status");
@@ -45,6 +43,7 @@ public class CreateAttractionPanel extends JPanel {
         });
 
         this.setLayout(new FlowLayout());
+        this.add(nameField);
         this.add(statusField);
         this.add(attractionTypeJComboBox);
         this.add(createButton);

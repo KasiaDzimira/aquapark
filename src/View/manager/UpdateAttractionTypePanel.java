@@ -7,7 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 /**
  * Created by blurpek on 15.05.17.
@@ -20,12 +23,11 @@ public class UpdateAttractionTypePanel extends JPanel {
 
     public UpdateAttractionTypePanel() {
         attractionTypeController = new AttractionTypeController();
-        nameField = new JTextField("nameField");
-        priceField = new JTextField("priceField");
+        nameField = new JTextField("new name");
         attractionTypeController = new AttractionTypeController();
-//        ArrayList<AttractionType> attractionTypes = (ArrayList<AttractionType>) attractionTypeController.getAllAttractionTypes();
-//        AttractionType[] attractionTypes1 = attractionTypes.toArray(new AttractionType[attractionTypes.size()]);
-//        attractionTypeJComboBox = new JComboBox<AttractionType>(attractionTypes1);
+        ArrayList<AttractionType> attractionTypes = (ArrayList<AttractionType>) attractionTypeController.getAllAttractionTypes();
+        AttractionType[] attractionTypes1 = attractionTypes.toArray(new AttractionType[attractionTypes.size()]);
+        attractionTypeJComboBox = new JComboBox<AttractionType>(attractionTypes1);
         prepareGui();
     }
 
@@ -38,10 +40,19 @@ public class UpdateAttractionTypePanel extends JPanel {
             }
         });
 
+        attractionTypeJComboBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    AttractionType item = (AttractionType) e.getItem();
+                    nameField.setText(item.getName());
+                }
+            }
+        });
+
         this.setLayout(new FlowLayout());
-//        this.add(attractionTypeJComboBox);
+        this.add(attractionTypeJComboBox);
         this.add(nameField);
-        this.add(priceField);
         this.add(createButton);
         this.setVisible(true);
     }
@@ -51,7 +62,6 @@ public class UpdateAttractionTypePanel extends JPanel {
         AttractionType attractionType = (AttractionType) attractionTypeJComboBox.getSelectedItem();
         if (attractionType == null)
             return;
-        BigDecimal price = new BigDecimal(Integer.parseInt(priceField.getText()));
         attractionTypeController.updateAttractionType(attractionType.getId(), nameField.getText());
     }
 }

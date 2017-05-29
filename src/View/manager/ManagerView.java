@@ -21,7 +21,7 @@ public class ManagerView extends JFrame {
     private TicketPriceListPanel ticketPriceListPanel;
 
     public ManagerView(String title) {
-        this.windowSize = new Dimension(800, 800);
+        this.windowSize = new Dimension(1200, 800);
         this.setTitle(title);
         this.setSize(this.windowSize);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

@@ -75,4 +75,8 @@ public class TicketPriceListPosition {
     public void setDiscountGroup(DiscountGroup discountGroup) {
         this.discountGroup = discountGroup;
     }
+
+    @Override public String toString() {
+        return Integer.toString(id);
+    }
 }
