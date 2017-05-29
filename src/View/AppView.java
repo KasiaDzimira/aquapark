@@ -18,7 +18,7 @@ public class AppView extends JFrame {
         this.setTitle(windowTitle);
         this.setSize(this.windowSize);
         this.mainPanel = new JPanel();
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         this.centeringWindow();
     }
@@ -53,7 +53,8 @@ public class AppView extends JFrame {
                 User user = userController.logInAction(nickField.getText(), passwordField.getText());
 
                 if (user != null) {
-                    JOptionPane.showMessageDialog(null, "User has succesfully logged!");
+                    HomeView homeView = new HomeView("AQUAPARK");
+                    homeView.addComponentToPane();
                 } else {
                     JOptionPane.showMessageDialog(null, "Your nick or password are incorrect! Try again!");
                 }
