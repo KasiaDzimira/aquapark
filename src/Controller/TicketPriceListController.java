@@ -44,7 +44,7 @@ public class TicketPriceListController {
             String sql = "SELECT * FROM tckt_prc_lst";
             ResultSet rs = st.executeQuery(sql);
 
-            if (rs.next()) {
+            while (rs.next()) {
                 TicketPriceList ticketPriceList = new TicketPriceList(
                         rs.getDate("start_date"),
                         rs.getDate("end_date")

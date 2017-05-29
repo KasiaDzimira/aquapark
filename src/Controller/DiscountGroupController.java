@@ -40,7 +40,7 @@ public class DiscountGroupController {
             String sql = "SELECT * FROM disc_group";
             ResultSet rs = st.executeQuery(sql);
 
-            if (rs.next()) {
+            while (rs.next()) {
                 DiscountGroup discountGroup = new DiscountGroup(
                         rs.getString("name"),
                         rs.getFloat("discount")

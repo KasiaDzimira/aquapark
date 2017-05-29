@@ -40,7 +40,7 @@ public class DayController {
             String sql = "SELECT * FROM days";
             ResultSet rs = st.executeQuery(sql);
 
-            if (rs.next()) {
+            while (rs.next()) {
                 Day day = new Day(
                         rs.getString("name")
                 );

@@ -44,7 +44,7 @@ public class DaytimeController {
             String sql = "SELECT * FROM daytime";
             ResultSet rs = st.executeQuery(sql);
 
-            if (rs.next()) {
+            while (rs.next()) {
                 Daytime daytime = new Daytime(
                         rs.getString("name"),
                         new Date(rs.getTime("start_hour").getTime()),

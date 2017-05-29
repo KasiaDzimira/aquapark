@@ -35,4 +35,9 @@ public class Attraction {
     public void setAttractionType(AttractionType attractionType) {
         this.attractionType = attractionType;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

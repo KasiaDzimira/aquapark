@@ -81,7 +81,7 @@ public class TicketPriceListPositionController {
             String sql = "SELECT * FROM tckt_prc_lst_pos WHERE tckt_prc_lst_id=" + ticketPriceListId;
             ResultSet rs = st.executeQuery(sql);
 
-            if (rs.next()) {
+            while (rs.next()) {
                 TicketPriceListPosition position = new TicketPriceListPosition(
                         new BigDecimal(rs.getString("price")),
                         ticketPriceListController.getTicketPriceListById(rs.getInt("tckt_prc_lst_id")),
