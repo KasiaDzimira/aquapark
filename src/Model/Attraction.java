@@ -38,6 +38,6 @@ public class Attraction {
 
     @Override
     public String toString() {
-        return Integer.toString(status);
+        return name;
     }
 }

@@ -45,4 +45,9 @@ public class Daytime {
     public void setStartHour(Date startHour) {
         this.startHour = startHour;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

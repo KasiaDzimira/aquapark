@@ -93,4 +93,9 @@ public class User {
     public void setRole(UserRoleDictionary role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return nick;
+    }
 }

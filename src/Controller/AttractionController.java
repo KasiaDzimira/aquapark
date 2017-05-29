@@ -42,7 +42,7 @@ public class AttractionController {
             String sql = "SELECT * FROM attraction";
             ResultSet rs = st.executeQuery(sql);
 
-            if (rs.next()) {
+            while (rs.next()) {
                 Attraction attraction = new Attraction(
                         rs.getString("name"),
                         rs.getInt("status"),

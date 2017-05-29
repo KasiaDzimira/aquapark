@@ -40,7 +40,7 @@ public class AttractionTypeController {
             String sql = "SELECT * FROM attraction_type";
             ResultSet rs = st.executeQuery(sql);
 
-            if (rs.next()) {
+            while (rs.next()) {
                 AttractionType attractionType = new AttractionType(
                         rs.getString("name")
                 );

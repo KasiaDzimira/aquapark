@@ -33,4 +33,9 @@ public class DiscountGroup {
     public void setDiscount(float discount) {
         this.discount = discount;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
