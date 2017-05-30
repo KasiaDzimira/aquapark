@@ -1,5 +1,6 @@
 package View;
 
+import View.AdminPanel.CreateUserView;
 import View.shared.StatisticPanel;
 
 import javax.swing.*;
@@ -7,9 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Created by blurpek on 14.05.17.
- */
 public class AdminView extends JFrame {
     //auto-generated
     private JPanel mainPanel;
@@ -27,12 +25,8 @@ public class AdminView extends JFrame {
         this.setSize(this.windowSize);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.centeringWindow();
-        JTabbedPane tabbedPane = new JTabbedPane();
-        JPanel createUserPanel = new JPanel();
-        createUserPanel.add(new JLabel("createUserJLabel"));
         cardPanel.setLayout(new CardLayout());
         cardPanel.add(new StatisticPanel(), statisticButton.getText());
-        cardPanel.add(createUserPanel, createUserButton.getText());
 //        cardPanel.add(statisticButton.getName(), new StatisticPanel());
 //        cardPanel.add(createUserButton.getName(), createUserPanel);
     }
@@ -44,12 +38,18 @@ public class AdminView extends JFrame {
                 changeCardTo(statisticButton.getText());
             }
         });
+
         createUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                changeCardTo(createUserButton.getText());
+                CreateUserView createUserView = new CreateUserView();
+                createUserView.setName("createUserView");
+                cardPanel.add(createUserView.renderView(cardPanel, statisticButton.getText()), createUserButton.getText());
+                CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+                cardLayout.show(cardPanel, createUserButton.getText());
             }
         });
+
         editRoleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -66,7 +66,6 @@ public class AdminView extends JFrame {
         CardLayout cl = (CardLayout) cardPanel.getLayout();
         cl.show(cardPanel, name);
         System.out.println("changeCardTo" + name);
-//        cl.next(cardPanel);
     }
 
     private void centeringWindow() {

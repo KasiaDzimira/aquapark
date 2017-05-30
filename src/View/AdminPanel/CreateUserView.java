@@ -1,4 +1,4 @@
-package View;
+package View.AdminPanel;
 
 import Controller.UserController;
 import Dictionary.UserRoleDictionary;
@@ -8,27 +8,33 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CreateClient extends JFrame {
-    private Dimension windowSize;
-    private boolean isCreated;
+public class CreateUserView extends JPanel {
 
-    public CreateClient(String windowTitle) {
-        this.windowSize = new Dimension(400, 500);
-        this.setTitle(windowTitle);
-        this.setSize(this.windowSize);
-        this.centeringWindow();
-        this.setVisible(true);
+    public GridBagConstraints gridBagConstraints;
+
+    public CreateUserView() {
+        super();
+        setOpaque(true);
+        this.setLayout(new GridBagLayout());
+        this.gridBagConstraints = new GridBagConstraints();
     }
 
-    public void renderForm() {
-        JPanel formPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+    public JPanel renderView(JPanel cardPanel, String componentName) {
+        String[] userRoles = {
+                UserRoleDictionary.ROLE_USER.toString(),
+                UserRoleDictionary.ROLE_MANAGER.toString(),
+                UserRoleDictionary.ROLE_ADMIN.toString(),
+                UserRoleDictionary.ROLE_EMPLOYEE.toString()
+        };
+        JComboBox userRoleList = new JComboBox(userRoles);
+        userRoleList.setSelectedIndex(0);
         JLabel nickLabel = new JLabel("Nick:");
         JLabel passwordLabel = new JLabel("Password:");
         JLabel firstNameLabel = new JLabel("First name:");
         JLabel lastNameLabel = new JLabel("Last name:");
         JLabel emailLabel = new JLabel("E-mail:");
         JLabel telephoneLabel = new JLabel("Telephone:");
+        JLabel userRoleLabel = new JLabel("User role:");
         JTextField nickField = new JTextField();
         JPasswordField passwordField = new JPasswordField();
         JTextField firstNameField = new JTextField();
@@ -53,10 +59,13 @@ public class CreateClient extends JFrame {
                     String lastName = lastNameField.getText();
                     String email = emailField.getText();
                     String telephone = telephoneField.getText();
-                    userController.createClient(nick, password, firstName, lastName, email, telephone, UserRoleDictionary.ROLE_USER);
+                    UserRoleDictionary userRole = userController.prepareUserRole((String)userRoleList.getSelectedItem());
+                    userController.createClient(nick, password, firstName, lastName, email, telephone, userRole);
 
-                    JOptionPane.showMessageDialog(null, "User has been successfully created! You can to login right now :)");
-                    dispose();
+                    JOptionPane.showMessageDialog(null, "User has been successfully created!");
+
+                    CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+                    cardLayout.show(cardPanel, componentName);
                 }
             }
         });
@@ -73,46 +82,36 @@ public class CreateClient extends JFrame {
 
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(10, 0, 0, 0);
-        formPanel.add(nickLabel, gridBagConstraints);
+        this.add(nickLabel, gridBagConstraints);
         gridBagConstraints.gridy = 1;
-        formPanel.add(nickField, gridBagConstraints);
+        this.add(nickField, gridBagConstraints);
         gridBagConstraints.gridy = 2;
-        formPanel.add(passwordLabel, gridBagConstraints);
+        this.add(passwordLabel, gridBagConstraints);
         gridBagConstraints.gridy = 3;
-        formPanel.add(passwordField, gridBagConstraints);
+        this.add(passwordField, gridBagConstraints);
         gridBagConstraints.gridy = 4;
-        formPanel.add(firstNameLabel, gridBagConstraints);
+        this.add(firstNameLabel, gridBagConstraints);
         gridBagConstraints.gridy = 5;
-        formPanel.add(firstNameField, gridBagConstraints);
+        this.add(firstNameField, gridBagConstraints);
         gridBagConstraints.gridy = 6;
-        formPanel.add(lastNameLabel, gridBagConstraints);
+        this.add(lastNameLabel, gridBagConstraints);
         gridBagConstraints.gridy = 7;
-        formPanel.add(lastNameField, gridBagConstraints);
+        this.add(lastNameField, gridBagConstraints);
         gridBagConstraints.gridy = 8;
-        formPanel.add(emailLabel, gridBagConstraints);
+        this.add(emailLabel, gridBagConstraints);
         gridBagConstraints.gridy = 9;
-        formPanel.add(emailField, gridBagConstraints);
+        this.add(emailField, gridBagConstraints);
         gridBagConstraints.gridy = 10;
-        formPanel.add(telephoneLabel, gridBagConstraints);
+        this.add(telephoneLabel, gridBagConstraints);
         gridBagConstraints.gridy = 11;
-        formPanel.add(telephoneField, gridBagConstraints);
+        this.add(telephoneField, gridBagConstraints);
         gridBagConstraints.gridy = 12;
-        formPanel.add(confirm, gridBagConstraints);
+        this.add(userRoleLabel, gridBagConstraints);
+        gridBagConstraints.gridy = 13;
+        this.add(userRoleList, gridBagConstraints);
+        gridBagConstraints.gridy = 14;
+        this.add(confirm, gridBagConstraints);
 
-        this.add(formPanel);
-    }
-
-    private void centeringWindow() {
-        // place window in the center
-        Dimension center = new Dimension(
-                (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()) / 2,
-                (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()) / 2);
-        this.setLocation(
-                (int) (center.getWidth() - (this.windowSize.getWidth() / 2)),
-                (int) (center.getHeight() - (this.windowSize.getHeight() / 2)));
-    }
-
-    private void disposeFrame() {
-        this.dispose();
+        return this;
     }
 }

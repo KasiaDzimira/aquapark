@@ -6,8 +6,6 @@ import java.awt.image.BufferedImage;
 
 public class HomeView extends JPanel {
 
-    BufferedImage image;
-
     public HomeView() {}
 
     public JPanel renderView() {

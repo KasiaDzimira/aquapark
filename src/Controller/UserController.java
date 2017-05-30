@@ -16,7 +16,7 @@ public class UserController {
         this.connector = new Connector();
     }
 
-    public void createClient(String userNick, String userPassword, String userFirstName, String userLastName, String userEmail, String userTelephone) {
+    public void createClient(String userNick, String userPassword, String userFirstName, String userLastName, String userEmail, String userTelephone, UserRoleDictionary userRole) {
         this.connector.connect();
         try {
             Statement statement = this.connector.getConnection().createStatement();
@@ -35,7 +35,7 @@ public class UserController {
                     "','" +
                     userPassword +
                     "','" +
-                    UserRoleDictionary.ROLE_USER.toString() +
+                    userRole.toString() +
                     "')";
 
             statement.executeUpdate(sql);
