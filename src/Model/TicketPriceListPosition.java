@@ -77,6 +77,6 @@ public class TicketPriceListPosition {
     }
 
     @Override public String toString() {
-        return Integer.toString(id);
+        return day.toString() + " " + discountGroup.toString() + " " + daytime.toString() + " " + attractionType.toString() + " " + price.toString();
     }
 }

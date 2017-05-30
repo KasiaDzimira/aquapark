@@ -82,14 +82,23 @@ public class TicketPriceListPanel extends JPanel {
             }
         });
 
+        JPanel allPanel = new JPanel();
+        allPanel.setLayout(new BoxLayout(allPanel, BoxLayout.PAGE_AXIS));
+        allPanel.add(new JLabel("All positions"));
+        allPanel.add(allPostition);
+
+        JPanel chosenPanel = new JPanel();
+        chosenPanel.setLayout(new BoxLayout(chosenPanel, BoxLayout.PAGE_AXIS));
+        chosenPanel.add(new JLabel("Position in ticket price list"));
+        chosenPanel.add(choosenPosition);
         panel.setLayout(new FlowLayout());
-        panel.add(choosenPosition);
+        panel.add(chosenPanel);
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.PAGE_AXIS));
         buttonsPanel.add(addButton);
         buttonsPanel.add(removeButton);
         panel.add(buttonsPanel);
-        panel.add(allPostition);
+        panel.add(allPanel);
 
         return panel;
     }
