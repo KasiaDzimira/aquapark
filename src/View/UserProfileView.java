@@ -1,5 +1,8 @@
 package View;
 
+import View.UserProfile.AccountView;
+import View.UserProfile.BuyView;
+import View.UserProfile.HistoryView;
 import View.UserProfile.HomeView;
 
 import javax.swing.*;
@@ -16,7 +19,10 @@ public class UserProfileView extends JFrame {
     private String userNick;
 
     public UserProfileView(String windowTitle, String userNick) {
-        this.windowSize = new Dimension(1200, 1000);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+        this.windowSize = new Dimension(((int) width)-10, ((int) height) - 10);
         this.setTitle(windowTitle);
         this.setSize(this.windowSize);
         this.centeringWindow();
@@ -39,11 +45,14 @@ public class UserProfileView extends JFrame {
         accountCard.add(new Button("accountCardButton"));
 
         HomeView homeView = new HomeView();
+        AccountView accountView = new AccountView();
+        HistoryView historyView = new HistoryView();
+        BuyView buyView = new BuyView();
 
         tabbedPane.addTab(TAB_HOME, homeView.renderView());
-        tabbedPane.addTab(TAB_BUY, buyCard);
-        tabbedPane.addTab(TAB_HISTORY, historyCard);
-        tabbedPane.addTab(TAB_ACCOUNT, accountCard);
+        tabbedPane.addTab(TAB_BUY, buyView.renderView());
+        tabbedPane.addTab(TAB_HISTORY, historyView.renderView());
+        tabbedPane.addTab(TAB_ACCOUNT, accountView.renderView());
 
         tabbedPane.setTabComponentAt(0, createLabel(TAB_HOME));
         tabbedPane.setTabComponentAt(1, createLabel(TAB_BUY));

@@ -2,7 +2,6 @@ package View.UserProfile;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class HomeView extends JPanel {
 
@@ -29,6 +28,7 @@ public class HomeView extends JPanel {
                 " Duis aliquam, libero quis varius aliquet, libero ligula mattis nulla, nec condimentum risus tortor in leo. Duis porta \n" +
                 "tellus vitae quam molestie, nec consectetur ante ultricies. \n");
         headingLabel.setPreferredSize(new Dimension(1100, 50));
+
         this.add(imageLabel);
         this.add(headingLabel);
         this.add(contentText);

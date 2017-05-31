@@ -2,6 +2,7 @@ package View;
 
 import Controller.UserController;
 import Model.User;
+import View.UserProfile.HomeView;
 import View.manager.ManagerView;
 
 import javax.swing.*;
