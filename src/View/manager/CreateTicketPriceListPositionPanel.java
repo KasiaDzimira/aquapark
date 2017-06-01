@@ -183,24 +183,11 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
         Day day = dayJComboBox.getItemAt(dayJComboBox.getSelectedIndex());
         Daytime daytime = daytimeJComboBox.getItemAt(dayJComboBox.getSelectedIndex());
         DiscountGroup discountGroup = discountGroupJComboBox.getItemAt(discountGroupJComboBox.getSelectedIndex());
-        BigDecimal price = new BigDecimal(Integer.parseInt(priceField.getText()));
+        int price = Integer.parseInt(priceField.getText());
         Attraction attraction = attractionList.getSelectedValue();
 
         if (day != null && daytime != null && discountGroup!= null && attraction != null) {
-            ticketPriceListPositionController.createTicketPriceListPosition(price, ticketPriceList.getId(), day.getId(), discountGroup.getId(), daytime.getId(), attraction.getId());
+//            ticketPriceListPositionController.createTicketPriceListPosition(price, ticketPriceList.getId(), day.getId(), discountGroup.getId(), daytime.getId(), attraction.getId());
         }
-    }
-
-    private void mockUp() {
-        attractionTypeListModel.addElement(new AttractionType("pierwszyTyp"));
-        attractionTypeListModel.addElement(new AttractionType("drugiTyp"));
-        attractionTypeListModel.addElement(new AttractionType("trzeciTyp"));
-        allAttraction.add(new Attraction("pierwszy", 1, (AttractionType) attractionTypeListModel.get(0)));
-        allAttraction.add(new Attraction("drugi", 0, (AttractionType) attractionTypeListModel.get(1)));
-        allAttraction.add(new Attraction("trzeci", 1, (AttractionType) attractionTypeListModel.get(1)));
-
-        attractionListModel.addElement(new Attraction("pierwszy", 1, (AttractionType) attractionTypeListModel.get(0)));
-        attractionListModel.addElement(new Attraction("drugi", 0, (AttractionType) attractionTypeListModel.get(1)));
-        attractionListModel.addElement(new Attraction("trzeci", 1, (AttractionType) attractionTypeListModel.get(1)));
     }
 }

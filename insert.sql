@@ -44,9 +44,9 @@ INSERT INTO watch (status) VALUES (1);
 INSERT INTO pass_type (name) VALUES ('Basic');
 INSERT INTO pass_type (name) VALUES ('Extended');
 
-INSERT INTO attraction_type (name) VALUES ('Pool');
-INSERT INTO attraction_type (name) VALUES ('Slide');
-INSERT INTO attraction_type (name) VALUES ('Sauna');
+INSERT INTO attraction_type (name, price) VALUES ('Pool', 5);
+INSERT INTO attraction_type (name, price) VALUES ('Slide', 7);
+INSERT INTO attraction_type (name, price) VALUES ('Sauna', 4);
 
 INSERT INTO ticket (stamp, watch_id) VALUES ('2017-04-20 10:23:54', 1);
 INSERT INTO ticket (stamp, watch_id) VALUES ('2017-04-20 10:25:17', 2);

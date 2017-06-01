@@ -119,7 +119,7 @@ public class UpdateAttractionPanel extends JPanel {
     }
 
     private void setOptions(Attraction attraction) {
-        statusField.setText(Integer.toString(attraction.getStatus()));
+        statusField.setText(Boolean.toString(attraction.getStatus()));
     }
 
     private void filterAttractions(int[] selectedAttractionTypes) {
@@ -170,18 +170,5 @@ public class UpdateAttractionPanel extends JPanel {
         options.add(new JLabel("Status"));
         options.add(statusField);
         options.add(updateButton);
-    }
-
-    private void mockUp() {
-        attractionTypeListModel.addElement(new AttractionType("pierwszyTyp"));
-        attractionTypeListModel.addElement(new AttractionType("drugiTyp"));
-        attractionTypeListModel.addElement(new AttractionType("trzeciTyp"));
-        allAttraction.add(new Attraction("pierwszy", 1, (AttractionType) attractionTypeListModel.get(0)));
-        allAttraction.add(new Attraction("drugi", 0, (AttractionType) attractionTypeListModel.get(1)));
-        allAttraction.add(new Attraction("trzeci", 1, (AttractionType) attractionTypeListModel.get(1)));
-
-        attractionListModel.addElement(new Attraction("pierwszy", 1, (AttractionType) attractionTypeListModel.get(0)));
-        attractionListModel.addElement(new Attraction("drugi", 0, (AttractionType) attractionTypeListModel.get(1)));
-        attractionListModel.addElement(new Attraction("trzeci", 1, (AttractionType) attractionTypeListModel.get(1)));
     }
 }

@@ -3,10 +3,10 @@ package Model;
 public class Attraction {
     private int id;
     private String name;
-    private int status;
+    private boolean status;
     private AttractionType attractionType;
 
-    public Attraction(String name, int status, AttractionType attractionType) {
+    public Attraction(String name, boolean status, AttractionType attractionType) {
         this.name = name;
         this.status = status;
         this.attractionType =attractionType;
@@ -20,11 +20,11 @@ public class Attraction {
         this.id = id;
     }
 
-    public int getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 

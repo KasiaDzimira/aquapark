@@ -62,6 +62,6 @@ public class UpdateAttractionTypePanel extends JPanel {
         AttractionType attractionType = (AttractionType) attractionTypeJComboBox.getSelectedItem();
         if (attractionType == null)
             return;
-        attractionTypeController.updateAttractionType(attractionType.getId(), nameField.getText());
+//        attractionTypeController.updateAttractionType(attractionType.getId(), nameField.getText());
     }
 }

@@ -16,7 +16,7 @@ public class AttractionController {
         this.connector = new Connector();
     }
 
-    public void createAttraction(String name, int status, int attractionTypeId) {
+    public void createAttraction(String name, boolean status, int attractionTypeId) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
@@ -45,7 +45,7 @@ public class AttractionController {
             while (rs.next()) {
                 Attraction attraction = new Attraction(
                         rs.getString("name"),
-                        rs.getInt("status"),
+                        rs.getBoolean("status"),
                         attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
                 );
                 attraction.setId(rs.getInt("id"));
@@ -72,7 +72,7 @@ public class AttractionController {
                 AttractionTypeController attractionTypeController = new AttractionTypeController();
                 Attraction attraction = new Attraction(
                         rs.getString("name"),
-                        rs.getInt("status"),
+                        rs.getBoolean("status"),
                         attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
                 );
                 attraction.setId(rs.getInt("id"));
