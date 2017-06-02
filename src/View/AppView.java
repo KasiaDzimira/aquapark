@@ -51,36 +51,34 @@ public class AppView extends JFrame {
         logInBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                UserController userController = new UserController();
-//                User user = userController.logInAction(nickField.getText(), passwordField.getText());
-                UserProfileView userProfileView = new UserProfileView("Pip", "ek");
-                userProfileView.addComponentToPane();
-//                if (user != null) {
-//                    switch (user.getRole()) {
-//                        case ROLE_USER:
-//                            UserProfileView userProfileView = new UserProfileView("AQUAPARK", user.getNick());
-//                            dispose();
-//                            userProfileView.addComponentToPane();
-//                            break;
-//                        case ROLE_ADMIN:
-//                            AdminView adminView = new AdminView("Admin panel");
-//                            dispose();
-//                            adminView.runWelcome();
-//                            break;
-//                        case ROLE_MANAGER:
-//                            SwingUtilities.invokeLater(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    ManagerView window = new ManagerView("Manager Panel");
-//                                    dispose();
-//                                    window.runWelcome();
-//                                }
-//                            });
-//                            break;
-//                    }
-//                } else {
-//                    JOptionPane.showMessageDialog(null, "Your nick or password are incorrect! Try again!");
-//                }
+                UserController userController = new UserController();
+                User user = userController.logInAction(nickField.getText(), passwordField.getText());
+                if (user != null) {
+                    switch (user.getRole()) {
+                        case ROLE_USER:
+                            UserProfileView userProfileView = new UserProfileView("AQUAPARK", user.getNick());
+                            dispose();
+                            userProfileView.addComponentToPane();
+                            break;
+                        case ROLE_ADMIN:
+                            AdminView adminView = new AdminView("Admin panel");
+                            dispose();
+                            adminView.runWelcome();
+                            break;
+                        case ROLE_MANAGER:
+                            SwingUtilities.invokeLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ManagerView window = new ManagerView("Manager Panel");
+                                    dispose();
+                                    window.runWelcome();
+                                }
+                            });
+                            break;
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Your nick or password are incorrect! Try again!");
+                }
             }
         });
 
