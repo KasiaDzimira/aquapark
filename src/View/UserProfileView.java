@@ -58,7 +58,7 @@ public class UserProfileView extends JFrame {
         tabbedPane.setTabComponentAt(1, createLabel(TAB_BUY));
         tabbedPane.setTabComponentAt(2, createLabel(TAB_HISTORY));
         tabbedPane.setTabComponentAt(3, createLabel(TAB_ACCOUNT));
-        tabbedPane.setBackground(Color.blue);
+        tabbedPane.setBackground(Color.decode("#acf0f2"));
 
         Container pane = this.getContentPane();
         pane.add(tabbedPane, BorderLayout.CENTER);

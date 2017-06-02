@@ -8,6 +8,10 @@ public class HomeView extends JPanel {
     public HomeView() {}
 
     public JPanel renderView() {
+        JPanel jPanel = new JPanel();
+
+        jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.Y_AXIS));
+
         ImageIcon image = createImageIcon("image/homeImage.jpg");
         JLabel imageLabel = new JLabel("", image, SwingConstants.CENTER);
         JLabel headingLabel = new JLabel("HEADING", SwingConstants.CENTER);
@@ -29,9 +33,26 @@ public class HomeView extends JPanel {
                 "tellus vitae quam molestie, nec consectetur ante ultricies. \n");
         headingLabel.setPreferredSize(new Dimension(1100, 50));
 
-        this.add(imageLabel);
-        this.add(headingLabel);
-        this.add(contentText);
+        jPanel.add(imageLabel);
+        jPanel.add(headingLabel);
+        jPanel.add(contentText);
+        //JScrollPane jScrollPane = new JScrollPane(jPanel);
+//        this.add(imageLabel);
+//        this.add(headingLabel);
+//        this.add(contentText);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+
+        JScrollPane scrollPane = new JScrollPane(jPanel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBounds(50, 30, (int)(width-30), (int)(height-30));
+        JPanel contentPane = new JPanel(null);
+        contentPane.setPreferredSize(new Dimension((int)(width - 15), (int)(height - 15)));
+        contentPane.add(scrollPane);
+
+        this.add(contentPane);
         this.setBackground(Color.white);
 
         return this;

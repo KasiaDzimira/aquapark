@@ -16,15 +16,16 @@ public class ChangePasswordPanel extends JFrame {
         renderView();
     }
 
-    void CloseFrame(){
-        super.dispose();
-    }
     void renderView(){
         JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBackground(Color.white);
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         JLabel oldPasswordLabel = new JLabel("Old password:");
+        oldPasswordLabel.setForeground(Color.decode("#225378"));
         JLabel newPasswordLabel = new JLabel("New password:");
+        newPasswordLabel.setForeground(Color.decode("#225378"));
         JLabel repeatPasswordLabel = new JLabel("Repeat password:");
+        repeatPasswordLabel.setForeground(Color.decode("#225378"));
         JButton confirmPasswordBtn = new JButton("Confirm");
         JPasswordField oldPasswordField = new JPasswordField();
         JPasswordField newPasswordField = new JPasswordField();
@@ -32,12 +33,20 @@ public class ChangePasswordPanel extends JFrame {
 
         Dimension fieldSize = new Dimension(300, 40);
         oldPasswordField.setPreferredSize(fieldSize);
+        oldPasswordField.setBorder(BorderFactory.createLineBorder(Color.decode("#ACF0F2")));
         oldPasswordLabel.setPreferredSize(fieldSize);
         newPasswordField.setPreferredSize(fieldSize);
+        newPasswordField.setBorder(BorderFactory.createLineBorder(Color.decode("#ACF0F2")));
         newPasswordLabel.setPreferredSize(fieldSize);
         repeatPasswordField.setPreferredSize(fieldSize);
+        repeatPasswordField.setBorder(BorderFactory.createLineBorder(Color.decode("#ACF0F2")));
         repeatPasswordLabel.setPreferredSize(fieldSize);
 
+        confirmPasswordBtn.setBorderPainted(false);
+        confirmPasswordBtn.setFocusPainted(false);
+        confirmPasswordBtn.setBackground(Color.decode("#eb7f00"));
+        confirmPasswordBtn.setForeground(Color.white);
+        confirmPasswordBtn.setFont(new Font("Lato Heavy", Font.PLAIN, 12));
 
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(10, 0, 0, 0);
