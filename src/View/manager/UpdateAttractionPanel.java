@@ -4,6 +4,7 @@ import Controller.AttractionController;
 import Controller.AttractionTypeController;
 import Model.Attraction;
 import Model.AttractionType;
+import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -11,93 +12,148 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by blurpek on 15.05.17.
- */
 public class UpdateAttractionPanel extends JPanel {
-
-    private Dimension panelSize;
     private JList<Attraction> attractionList;
-    private JList<AttractionType> attractionTypeList;
     private DefaultListModel attractionListModel;
-    private DefaultListModel attractionTypeListModel;
-    private JPanel options;
-    private JTextField statusField;
-    private JTextField nameField;
+    private GridBagConstraints gridBagConstraints;
 
     private ArrayList<Attraction> allAttraction;
-    //controllers
     AttractionTypeController attractionTypeController;
     AttractionController attractionController;
 
-    public UpdateAttractionPanel(Dimension dimension) {
-        panelSize = dimension;
-        this.setSize(this.panelSize);
+    public UpdateAttractionPanel() {
+        this.setLayout(new GridBagLayout());
+        this.gridBagConstraints = new GridBagConstraints();
         attractionTypeController = new AttractionTypeController();
         attractionController = new AttractionController();
         allAttraction = new ArrayList<Attraction>();
-        statusField = new JTextField("status");
-        nameField = new JTextField("name");
+        attractionListModel = new DefaultListModel();
+        attractionList = new JList<>(attractionListModel);
         prepareGui();
     }
 
     private void prepareGui() {
-        this.setLayout(new FlowLayout());
-        options = new JPanel();
-        prepareOptions();
-        prepareLists();
-        attractionTypeList.setSize(new Dimension(panelSize.width/3, panelSize.height/3));
-        attractionList.setSize(new Dimension(panelSize.width/3, panelSize.height/3));
-        options.setSize(new Dimension(panelSize.width/3, panelSize.height/3));
+        JPanel detailsLabelPanel = new JPanel(new GridLayout(0, 1));
+        JLabel attractionDetailsLabel = new JLabel("Update attraction data:");
+        attractionDetailsLabel.setForeground(new Color(235, 127, 0));
+        attractionDetailsLabel.setFont(new Font(attractionDetailsLabel.getFont().getName(), Font.PLAIN, 30));
 
-        options.setVisible(false);
-        this.add(attractionTypeList);
-        this.add(attractionList);
-        this.add(options);
-        this.setVisible(true);
-    }
+        JPanel inputPanel = new JPanel(new GridLayout(4,2, 200 ,10));
+        JLabel nameLabel = new JLabel("Name:");
+        JLabel attractionTypeLabel = new JLabel("Attraction type:");
+        JTextField nameField = new JTextField();
+        nameField.setBorder(BorderFactory.createLineBorder(new Color(172, 240, 242), 2));
 
-    private void validateAndUpdate() {
-        //TODO: validation
+        ArrayList<AttractionType> attractionTypes = (ArrayList<AttractionType>) attractionTypeController.getAllAttractionTypes();
+        AttractionType[] attractionTypes1 = attractionTypes.toArray(new AttractionType[attractionTypes.size()]);
+        JComboBox<AttractionType> attractionTypeJComboBox = new JComboBox<AttractionType>(attractionTypes1);
+        attractionTypeJComboBox.setBorder(BorderFactory.createLineBorder(new Color(172, 240, 242)));
 
-        int status = Integer.parseInt(statusField.getText());
-        Attraction attraction = attractionList.getSelectedValue();
-        if (attraction == null)
-            return;
-        attractionController.updateAttraction(attraction.getId(),nameField.getText() , status, attraction.getAttractionType().getId());
-    }
+        JRadioButton isActiveRadio = new JRadioButton();
+        isActiveRadio.setBackground(Color.WHITE);
+        isActiveRadio.setPreferredSize(new Dimension(150, 80));
+        isActiveRadio.setText("Is active:");
+        isActiveRadio.setHorizontalTextPosition(JRadioButton.LEFT);
 
-    private void prepareLists() {
-        attractionTypeListModel = new DefaultListModel();
-        attractionListModel = new DefaultListModel();
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
+        JButton updateButton = new JButton("Update");
+        updateButton.setBackground(new Color(235, 127, 0));
+        updateButton.setForeground(Color.WHITE);
 
-        //load data type
-//        mockUp();
-        loadFromDB();
+        setOptionsVisibility(nameLabel, nameField, isActiveRadio, updateButton, true);
+        AttractionType attractionType = (AttractionType) attractionTypeJComboBox.getSelectedItem();
+        prepareLists(attractionType, nameLabel, nameField, updateButton, isActiveRadio);
+        refreshLists();
 
-        attractionTypeList = new JList<>(attractionTypeListModel);
-        attractionList = new JList<>(attractionListModel);
-        attractionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JLabel attractionLabel = new JLabel("Select attraction:");
 
-        //adding listeners
-        attractionTypeList.addListSelectionListener(new ListSelectionListener() {
+        detailsLabelPanel.setBackground(Color.WHITE);
+        detailsLabelPanel.setPreferredSize(new Dimension(800, 80));
+
+        inputPanel.setBackground(Color.WHITE);
+        inputPanel.setPreferredSize(new Dimension(800, 200));
+
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.setPreferredSize(new Dimension(400, 80));
+
+        nameField.setPreferredSize(new Dimension(400, 70));
+        attractionTypeJComboBox.setPreferredSize(new Dimension(400, 70));
+        updateButton.setPreferredSize(new Dimension(250, 50));
+
+        attractionTypeJComboBox.addItemListener(new ItemListener() {
             @Override
-            public void valueChanged(ListSelectionEvent e) {
-                boolean adjust = e.getValueIsAdjusting();
-                if (!adjust) {
-                    JList list = (JList) e.getSource();
-                    int selections[] = list.getSelectedIndices();
-                    filterAttractions(selections);
-                    attractionList.clearSelection();
-                    options.setVisible(false);
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    Dimension panelSize = getSize();
+                    attractionList.setSize(new Dimension(panelSize.width/3, panelSize.height/3));
+                    AttractionType attractionType = (AttractionType) e.getItem();
+                    prepareLists(attractionType, nameLabel, nameField, updateButton, isActiveRadio);
+                    refreshLists();
                 }
             }
         });
+
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = nameField.getText();
+                Boolean isActive = isActiveRadio.isSelected();
+
+                updateAttraction(name, isActive);
+
+                JOptionPane.showMessageDialog(null, "Attraction has been successfully updated!");
+                setOptionsVisibility(nameLabel, nameField, isActiveRadio, updateButton, false);
+                attractionTypeJComboBox.setSelectedIndex(0);
+            }
+        });
+
+        detailsLabelPanel.add(attractionDetailsLabel);
+        inputPanel.add(attractionTypeLabel);
+        inputPanel.add(nameLabel);
+        inputPanel.add(attractionTypeJComboBox);
+        inputPanel.add(nameField);
+        inputPanel.add(attractionLabel);
+        inputPanel.add(isActiveRadio);
+        inputPanel.add(attractionList);
+
+        GridBagConstraints gridBagConstraintsBtn = new GridBagConstraints();
+        gridBagConstraintsBtn.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraintsBtn.gridy = 0;
+        buttonPanel.add(updateButton, gridBagConstraintsBtn);
+
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+
+        gridBagConstraints.gridy = 0;
+        this.add(detailsLabelPanel, gridBagConstraints);
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new Insets(0, 0, 80, 0);
+        this.add(new JSeparator(), gridBagConstraints);
+        gridBagConstraints.gridy = 2;
+        this.add(inputPanel, gridBagConstraints);
+        gridBagConstraints.gridy = 3;
+        this.add(buttonPanel, gridBagConstraints);
+        this.setVisible(true);
+    }
+
+    private void updateAttraction(String name, Boolean isActive) {
+        Attraction attraction = attractionList.getSelectedValue();
+        if (attraction == null)
+            return;
+
+        attractionController.updateAttraction(attraction.getId(), name , isActive, attraction.getAttractionType().getId());
+    }
+
+    private void prepareLists(AttractionType attractionType, JLabel nameLabel, JTextField nameField, JButton updateButton, JRadioButton isActiveRadio) {
+        loadFromDB(attractionType);
+        setOptionsVisibility(nameLabel, nameField, isActiveRadio, updateButton, false);
+        attractionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         attractionList.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -108,67 +164,35 @@ public class UpdateAttractionPanel extends JPanel {
                     int selections[] = list.getSelectedIndices();
                     if (selections != null && selections.length > 0) {
                         Attraction attraction = (Attraction) attractionListModel.get(selections[0]);
-                        setOptions(attraction);
-                        options.setVisible(true);
-                        options.revalidate();
-                        options.repaint();
+                        setOptionsValue(nameField, isActiveRadio, attraction);
+                        setOptionsVisibility(nameLabel, nameField, isActiveRadio, updateButton, true);
                     }
                 }
             }
         });
     }
 
-    private void setOptions(Attraction attraction) {
-        statusField.setText(Boolean.toString(attraction.getStatus()));
-    }
-
-    private void filterAttractions(int[] selectedAttractionTypes) {
-        Set<AttractionType> attractionTypeSet = new HashSet<>();
-        for (int i = 0; i < selectedAttractionTypes.length; i++) {
-            attractionTypeSet.add((AttractionType) attractionTypeListModel.get(selectedAttractionTypes[i]));
-        }
-//        attractionListModel = new DefaultListModel();
-        attractionList.clearSelection();
+    private void loadFromDB(AttractionType attractionType) {
         attractionListModel.removeAllElements();
-
-        for (Attraction a : allAttraction) {
-            for (AttractionType at : attractionTypeSet) {
-                if (at.getId() == a.getAttractionType().getId()) {
-                    attractionListModel.addElement(a);
-                }
-            }
+        for (Attraction attraction : attractionController.getAttractionByType(attractionType)) {
+            attractionListModel.addElement(attraction);
         }
     }
 
-    public void loadFromDB() {
-        for (AttractionType at : attractionTypeController.getAllAttractionTypes()) {
-            attractionTypeListModel.addElement(at);
-        }
-        for (Attraction a : attractionController.getAllAttractions()) {
-            allAttraction.add(a);
-            attractionListModel.addElement(a);
-        }
+    private void setOptionsVisibility(JLabel nameLabel, JTextField nameField, JRadioButton isActive, JButton updateButton, boolean visible) {
+        nameLabel.setVisible(visible);
+        nameField.setVisible(visible);
+        isActive.setVisible(visible);
+        updateButton.setVisible(visible);
+    }
+
+    private void setOptionsValue(JTextField nameField, JRadioButton isActive, Attraction attraction) {
+        nameField.setText(attraction.getName());
+        isActive.setSelected(attraction.getStatus());
     }
 
     private void refreshLists() {
         attractionList.revalidate();
         attractionList.repaint();
-        attractionTypeList.revalidate();
-        attractionTypeList.repaint();
-    }
-
-    private void prepareOptions() {
-        BoxLayout boxLayout = new BoxLayout(options, BoxLayout.Y_AXIS);
-        options.setLayout(boxLayout);
-        JButton updateButton = new JButton("Update");
-        updateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                validateAndUpdate();
-            }
-        });
-        options.add(new JLabel("Status"));
-        options.add(statusField);
-        options.add(updateButton);
     }
 }

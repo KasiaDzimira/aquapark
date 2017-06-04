@@ -41,7 +41,7 @@ public class ManagerView extends JFrame {
         createAttraction = new CreateAttractionPanel();
         createAttractionTypePanel = new CreateAttractionTypePanel();
         updateAttractionTypePanel = new UpdateAttractionTypePanel();
-        updateAttractionPanel = new UpdateAttractionPanel(this.windowSize);
+        updateAttractionPanel = new UpdateAttractionPanel();
         ticketPriceListPanel = new TicketPriceListPanel();
         this.addComponentToPane();
     }

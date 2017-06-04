@@ -87,8 +87,8 @@ public class AttractionTypeController {
         try {
             Statement st = this.connector.getConnection().createStatement();
             String sql = "UPDATE attraction_type SET name='" +
-                    name + ", price=" +
-                    price + "' WHERE id=" + id;
+                    name + "', price=" +
+                    price + " WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
