@@ -2,6 +2,7 @@ package View;
 
 import View.AdminPanel.CreateUserView;
 import View.AdminPanel.StatisticsView;
+import View.AdminPanel.UserManagementView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +10,7 @@ import java.awt.*;
 public class AdminView extends JFrame {
     final static String TAB_STATISTICS = "Statistics";
     final static String TAB_CREATE_USER = "Create user";
-    final static String TAB_EDIT_ROLE = "Edit role";
+    final static String TAB_EDIT_ROLE = "User management";
 
     //manually created
     private Dimension windowSize;
@@ -38,7 +39,7 @@ public class AdminView extends JFrame {
 
         tabbedPane.addTab(TAB_STATISTICS, new StatisticsView());
         tabbedPane.addTab(TAB_CREATE_USER, createUserView.renderView());
-        tabbedPane.addTab(TAB_EDIT_ROLE, new JPanel());
+        tabbedPane.addTab(TAB_EDIT_ROLE, new UserManagementView());
 
         tabbedPane.setTabComponentAt(0, createLabel(TAB_STATISTICS));
         tabbedPane.setTabComponentAt(1, createLabel(TAB_CREATE_USER));

@@ -72,6 +72,12 @@ public class CreateUserView extends JPanel {
                     userController.createClient(nick, password, firstName, lastName, email, telephone, userRole);
 
                     JOptionPane.showMessageDialog(null, "User has been successfully created!");
+                    passwordField.setText("");
+                    nickField.setText("");
+                    firstNameField.setText("");
+                    lastNameField.setText("");
+                    emailField.setText("");
+                    telephoneField.setText("");
                 }
             }
         });
