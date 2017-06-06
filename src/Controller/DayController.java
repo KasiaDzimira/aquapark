@@ -50,6 +50,7 @@ public class DayController {
             System.out.println("Query has been executed");
         } catch (SQLException e) {
             e.printStackTrace();
+            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
         return result;
@@ -68,8 +69,10 @@ public class DayController {
                         rs.getString("name")
                 );
                 day.setId(rs.getInt("id"));
+                this.connector.closeConnection(null);
                 return day;
             } else {
+                this.connector.closeConnection(null);
                 return null;
             }
         } catch (SQLException e) {

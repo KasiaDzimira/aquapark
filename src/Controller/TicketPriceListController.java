@@ -55,6 +55,7 @@ public class TicketPriceListController {
             System.out.println("Query has been executed");
         } catch (SQLException e) {
             e.printStackTrace();
+            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
         return result;
@@ -74,12 +75,15 @@ public class TicketPriceListController {
                         rs.getDate("end_date")
                 );
                 ticketPriceList.setId(rs.getInt("id"));
+                this.connector.closeConnection(null);
                 return ticketPriceList;
             } else {
+                this.connector.closeConnection(null);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
         return null;

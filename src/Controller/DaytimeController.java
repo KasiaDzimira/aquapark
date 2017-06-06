@@ -76,12 +76,15 @@ public class DaytimeController {
                         rs.getTime("end_hour")
                 );
                 daytime.setId(rs.getInt("id"));
+                this.connector.closeConnection(null);
                 return daytime;
             } else {
+                this.connector.closeConnection(null);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
         return null;

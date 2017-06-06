@@ -63,6 +63,7 @@ public class TicketPriceListPositionController {
             System.out.println("Query has been executed");
         } catch (SQLException e) {
             e.printStackTrace();
+            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
         return result;
@@ -96,6 +97,7 @@ public class TicketPriceListPositionController {
             System.out.println("Query has been executed");
         } catch (SQLException e) {
             e.printStackTrace();
+            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
         return result;
@@ -123,12 +125,15 @@ public class TicketPriceListPositionController {
                         attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
                 );
                 position.setId(rs.getInt("id"));
+                this.connector.closeConnection(null);
                 return position;
             } else {
+                this.connector.closeConnection(null);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
         return null;

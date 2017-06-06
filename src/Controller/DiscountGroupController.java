@@ -51,6 +51,7 @@ public class DiscountGroupController {
             System.out.println("Query has been executed");
         } catch (SQLException e) {
             e.printStackTrace();
+            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
         return result;
@@ -70,12 +71,15 @@ public class DiscountGroupController {
                         rs.getFloat("discount")
                 );
                 discountGroup.setId(rs.getInt("id"));
+                this.connector.closeConnection(null);
                 return discountGroup;
             } else {
+                this.connector.closeConnection(null);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
         return null;
