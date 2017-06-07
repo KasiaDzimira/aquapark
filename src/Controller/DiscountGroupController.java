@@ -1,7 +1,6 @@
 package Controller;
 
 import Database.Connector;
-import Model.Day;
 import Model.DiscountGroup;
 
 import java.sql.ResultSet;

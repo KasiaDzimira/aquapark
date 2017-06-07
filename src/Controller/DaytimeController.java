@@ -1,7 +1,6 @@
 package Controller;
 
 import Database.Connector;
-import Model.Day;
 import Model.Daytime;
 
 import java.sql.ResultSet;

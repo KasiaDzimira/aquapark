@@ -10,6 +10,14 @@ public class Pass {
     private User user;
     private PassType passType;
 
+    public Pass(Date startDate, Date endDate, Watch watch, User user, PassType passType) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.watch = watch;
+        this.user = user;
+        this.passType = passType;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

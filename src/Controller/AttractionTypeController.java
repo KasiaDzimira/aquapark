@@ -3,7 +3,6 @@ package Controller;
 import Database.Connector;
 import Model.AttractionType;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
