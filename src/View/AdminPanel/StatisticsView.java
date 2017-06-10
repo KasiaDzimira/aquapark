@@ -57,17 +57,21 @@ public class StatisticsView extends JPanel {
         Date earliestDate = calendar.getTime();
         calendar.add(Calendar.YEAR, 200);
         Date latestDate = calendar.getTime();
-        SpinnerModel dateModel = new SpinnerDateModel(initDate,
+        SpinnerModel fromDateModel = new SpinnerDateModel(initDate,
+                earliestDate,
+                latestDate,
+                Calendar.YEAR);
+        SpinnerModel toDateModel = new SpinnerDateModel(initDate,
                 earliestDate,
                 latestDate,
                 Calendar.YEAR);
         JSpinner fromSpinner = new JSpinner();
-        fromSpinner.setModel(dateModel);
+        fromSpinner.setModel(fromDateModel);
         fromSpinner.setEditor(new JSpinner.DateEditor(fromSpinner, "MM/yyyy"));
         fromSpinner.setBorder(BorderFactory.createLineBorder(new Color(172, 240, 242), 2));
 
         JSpinner toSpinner = new JSpinner();
-        toSpinner.setModel(dateModel);
+        toSpinner.setModel(toDateModel);
         toSpinner.setEditor(new JSpinner.DateEditor(toSpinner, "MM/yyyy"));
         toSpinner.setBorder(BorderFactory.createLineBorder(new Color(172, 240, 242), 2));
 
