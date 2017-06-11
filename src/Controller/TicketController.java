@@ -117,4 +117,31 @@ public class TicketController {
         }
         this.connector.closeConnection(null);
     }
+
+    public Ticket findByWatch(Watch watch) {
+        this.connector.connect();
+        WatchController watchController = new WatchController();
+        try {
+            Statement st = this.connector.getConnection().createStatement();
+            String sql = "SELECT * FROM ticket WHERE watch_id=" + watch.getId();
+            ResultSet rs = st.executeQuery(sql);
+
+            if (rs.next()) {
+                Ticket ticket = new Ticket(
+                        rs.getDate("stamp"),
+                        watchController.getWatchById(rs.getInt("watch_id"))
+                );
+                ticket.setId(rs.getInt("id"));
+                this.connector.closeConnection(null);
+                return ticket;
+            } else {
+                this.connector.closeConnection(null);
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        this.connector.closeConnection(null);
+        return null;
+    }
 }

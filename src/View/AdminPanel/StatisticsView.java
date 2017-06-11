@@ -1,11 +1,7 @@
 package View.AdminPanel;
 
-import Controller.AttractionController;
-import Controller.AttractionTypeController;
-import Controller.DiscountGroupController;
-import Model.Attraction;
-import Model.AttractionType;
-import Model.DiscountGroup;
+import Controller.*;
+import Model.*;
 import javafx.scene.control.ComboBox;
 import org.w3c.dom.Attr;
 
@@ -67,12 +63,12 @@ public class StatisticsView extends JPanel {
                 Calendar.YEAR);
         JSpinner fromSpinner = new JSpinner();
         fromSpinner.setModel(fromDateModel);
-        fromSpinner.setEditor(new JSpinner.DateEditor(fromSpinner, "MM/yyyy"));
+        fromSpinner.setEditor(new JSpinner.DateEditor(fromSpinner, "dd/MM/yyyy"));
         fromSpinner.setBorder(BorderFactory.createLineBorder(new Color(172, 240, 242), 2));
 
         JSpinner toSpinner = new JSpinner();
         toSpinner.setModel(toDateModel);
-        toSpinner.setEditor(new JSpinner.DateEditor(toSpinner, "MM/yyyy"));
+        toSpinner.setEditor(new JSpinner.DateEditor(toSpinner, "dd/MM/yyyy"));
         toSpinner.setBorder(BorderFactory.createLineBorder(new Color(172, 240, 242), 2));
 
         JRadioButton isTicketRadio = new JRadioButton();
@@ -86,6 +82,10 @@ public class StatisticsView extends JPanel {
         isPassRadio.setPreferredSize(new Dimension(50, 80));
         isPassRadio.setText("Pass:");
         isPassRadio.setHorizontalTextPosition(JRadioButton.LEFT);
+
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(isTicketRadio);
+        buttonGroup.add(isPassRadio);
 
         ArrayList<DiscountGroup> discountGroups = (ArrayList<DiscountGroup>) discountGroupController.getAllDiscountGroups();
         DiscountGroup[] discountGroups1 = discountGroups.toArray(new DiscountGroup[discountGroups.size()]);
@@ -108,7 +108,7 @@ public class StatisticsView extends JPanel {
                 Date dateFrom = (Date) fromSpinner.getValue();
                 Date dateTo = (Date) toSpinner.getValue();
 
-                //Generating report - TO DO
+                generateStatistics(discountGroup, attractionType, attraction, dateFrom, dateTo, isTicket, isPass);
             }
         });
 
@@ -171,6 +171,79 @@ public class StatisticsView extends JPanel {
         gridBagConstraints.insets = new Insets(0, 0, 50, 0);
         this.add(buttonPanel, gridBagConstraints);
         this.setVisible(true);
+    }
+
+    private void generateStatistics(DiscountGroup discountGroup, AttractionType attractionType,
+                                    Attraction attraction, Date dateFrom, Date dateTo,
+                                    Boolean isTicket, Boolean isPass) {
+        HistoryController historyController = new HistoryController();
+        ArrayList<History> histories = new ArrayList<>();
+        if (attractionType == null) {
+            histories = (ArrayList<History>) historyController.getAllHistories();
+        } else {
+            AttractionController attractionController = new AttractionController();
+            if (attraction == null) {
+                for (Attraction a : attractionController.getAttractionByType(attractionType)) {
+                    histories.addAll(historyController.findAllByAttractionAndDateFromAndDateTo(a, dateFrom, dateTo));
+                }
+            } else {
+                histories = (ArrayList<History>) historyController.findAllByAttractionAndDateFromAndDateTo(attraction, dateFrom, dateTo);
+            }
+        }
+        if (!histories.isEmpty()) {
+            String message = "";
+            if (isTicket) {
+                message += getHistoryAndTicketInfo(histories);
+            }
+            if (isPass) {
+                message += getHistoryAndPassInfo(histories);
+            }
+            Object[] options = {"Close", "Export to PDF", "Print"};
+            showOptionBox(message, options);
+
+        }
+
+    }
+
+    private int showOptionBox(String message, Object[] options) {
+        JTextArea textArea = new JTextArea(message);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        scrollPane.setPreferredSize( new Dimension( 500, 500) );
+        return JOptionPane.showOptionDialog(null, scrollPane, "Have a nice day :)",
+                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
+    }
+
+    private String getHistoryAndPassInfo(ArrayList<History> histories) {
+        PassController passController = new PassController();
+        String info = "";
+        Pass pass = null;
+        for (History h : histories) {
+            pass = passController.findByWatch(h.getWatch());
+            if (pass != null) {
+                info += "Using pass by: " + pass.getUser() + "\n" + "\tEntry time: " + h.getEntryTime() + " \n\tExit time: " + h.getExitTime() +
+                        "\n\ton Attraction: " + h.getAttraction().getName() + "\n";
+            }
+        }
+        return info;
+
+    }
+
+    private String getHistoryAndTicketInfo(ArrayList<History> histories) {
+        TicketController ticketController = new TicketController();
+
+
+        PassController passController = new PassController();
+        String info = "";
+        Pass pass = null;
+        for (History h : histories) {
+            if (ticketController.findByWatch(h.getWatch()) != null) {
+                info += "Using ticket:\n" + "\tEntry time: " + h.getEntryTime() + " \n\tExit time: " + h.getExitTime() +
+                        "\n\ton Attraction: " + h.getAttraction().getName() + "\n";
+            }
+        }
+        return info;
     }
 
     protected JComboBox<Attraction> updateAttractionJComboBox(AttractionType attractionType) {
