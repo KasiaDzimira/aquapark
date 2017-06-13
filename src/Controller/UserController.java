@@ -47,6 +47,26 @@ public class UserController {
         this.connector.closeConnection(null);
     }
 
+    public void updateUser(int id, String nick, String firstName, String lastName, String userRole) {
+        this.connector.connect();
+        try {
+            Statement statement = this.connector.getConnection().createStatement();
+
+            String sql = "UPDATE aquapark_user SET first_name='" +
+                    firstName + "', last_name='" +
+                    lastName + "', nick='" +
+                    nick + "', role_user='" +
+                    userRole + "' WHERE id = " + id;
+
+            statement.executeUpdate(sql);
+            this.connector.getConnection().commit();
+            System.out.println("Query has been executed");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        this.connector.closeConnection(null);
+    }
+
     public ArrayList<User> getUsers() {
         this.connector.connect();
         ArrayList<User> users = new ArrayList<User>();

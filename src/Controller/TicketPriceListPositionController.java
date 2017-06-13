@@ -25,7 +25,7 @@ public class TicketPriceListPositionController {
             Statement st = this.connector.getConnection().createStatement();
             String sql = "INSERT INTO tckt_prc_lst_pos (price, tckt_prc_lst_id, days_id, disc_group_id, daytime_id, attraction_type_id) VALUES (" +
                     price + "," + ticketPriceListId + "," + daysId + "," + discountGroupId + "," +
-                    daytimeId + "," + attractionTypeId + "')";
+                    daytimeId + "," + attractionTypeId + ")";
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");

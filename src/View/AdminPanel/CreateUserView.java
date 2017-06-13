@@ -16,10 +16,11 @@ public class CreateUserView extends JPanel {
         super();
         setOpaque(true);
         this.setLayout(new GridBagLayout());
+        this.setBackground(Color.WHITE);
         this.gridBagConstraints = new GridBagConstraints();
     }
 
-    public JPanel renderView(JPanel cardPanel, String componentName) {
+    public JPanel renderView() {
         String[] userRoles = {
                 UserRoleDictionary.ROLE_USER.toString(),
                 UserRoleDictionary.ROLE_MANAGER.toString(),
@@ -36,12 +37,20 @@ public class CreateUserView extends JPanel {
         JLabel telephoneLabel = new JLabel("Telephone:");
         JLabel userRoleLabel = new JLabel("User role:");
         JTextField nickField = new JTextField();
+        nickField.setBorder(BorderFactory.createLineBorder(new Color(172, 240, 242), 2));
         JPasswordField passwordField = new JPasswordField();
+        passwordField.setBorder(BorderFactory.createLineBorder(new Color(172, 240, 242), 2));
         JTextField firstNameField = new JTextField();
+        firstNameField.setBorder(BorderFactory.createLineBorder(new Color(172, 240, 242), 2));
         JTextField lastNameField = new JTextField();
+        lastNameField.setBorder(BorderFactory.createLineBorder(new Color(172, 240, 242), 2));
         JTextField emailField = new JTextField();
+        emailField.setBorder(BorderFactory.createLineBorder(new Color(172, 240, 242), 2));
         JTextField telephoneField = new JTextField();
+        telephoneField.setBorder(BorderFactory.createLineBorder(new Color(172, 240, 242), 2));
         JButton confirm = new JButton("Confirm");
+        confirm.setBackground(new Color(235, 127, 0));
+        confirm.setForeground(Color.WHITE);
 
         confirm.addActionListener(new ActionListener() {
             @Override
@@ -63,9 +72,12 @@ public class CreateUserView extends JPanel {
                     userController.createClient(nick, password, firstName, lastName, email, telephone, userRole);
 
                     JOptionPane.showMessageDialog(null, "User has been successfully created!");
-
-                    CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
-                    cardLayout.show(cardPanel, componentName);
+                    passwordField.setText("");
+                    nickField.setText("");
+                    firstNameField.setText("");
+                    lastNameField.setText("");
+                    emailField.setText("");
+                    telephoneField.setText("");
                 }
             }
         });

@@ -1,71 +1,56 @@
 package View;
 
 import View.AdminPanel.CreateUserView;
-import View.shared.StatisticPanel;
+import View.AdminPanel.StatisticsView;
+import View.AdminPanel.UserManagementView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class AdminView extends JFrame {
-    //auto-generated
-    private JPanel mainPanel;
-    private JButton statisticButton;
-    private JButton createUserButton;
-    private JButton editRoleButton;
-    private JPanel cardPanel;
+    final static String TAB_STATISTICS = "Statistics";
+    final static String TAB_CREATE_USER = "Create user";
+    final static String TAB_EDIT_ROLE = "User management";
 
     //manually created
     private Dimension windowSize;
 
     public AdminView(String windowTitle) {
-        this.windowSize = new Dimension(800, 800);
+        this.windowSize = new Dimension(1100, 900);
         this.setTitle(windowTitle);
         this.setSize(this.windowSize);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.centeringWindow();
-        cardPanel.setLayout(new CardLayout());
-        cardPanel.add(new StatisticPanel(), statisticButton.getText());
-//        cardPanel.add(statisticButton.getName(), new StatisticPanel());
-//        cardPanel.add(createUserButton.getName(), createUserPanel);
     }
 
     public void runWelcome() {
-        statisticButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                changeCardTo(statisticButton.getText());
-            }
-        });
+        JTabbedPane tabbedPane = new JTabbedPane();
 
-        createUserButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CreateUserView createUserView = new CreateUserView();
-                createUserView.setName("createUserView");
-                cardPanel.add(createUserView.renderView(cardPanel, statisticButton.getText()), createUserButton.getText());
-                CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
-                cardLayout.show(cardPanel, createUserButton.getText());
-            }
-        });
+        JPanel statisticCard = new JPanel();
+        statisticCard.add(new Button("statisticsCardButton"));
 
-        editRoleButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                changeCardTo(editRoleButton.getText());
-            }
-        });
+        JPanel createUserCard = new JPanel();
+        createUserCard.add(new Button("createUserButton"));
 
-        this.add(mainPanel);
-        mainPanel.add(cardPanel);
+        JPanel editRoleCard = new JPanel();
+        editRoleCard.add(new Button("editRoleButton"));
+
+        CreateUserView createUserView = new CreateUserView();
+
+        tabbedPane.addTab(TAB_STATISTICS, new StatisticsView());
+        tabbedPane.addTab(TAB_CREATE_USER, createUserView.renderView());
+        tabbedPane.addTab(TAB_EDIT_ROLE, new UserManagementView());
+
+        tabbedPane.setTabComponentAt(0, createLabel(TAB_STATISTICS));
+        tabbedPane.setTabComponentAt(1, createLabel(TAB_CREATE_USER));
+        tabbedPane.setTabComponentAt(2, createLabel(TAB_EDIT_ROLE));
+        tabbedPane.setBackground(new Color(172, 240, 242));
+
+        Container pane = this.getContentPane();
+        pane.setBackground(Color.WHITE);
+        pane.add(tabbedPane, BorderLayout.CENTER);
         this.setVisible(true);
-    }
-
-    private void changeCardTo(String name) {
-        CardLayout cl = (CardLayout) cardPanel.getLayout();
-        cl.show(cardPanel, name);
-        System.out.println("changeCardTo" + name);
+        this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
     }
 
     private void centeringWindow() {
@@ -76,5 +61,12 @@ public class AdminView extends JFrame {
         this.setLocation(
                 (int) (center.getWidth() - (this.windowSize.getWidth() / 2)),
                 (int) (center.getHeight() - (this.windowSize.getHeight() / 2)));
+    }
+
+    private JLabel createLabel(String labelText) {
+        JLabel label = new JLabel(labelText, SwingConstants.CENTER);
+        label.setPreferredSize(new Dimension(230, 40));
+
+        return label;
     }
 }

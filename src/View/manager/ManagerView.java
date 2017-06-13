@@ -20,7 +20,6 @@ public class ManagerView extends JFrame {
     final static String TAB_TICKET_PRICE_LIST = "TICKET PRICE LIST";
 
     private Dimension windowSize;
-    private JTabbedPane tabbedPane;
     private JPanel buttonsPanel;
     private JPanel cardsPanel;
     private CreateAttractionPanel createAttraction;
@@ -35,13 +34,12 @@ public class ManagerView extends JFrame {
         this.setSize(this.windowSize);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.centeringWindow();
-        this.tabbedPane = new JTabbedPane();
         buttonsPanel = new JPanel();
         cardsPanel = new JPanel();
         createAttraction = new CreateAttractionPanel();
         createAttractionTypePanel = new CreateAttractionTypePanel();
         updateAttractionTypePanel = new UpdateAttractionTypePanel();
-        updateAttractionPanel = new UpdateAttractionPanel(this.windowSize);
+        updateAttractionPanel = new UpdateAttractionPanel();
         ticketPriceListPanel = new TicketPriceListPanel();
         this.addComponentToPane();
     }
@@ -78,7 +76,6 @@ public class ManagerView extends JFrame {
         tabbedPane.setBackground(new Color(172, 240, 242));
 
         Container pane = this.getContentPane();
-//        pane.setBackground(Color.WHITE);
         pane.add(tabbedPane, BorderLayout.CENTER);
     }
 

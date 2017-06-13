@@ -2,6 +2,7 @@ package Controller;
 
 import Database.Connector;
 import Model.Attraction;
+import Model.AttractionType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -59,6 +60,35 @@ public class AttractionController {
         return result;
     }
 
+    public List<Attraction> getAttractionByType(AttractionType attractionType) {
+        List<Attraction> result = new ArrayList<>();
+        AttractionTypeController attractionTypeController = new AttractionTypeController();
+        this.connector.connect();
+
+        try {
+            Statement statement = this.connector.getConnection().createStatement();
+            String sql = "SELECT * FROM attraction WHERE attraction_type_id=" + attractionType.getId();
+
+            ResultSet rs = statement.executeQuery(sql);
+
+            while (rs.next()) {
+                Attraction attraction = new Attraction(
+                        rs.getString("name"),
+                        rs.getBoolean("status"),
+                        attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
+                );
+                attraction.setId(rs.getInt("id"));
+                result.add(attraction);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        this.connector.closeConnection(null);
+
+        return result;
+    }
+
     public Attraction getAttractionById(int id) {
         this.connector.connect();
 
@@ -87,7 +117,7 @@ public class AttractionController {
         return null;
     }
 
-    public void updateAttraction(int id, String name, int status, int attractionTypeId) {
+    public void updateAttraction(int id, String name, Boolean status, int attractionTypeId) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
