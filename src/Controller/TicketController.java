@@ -1,9 +1,12 @@
 package Controller;
 
 import Database.Connector;
+import Model.Attraction;
+import Model.History;
 import Model.Ticket;
 import Model.Watch;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class TicketController {
     private Connector connector;
@@ -116,5 +120,52 @@ public class TicketController {
             e.printStackTrace();
         }
         this.connector.closeConnection(null);
+    }
+
+    /**
+     * Get a diff between two dates
+     * @param date1 the oldest date
+     * @param date2 the newest date
+     * @param timeUnit the unit in which you want the diff
+     * @return the diff value, in the provided unit
+     */
+    private static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        long diffInMillies = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+    }
+
+    public BigDecimal countPrice(Ticket ticket) {
+        BigDecimal price = new BigDecimal(0.0);
+        this.connector.connect();
+        List<History> result = new ArrayList<>();
+        AttractionController attractionController = new AttractionController();
+        try {
+            Statement st = this.connector.getConnection().createStatement();
+            String ticketStampFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ticket.getStamp());
+            String sql = "SELLECT * FROM history WHERE watch_id=" + ticket.getWatch().getId() + " AND entry_time > timestamp '" +
+                    ticketStampFormatted + "'";
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                History history = new History(
+                        rs.getDate("entry_time"),
+                        rs.getDate("exit_time"),
+                        attractionController.getAttractionById(rs.getInt("attraction_id")),
+                        ticket.getWatch()
+                );
+                history.setId(rs.getInt("id"));
+                result.add(history);
+            }
+
+            Date now = new Date();
+            long minutes = getDateDiff(ticket.getStamp(),now,TimeUnit.MINUTES);
+            if (minutes > 60) {
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.connector.closeConnection(null);
+        }
+        return price;
     }
 }
