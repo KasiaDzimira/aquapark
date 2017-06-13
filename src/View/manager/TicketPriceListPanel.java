@@ -6,6 +6,7 @@ import Model.TicketPriceList;
 import Model.TicketPriceListPosition;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,19 +15,18 @@ import java.util.*;
 import java.util.List;
 
 public class TicketPriceListPanel extends JPanel {
-    private JList<TicketPriceListPosition> allPostition;
-    private JList<TicketPriceListPosition> choosenPosition;
     private DefaultListModel<TicketPriceListPosition> allPositionModel;
     private DefaultListModel<TicketPriceListPosition> choosenPositionModel;
-    private CreateTicketPriceListPositionPanel createTicketPriceListPositionPanel;
     private JComboBox<TicketPriceListPosition> ticketPriceListPositionJComboBox;
+    private DefaultTableModel tableModel;
 
     private String[] columnNames = {
             "Day",
             "Discount group",
             "Day time",
             "Attraction type",
-            "Price"
+            "Price",
+            "Position id"
     };
 
     private Object[][] tableData;
@@ -37,12 +37,12 @@ public class TicketPriceListPanel extends JPanel {
     private ArrayList<TicketPriceListPosition> ticketPriceListPositions;
     private ArrayList<TicketPriceListPosition> allTicketPositions;
     private GridBagConstraints gridBagConstraints;
+    private JTable choosenPositionTable;
 
     public TicketPriceListPanel() {
         ticketPriceListController = new TicketPriceListController();
         ticketPriceListPositionController = new TicketPriceListPositionController();
         ticketPriceList = ticketPriceListController.getAllTicketPriceLists().get(0);
-        createTicketPriceListPositionPanel = new CreateTicketPriceListPositionPanel(ticketPriceList);
         ticketPriceListPositions = new ArrayList<>();
         allTicketPositions = new ArrayList<>();
 
@@ -65,13 +65,22 @@ public class TicketPriceListPanel extends JPanel {
         JLabel comboBoxLabel = new JLabel("All positions (day, discount group, day time, attraction type, price):");
 
         JPanel inputPanel = new JPanel(new GridBagLayout());
-        JButton addButton = new JButton("Add selected position");
+        JButton addButton = new JButton("Add selected to price list");
         addButton.setBackground(new Color(235, 127, 0));
         addButton.setForeground(Color.WHITE);
 
+        JButton showTicketListButton = new JButton("Price list");
+        showTicketListButton.setBackground(new Color(235, 127, 0));
+        showTicketListButton.setForeground(Color.WHITE);
+
+        JButton createPositionButton = new JButton("Create new position");
+        createPositionButton.setBackground(new Color(235, 127, 0));
+        createPositionButton.setForeground(Color.WHITE);
+
         prepareLists();
-        JPanel tablePanel = new JPanel(new GridBagLayout());
-        JTable choosenPositionTable = new JTable(tableData, columnNames);
+        JPanel tablePanel = new JPanel(new GridLayout(1, 0));
+        this.tableModel = new DefaultTableModel(tableData, columnNames);
+        this.choosenPositionTable = new JTable(tableModel);
         choosenPositionTable.setPreferredSize(new Dimension(800, 200));
 
         detailsLabelPanel.setBackground(Color.WHITE);
@@ -81,14 +90,16 @@ public class TicketPriceListPanel extends JPanel {
         comboBoxPanel.setPreferredSize(new Dimension(800, 80));
 
         inputPanel.setBackground(Color.WHITE);
-        inputPanel.setPreferredSize(new Dimension(400, 80));
+        inputPanel.setPreferredSize(new Dimension(400, 250));
 
         tablePanel.setBackground(Color.WHITE);
         tablePanel.setPreferredSize(new Dimension(800, 200));
 
         ticketPriceListPositionJComboBox.setPreferredSize(new Dimension(400, 70));
         addButton.setPreferredSize(new Dimension(250, 50));
-        choosenPositionTable.setPreferredSize(new Dimension(800, 150));
+        showTicketListButton.setPreferredSize(new Dimension(250, 50));
+        createPositionButton.setPreferredSize(new Dimension(250, 50));
+        choosenPositionTable.setPreferredSize(new Dimension(750, 150));
 
         detailsLabelPanel.add(attractionDetailsLabel);
         comboBoxPanel.add(comboBoxLabel);
@@ -97,25 +108,33 @@ public class TicketPriceListPanel extends JPanel {
         GridBagConstraints gridBagConstraintsBtn = new GridBagConstraints();
         gridBagConstraintsBtn.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraintsBtn.gridy = 0;
+        gridBagConstraintsBtn.insets = new Insets(0, 0, 20, 0);
+        inputPanel.add(createPositionButton, gridBagConstraintsBtn);
+        gridBagConstraintsBtn.gridy = 1;
         inputPanel.add(addButton, gridBagConstraintsBtn);
+        gridBagConstraintsBtn.gridy = 2;
+        inputPanel.add(showTicketListButton, gridBagConstraintsBtn);
 
-        gridBagConstraintsBtn.fill = GridBagConstraints.HORIZONTAL;
-        gridBagConstraintsBtn.gridy = 0;
-        tablePanel.add(choosenPositionTable, gridBagConstraintsBtn);
+        showTicketListButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PriceListView priceListView = new PriceListView(choosenPositionTable);
+            }
+        });
 
-//        JPanel upPanel = createUpPanel();
-//        JButton saveButton = new JButton("Save");
-//        saveButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                validateAndSave();
-//            }
-//        });
-//        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-//        this.add(upPanel);
-//        this.add(saveButton);
-//        this.add(new JLabel("CREATE POSITION:"));
-//        this.add(createTicketPriceListPositionPanel);
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addPositions();
+            }
+        });
+
+        createPositionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CreatePositionView createPositionView = new CreatePositionView(ticketPriceList, ticketPriceListPositionJComboBox);
+            }
+        });
 
         gridBagConstraints.gridy = 0;
         this.add(detailsLabelPanel, gridBagConstraints);
@@ -127,72 +146,29 @@ public class TicketPriceListPanel extends JPanel {
         this.add(comboBoxPanel, gridBagConstraints);
         gridBagConstraints.gridy = 3;
         this.add(inputPanel, gridBagConstraints);
-        gridBagConstraints.gridy = 4;
-        this.add(tablePanel, gridBagConstraints);
         this.setVisible(true);
     }
 
-    private void setDefaultsComboBoxValue() {
-
-    }
-
-    private void validateAndSave() {
-        for (int i = 0; i < choosenPositionModel.size(); i++) {
-            if (ticketPriceListPositions.contains(choosenPositionModel.get(i))) {
-                ticketPriceListPositions.remove(choosenPositionModel.get(i));
-            }
-            ticketPriceListPositionController.updateTicketPriceListPosition(choosenPositionModel.get(i).getId(), this.ticketPriceList.getId());
-        }
-        for (TicketPriceListPosition position : ticketPriceListPositions) {
-            ticketPriceListPositionController.deleteTicketPriceListPosition(position.getId());
-        }
-    }
-
-    private JPanel createUpPanel() {
-        JPanel panel = new JPanel();
-        JButton addButton = new JButton("Add");
-        JButton removeButton = new JButton("Remove");
-
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addPositions();
-            }
-        });
-        removeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                removePositions();
-            }
-        });
-
-        JPanel allPanel = new JPanel();
-        allPanel.setLayout(new BoxLayout(allPanel, BoxLayout.PAGE_AXIS));
-        allPanel.add(new JLabel("All positions"));
-        allPanel.add(allPostition);
-
-        JPanel chosenPanel = new JPanel();
-        chosenPanel.setLayout(new BoxLayout(chosenPanel, BoxLayout.PAGE_AXIS));
-        chosenPanel.add(new JLabel("Position in ticket price list"));
-        chosenPanel.add(choosenPosition);
-        panel.setLayout(new FlowLayout());
-        panel.add(chosenPanel);
-        JPanel buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.PAGE_AXIS));
-        buttonsPanel.add(addButton);
-        buttonsPanel.add(removeButton);
-        panel.add(buttonsPanel);
-        panel.add(allPanel);
-
-        return panel;
-    }
-
-    private void removePositions() {
-        choosenPositionModel.remove(choosenPosition.getSelectedIndex());
-    }
-
     private void addPositions() {
-        choosenPositionModel.addElement(allPostition.getSelectedValue());
+        Object[] newRow = new Object[6];
+        TicketPriceListPosition selectedPosition = (TicketPriceListPosition) ticketPriceListPositionJComboBox.getSelectedItem();
+        newRow[0] = selectedPosition.getDay().getName();
+        newRow[1] = selectedPosition.getDiscountGroup().getName();
+        newRow[2] = selectedPosition.getDaytime().getName();
+        newRow[3] = selectedPosition.getAttractionType().getName();
+        newRow[4] = selectedPosition.getPrice();
+        newRow[5] = selectedPosition.getId();
+        this.tableModel.addRow(newRow);
+        this.choosenPositionTable = new JTable(this.tableModel);
+        ticketPriceListPositionController.createTicketPriceListPosition(
+                selectedPosition.getPrice(),
+                ticketPriceList.getId(),
+                selectedPosition.getDay().getId(),
+                selectedPosition.getDiscountGroup().getId(),
+                selectedPosition.getDaytime().getId(),
+                selectedPosition.getAttractionType().getId()
+        );
+        JOptionPane.showMessageDialog(null, "Position has been successfully added to price list!");
     }
 
     private void prepareLists() {
@@ -201,12 +177,9 @@ public class TicketPriceListPanel extends JPanel {
         List<TicketPriceListPosition> list = ticketPriceListPositionController.getAllTicketPriceListPositionsByTicketPriceList(ticketPriceList.getId());
         int listSize = list.size();
         int i = 0;
-        tableData = new Object[listSize][5];
+        tableData = new Object[listSize][6];
+        this.prepareTicketPositionList(allPositionModel);
 
-        for (TicketPriceListPosition position : ticketPriceListPositionController.getAllTicketPriceListPositions()) {
-            allPositionModel.addElement(position);
-            allTicketPositions.add(position);
-        }
         for (TicketPriceListPosition position : list) {
             choosenPositionModel.addElement(position);
             ticketPriceListPositions.add(position);
@@ -215,10 +188,15 @@ public class TicketPriceListPanel extends JPanel {
             tableData[i][2] = position.getDaytime().getName();
             tableData[i][3] = position.getAttractionType().getName();
             tableData[i][4] = position.getPrice();
+            tableData[i][5] = position.getId();
             i++;
         }
+    }
 
-        allPostition = new JList<>(allPositionModel);
-        choosenPosition = new JList<>(choosenPositionModel);
+    private void prepareTicketPositionList(DefaultListModel allPositionModel) {
+        for (TicketPriceListPosition position : ticketPriceListPositionController.getAllTicketPriceListPositions()) {
+            allPositionModel.addElement(position);
+            allTicketPositions.add(position);
+        }
     }
 }
