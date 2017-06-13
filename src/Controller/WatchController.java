@@ -1,7 +1,7 @@
 package Controller;
 
 import Database.Connector;
-import Model.AttractionType;
+import Model.Watch;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,45 +9,42 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttractionTypeController {
+public class WatchController {
     private Connector connector;
 
-    public AttractionTypeController() {
+    public WatchController() {
         this.connector = new Connector();
     }
 
-    public void createAttractionType(String name, int price) {
+    public void createWatch(int status) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "INSERT INTO attraction_type (name, price) VALUES ('" +
-                    name + "'," +
-                    price + ")";
+            String sql = "INSERT INTO watch (status) VALUES (" +
+                    status + ")";
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
         } catch (SQLException e) {
             e.printStackTrace();
-            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
     }
 
-    public List<AttractionType> getAllAttractionTypes() {
-        List<AttractionType> result = new ArrayList<>();
+    public List<Watch> getAllWatches() {
+        List<Watch> result = new ArrayList<>();
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM attraction_type";
+            String sql = "SELECT * FROM watch";
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
-                AttractionType attractionType = new AttractionType(
-                        rs.getString("name"),
-                        rs.getInt("price")
+                Watch watch = new Watch(
+                        rs.getInt("status")
                 );
-                attractionType.setId(rs.getInt("id"));
-                result.add(attractionType);
+                watch.setId(rs.getInt("id"));
+                result.add(watch);
             }
             System.out.println("Query has been executed");
         } catch (SQLException e) {
@@ -58,41 +55,38 @@ public class AttractionTypeController {
         return result;
     }
 
-    public AttractionType getAttractionTypeById(int id) {
+    public Watch getWatchById(int id) {
         this.connector.connect();
+
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM attraction_type WHERE id=" + id;
+            String sql = "SELECT * FROM watch WHERE id=" + id;
             ResultSet rs = st.executeQuery(sql);
 
-
             if (rs.next()) {
-                AttractionType attractionType = new AttractionType(
-                        rs.getString("name"),
-                        rs.getInt("price")
+                Watch watch = new Watch(
+                        rs.getInt("status")
                 );
-                attractionType.setId(rs.getInt("id"));
+                watch.setId(rs.getInt("id"));
                 this.connector.closeConnection(null);
-                return attractionType;
+                return watch;
             } else {
                 this.connector.closeConnection(null);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
         return null;
     }
 
-    public void updateAttractionType(int id, String name, int price) {
+    public void updateWatch(int id, int status) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "UPDATE attraction_type SET name='" +
-                    name + "', price=" +
-                    price + " WHERE id=" + id;
+            String sql = "UPDATE watch SET status=" +
+                    status + " WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
@@ -103,16 +97,17 @@ public class AttractionTypeController {
         this.connector.closeConnection(null);
     }
 
-    public void deleteAttractionType(int id) {
+    public void deleteWatch(int id) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "DELETE FROM attraction_type WHERE id=" + id;
+            String sql = "DELETE FROM watch WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
         } catch (SQLException e) {
             e.printStackTrace();
+            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
     }

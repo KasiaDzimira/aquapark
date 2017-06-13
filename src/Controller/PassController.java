@@ -1,7 +1,7 @@
 package Controller;
 
 import Database.Connector;
-import Model.TicketPriceList;
+import Model.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,21 +11,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TicketPriceListController {
+public class PassController {
     private Connector connector;
 
-    public TicketPriceListController() {
+    public PassController() {
         this.connector = new Connector();
     }
 
-    public void createTicketPriceList(Date startDate, Date endDate) {
+    public void createPass(Date startDate, Date endDate, Watch watch, User user, PassType passType) {
         this.connector.connect();
         try {
             String startDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(startDate);
             String endDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(endDate);
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "INSERT INTO tckt_prc_lst (start_date, end_date) VALUES ('" +
-                    startDateFormatted + "', '" + endDateFormatted + "')";
+            String sql = "INSERT INTO pass (start_date, end_date, watch_id, aquapark_user_id, pass_type_id) VALUES ('" +
+                    startDateFormatted + "', '" + endDateFormatted + "', " + watch.getId() + ", " +
+                    user.getId() + ", " + passType.getId() + ")";
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
@@ -35,21 +36,27 @@ public class TicketPriceListController {
         this.connector.closeConnection(null);
     }
 
-    public List<TicketPriceList> getAllTicketPriceLists() {
-        List<TicketPriceList> result = new ArrayList<>();
+    public List<Pass> getAllPasses() {
+        List<Pass> result = new ArrayList<>();
+        WatchController watchController = new WatchController();
+        UserController userController = new UserController();
+        PassTypeController passTypeController = new PassTypeController();
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM tckt_prc_lst";
+            String sql = "SELECT * FROM pass";
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
-                TicketPriceList ticketPriceList = new TicketPriceList(
+                Pass pass = new Pass(
                         rs.getDate("start_date"),
-                        rs.getDate("end_date")
+                        rs.getDate("end_date"),
+                        watchController.getWatchById(rs.getInt("watch_id")),
+                        userController.findById(rs.getInt("aquapark_user_id")),
+                        passTypeController.getPassTypeById(rs.getInt("pass_type_id"))
                 );
-                ticketPriceList.setId(rs.getInt("id"));
-                result.add(ticketPriceList);
+                pass.setId(rs.getInt("id"));
+                result.add(pass);
             }
             System.out.println("Query has been executed");
         } catch (SQLException e) {
@@ -60,41 +67,47 @@ public class TicketPriceListController {
         return result;
     }
 
-    public TicketPriceList getTicketPriceListById(int id) {
+    public Pass getPassById(int id) {
         this.connector.connect();
-
+        WatchController watchController = new WatchController();
+        UserController userController = new UserController();
+        PassTypeController passTypeController = new PassTypeController();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM tckt_prc_lst WHERE id=" + id;
+            String sql = "SELECT * FROM pass WHERE id=" + id;
             ResultSet rs = st.executeQuery(sql);
 
             if (rs.next()) {
-                TicketPriceList ticketPriceList = new TicketPriceList(
+                Pass pass = new Pass(
                         rs.getDate("start_date"),
-                        rs.getDate("end_date")
+                        rs.getDate("end_date"),
+                        watchController.getWatchById(rs.getInt("watch_id")),
+                        userController.findById(rs.getInt("aquapark_user_id")),
+                        passTypeController.getPassTypeById(rs.getInt("pass_type_id"))
                 );
-                ticketPriceList.setId(rs.getInt("id"));
+                pass.setId(rs.getInt("id"));
                 this.connector.closeConnection(null);
-                return ticketPriceList;
+                return pass;
             } else {
                 this.connector.closeConnection(null);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
         return null;
     }
 
-    public void updateTicketPriceList(int id, Date startDate, Date endDate) {
+    public void updatePass(int id, Date startDate, Date endDate, Watch watch, User user, PassType passType) {
         this.connector.connect();
         try {
             String startDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(startDate);
             String endDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(endDate);
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "UPDATE tckt_prc_lst SET start_date='" + startDateFormatted + "', end_date='" + endDateFormatted + "' WHERE id=" + id;
+            String sql = "UPDATE pass SET start_date='" +
+                    startDateFormatted + "', end_date='" + endDateFormatted + "', watch_id=" + watch.getId() +
+                    ", user_id=" + user.getId() + ", pass_type_id=" + passType.getId() + " WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
@@ -104,11 +117,11 @@ public class TicketPriceListController {
         this.connector.closeConnection(null);
     }
 
-    public void deleteTicketPriceList(int id) {
+    public void deletePass(int id) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "DELETE FROM tckt_prc_lst WHERE id=" + id;
+            String sql = "DELETE FROM pass WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
