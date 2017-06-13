@@ -51,6 +51,7 @@ public class AppView extends JFrame {
         logInBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 UserController userController = new UserController();
                 User user = userController.logInAction(nickField.getText(), passwordField.getText());
                 if (user != null) {
