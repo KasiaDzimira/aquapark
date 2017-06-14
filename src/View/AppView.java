@@ -53,11 +53,11 @@ public class AppView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 UserController userController = new UserController();
                 User user = userController.logInAction(nickField.getText(), passwordField.getText());
-
                 if (user != null) {
                     switch (user.getRole()) {
                         case ROLE_USER:
-                            UserProfileView userProfileView = new UserProfileView("AQUAPARK", user.getNick());
+                            //Delete user and userController ~F
+                            UserProfileView userProfileView = new UserProfileView("AQUAPARK", user.getNick(), user, userController);
                             dispose();
                             userProfileView.addComponentToPane();
                             break;
