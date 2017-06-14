@@ -4,15 +4,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+
+import Model.User;
 
 
 public class ChangePasswordPanel extends JFrame {
 
     private Dimension windowSize;
+    private User user;
 
-    ChangePasswordPanel(){
+    ChangePasswordPanel(User user){
         this.windowSize = new Dimension(400, 400);
         this.setSize(this.windowSize);
+        this.user = user;
         renderView();
     }
 
@@ -47,6 +52,22 @@ public class ChangePasswordPanel extends JFrame {
         confirmPasswordBtn.setBackground(Color.decode("#eb7f00"));
         confirmPasswordBtn.setForeground(Color.white);
         confirmPasswordBtn.setFont(new Font("Lato Heavy", Font.PLAIN, 12));
+        confirmPasswordBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(Arrays.equals(newPasswordField.getPassword(), repeatPasswordField.getPassword())){
+                    user.setPassword(repeatPasswordField.getPassword().toString());
+
+                    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    //CZY TU TRZEBA COS UPDATEOWAC??
+                    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "New and repeated passwords are not the same!");
+                }
+            }
+        });
+
 
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(10, 0, 0, 0);

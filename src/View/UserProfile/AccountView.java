@@ -4,80 +4,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import Controller.UserController;
+import Model.User;
 
 public class AccountView extends JPanel {
 
     private JPanel buttonsPanel;
+    private UserController userController;
+    private User userModel;
     private JPanel personalPanel;
     private JPanel contactPanel;
-    private JPanel accommodationPanel;
     private Dimension fieldSize = new Dimension(300, 60);
-    public AccountView() {}
+    //Delete arguments ~F
+    public AccountView(User user, UserController userController) {
+        this.userModel = user;
+        this.userController = userController;
+    }
 
     public JPanel renderView() {
-        preparePanels();
-        Container formPanel = new Container();
-        formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
 
-        JLabel personalLabel = new JLabel("personal");
-        JLabel accommodationLabel = new JLabel("accomodation");
-        JLabel contactLabel = new JLabel("contact");
-
-        //trzeba gdzies to wrzucic
-        JLabel passIdLabel = new JLabel("Pass ID:");
-        JTextField passIdField = new JTextField("32910");
-        passIdField.setPreferredSize(fieldSize);
-        passIdField.setBorder(BorderFactory.createLineBorder(Color.decode("#ACF0F2")));
-
-
-        personalLabel.setFont(new Font("Lato", Font.PLAIN, 24));
-        personalLabel.setForeground(Color.decode("#ACF0F2"));
-        accommodationLabel.setFont(new Font("Lato", Font.PLAIN, 24));
-        accommodationLabel.setForeground(Color.decode("#ACF0F2"));
-        contactLabel.setFont(new Font("Lato", Font.PLAIN, 24));
-        contactLabel.setForeground(Color.decode("#ACF0F2"));
-
-
-        JSeparator personalSeparator = new JSeparator(SwingConstants.HORIZONTAL);
-        personalSeparator.setForeground(Color.decode("#ACF0F2"));
-        JSeparator accommodationSeparator = new JSeparator(SwingConstants.HORIZONTAL);
-        accommodationSeparator.setForeground(Color.decode("#ACF0F2"));
-        JSeparator contactSeparator = new JSeparator(SwingConstants.HORIZONTAL);
-        contactSeparator.setForeground(Color.decode("#ACF0F2"));
-
-
-        formPanel.add(Box.createRigidArea(new Dimension(0,30)));
-        formPanel.add(personalLabel);
-        formPanel.add(personalSeparator);
-        formPanel.add(Box.createRigidArea(new Dimension(0,20)));
-        formPanel.add(personalPanel);
-
-        formPanel.add(Box.createRigidArea(new Dimension(0,30)));
-        formPanel.add(accommodationLabel);
-        formPanel.add(accommodationSeparator);
-        formPanel.add(Box.createRigidArea(new Dimension(0,20)));
-        formPanel.add(accommodationPanel);
-
-        formPanel.add(Box.createRigidArea(new Dimension(0,30)));
-        formPanel.add(contactLabel);
-        formPanel.add(contactSeparator);
-        formPanel.add(Box.createRigidArea(new Dimension(0,20)));
-        formPanel.add(contactPanel);
-
-        formPanel.add(Box.createRigidArea(new Dimension(0,20)));
-        formPanel.add(buttonsPanel);
-        this.add(formPanel);
-        this.setBackground(Color.white);
-        return this;
-    }
-    private void preparePanels(){
-        preparePersonalPanel();
-        prepareAccommodationPanel();
-        prepareContactPanel();
-        prepareButtonsPanel();
-    }
-
-    private void preparePersonalPanel(){
+        //PERSONAL PANEL
         personalPanel = new JPanel(new GridLayout(0,4));
         ImageIcon image = createImageIcon("image/personO.png");
         JLabel nameLabel = new JLabel("", image, SwingConstants.CENTER);
@@ -97,50 +43,8 @@ public class AccountView extends JPanel {
         personalPanel.add(nameField);
         personalPanel.add(surnameLabel);
         personalPanel.add(surnameField);
-    }
 
-    private void prepareAccommodationPanel(){
-        accommodationPanel = new JPanel(new GridLayout(0,4));
-        ImageIcon imageCity = createImageIcon("image/cityO.png");
-        ImageIcon imagePost = createImageIcon("image/postO.png");
-        ImageIcon imageStreet = createImageIcon("image/streetO.png");
-        ImageIcon imageHouse = createImageIcon("image/houseO.png");
-        JLabel cityLabel = new JLabel("", imageCity, SwingConstants.CENTER);
-        JLabel postCodeLabel = new JLabel("", imagePost, SwingConstants.CENTER);
-        JLabel streetLabel = new JLabel("", imageStreet, SwingConstants.CENTER);
-        JLabel houseLabel = new JLabel("", imageHouse, SwingConstants.CENTER);
-        JTextField cityField = new JTextField();
-        new GhostText(cityField, "City");
-        JTextField postCodeField = new JTextField();
-        new GhostText(postCodeField, "Post code");
-        JTextField streetField = new JTextField();
-        new GhostText(streetField, "Street");
-        JTextField houseField = new JTextField();
-        new GhostText(houseField, "House number");
-        cityField.setPreferredSize(fieldSize);
-        cityField.setFont(new Font("Roboto", Font.PLAIN, 20));
-        postCodeField.setPreferredSize(fieldSize);
-        postCodeField.setFont(new Font("Roboto", Font.PLAIN, 20));
-        streetField.setPreferredSize(fieldSize);
-        streetField.setFont(new Font("Roboto", Font.PLAIN, 20));
-        houseField.setPreferredSize(fieldSize);
-        houseField.setFont(new Font("Roboto", Font.PLAIN, 20));
-        cityField.setBorder(BorderFactory.createLineBorder(Color.decode("#ACF0F2")));
-        postCodeField.setBorder(BorderFactory.createLineBorder(Color.decode("#ACF0F2")));
-        streetField.setBorder(BorderFactory.createLineBorder(Color.decode("#ACF0F2")));
-        houseField.setBorder(BorderFactory.createLineBorder(Color.decode("#ACF0F2")));
-        accommodationPanel.setBackground(Color.white);
-        accommodationPanel.add(cityLabel);
-        accommodationPanel.add(cityField);
-        accommodationPanel.add(postCodeLabel);
-        accommodationPanel.add(postCodeField);
-        accommodationPanel.add(streetLabel);
-        accommodationPanel.add(streetField);
-        accommodationPanel.add(houseLabel);
-        accommodationPanel.add(houseField);
-    }
-
-    private void prepareContactPanel(){
+        //CONTACT PANEL
         contactPanel = new JPanel(new GridLayout(0,4));
         ImageIcon imagePhone = createImageIcon("image/phoneO.png");
         ImageIcon imageEmail = createImageIcon("image/emailO.png");
@@ -161,22 +65,42 @@ public class AccountView extends JPanel {
         contactPanel.add(phoneField);
         contactPanel.add(emailLabel);
         contactPanel.add(emailField);
-    }
 
-    private void prepareButtonsPanel(){
+        //BUTTONS PANEL
         Dimension buttonSize = new Dimension(20, 50);
         buttonsPanel = new JPanel(new GridLayout(0,5));
         buttonsPanel.setBackground(Color.white);
         JButton acceptBtn = new JButton("Confirm");
         JButton changePassBtn = new JButton("Change password");
         acceptBtn.setPreferredSize(new Dimension(150, 20));
+
+        //UPDATING INFO FROM DB
+        nameField.setText(userModel.getFirstName());
+        nameField.setForeground(Color.black);
+        surnameField.setText(userModel.getLastName());
+        surnameField.setForeground(Color.black);
+        emailField.setText(userModel.getEmail());
+        emailField.setForeground(Color.black);
+        phoneField.setText(userModel.getTelephone());
+        phoneField.setForeground(Color.black);
+
+
+        acceptBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String userName = nameField.getText();
+                String userSurname = surnameField.getText();
+                String userPhone = phoneField.getText();
+                String userEmail = emailField.getText();
+                userController.updateUser(8, userModel.getNick(), userName, userSurname, "ROLE_USER");
+                JOptionPane.showMessageDialog(null, "User has been successfully updated!");
+            }
+        });
         changePassBtn.setPreferredSize(new Dimension(150, 20));
         changePassBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //changeCardTo("buyCard");
-                ChangePasswordPanel userAccountView = new ChangePasswordPanel();
-
+                ChangePasswordPanel userAccountView = new ChangePasswordPanel(userModel);
             }
         });
 
@@ -199,6 +123,45 @@ public class AccountView extends JPanel {
         buttonsPanel.add(Box.createRigidArea(new Dimension(1,0)));
         buttonsPanel.add(changePassBtn);
         buttonsPanel.add(Box.createRigidArea(new Dimension(1,0)));
+
+        Container formPanel = new Container();
+        formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
+
+        JLabel personalLabel = new JLabel("personal");
+        JLabel contactLabel = new JLabel("contact");
+
+        JLabel passIdLabel = new JLabel("Pass ID:");
+        JTextField passIdField = new JTextField("32910");
+        passIdField.setPreferredSize(fieldSize);
+        passIdField.setBorder(BorderFactory.createLineBorder(Color.decode("#ACF0F2")));
+
+        personalLabel.setFont(new Font("Lato", Font.PLAIN, 24));
+        personalLabel.setForeground(Color.decode("#ACF0F2"));
+        contactLabel.setFont(new Font("Lato", Font.PLAIN, 24));
+        contactLabel.setForeground(Color.decode("#ACF0F2"));
+
+        JSeparator personalSeparator = new JSeparator(SwingConstants.HORIZONTAL);
+        personalSeparator.setForeground(Color.decode("#ACF0F2"));
+        JSeparator contactSeparator = new JSeparator(SwingConstants.HORIZONTAL);
+        contactSeparator.setForeground(Color.decode("#ACF0F2"));
+
+        formPanel.add(Box.createRigidArea(new Dimension(0,30)));
+        formPanel.add(personalLabel);
+        formPanel.add(personalSeparator);
+        formPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        formPanel.add(personalPanel);
+
+        formPanel.add(Box.createRigidArea(new Dimension(0,30)));
+        formPanel.add(contactLabel);
+        formPanel.add(contactSeparator);
+        formPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        formPanel.add(contactPanel);
+
+        formPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        formPanel.add(buttonsPanel);
+        this.add(formPanel);
+        this.setBackground(Color.white);
+        return this;
     }
 
     protected static ImageIcon createImageIcon(String path) {

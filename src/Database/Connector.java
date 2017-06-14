@@ -1,6 +1,7 @@
 package Database;
 
 import java.sql.*;
+import java.sql.Driver;
 
 public class Connector {
     private Statement statement;
