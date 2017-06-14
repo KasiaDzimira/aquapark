@@ -30,6 +30,7 @@ public class AttractionController {
             System.out.println("Query has been executed");
         } catch (SQLException e) {
             e.printStackTrace();
+            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
     }
@@ -55,6 +56,7 @@ public class AttractionController {
             System.out.println("Query has been executed");
         } catch (SQLException e) {
             e.printStackTrace();
+            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
         return result;
@@ -82,6 +84,7 @@ public class AttractionController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            this.connector.closeConnection(null);
         }
 
         this.connector.closeConnection(null);
@@ -106,12 +109,15 @@ public class AttractionController {
                         attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
                 );
                 attraction.setId(rs.getInt("id"));
+                this.connector.closeConnection(null);
                 return attraction;
             } else {
+                this.connector.closeConnection(null);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
         return null;
@@ -129,6 +135,7 @@ public class AttractionController {
             System.out.println("Query has been executed");
         } catch (SQLException e) {
             e.printStackTrace();
+            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
     }

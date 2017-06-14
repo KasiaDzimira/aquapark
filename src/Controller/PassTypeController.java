@@ -1,7 +1,7 @@
 package Controller;
 
 import Database.Connector;
-import Model.AttractionType;
+import Model.PassType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,45 +9,42 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttractionTypeController {
+public class PassTypeController {
     private Connector connector;
 
-    public AttractionTypeController() {
+    public PassTypeController() {
         this.connector = new Connector();
     }
 
-    public void createAttractionType(String name, int price) {
+    public void createPassType(String name) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "INSERT INTO attraction_type (name, price) VALUES ('" +
-                    name + "'," +
-                    price + ")";
+            String sql = "INSERT INTO pass_type (name) VALUES ('" +
+                    name + "')";
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
         } catch (SQLException e) {
             e.printStackTrace();
-            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
     }
 
-    public List<AttractionType> getAllAttractionTypes() {
-        List<AttractionType> result = new ArrayList<>();
+    public List<PassType> getAllPassTypes() {
+        List<PassType> result = new ArrayList<>();
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM attraction_type";
+            String sql = "SELECT * FROM pass_type";
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
-                AttractionType attractionType = new AttractionType(
-                        rs.getString("name"),
-                        rs.getInt("price")
+                PassType passType = new PassType(
+                        rs.getString("name")
                 );
-                attractionType.setId(rs.getInt("id"));
-                result.add(attractionType);
+                passType.setId(rs.getInt("id"));
+                result.add(passType);
             }
             System.out.println("Query has been executed");
         } catch (SQLException e) {
@@ -58,56 +55,52 @@ public class AttractionTypeController {
         return result;
     }
 
-    public AttractionType getAttractionTypeById(int id) {
+    public PassType getPassTypeById(int id) {
         this.connector.connect();
+
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM attraction_type WHERE id=" + id;
+            String sql = "SELECT * FROM pass_type WHERE id=" + id;
             ResultSet rs = st.executeQuery(sql);
 
-
             if (rs.next()) {
-                AttractionType attractionType = new AttractionType(
-                        rs.getString("name"),
-                        rs.getInt("price")
+                PassType passType = new PassType(
+                        rs.getString("name")
                 );
-                attractionType.setId(rs.getInt("id"));
+                passType.setId(rs.getInt("id"));
                 this.connector.closeConnection(null);
-                return attractionType;
+                return passType;
             } else {
                 this.connector.closeConnection(null);
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
         return null;
     }
 
-    public void updateAttractionType(int id, String name, int price) {
+    public void updatePassType(int id, String name) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "UPDATE attraction_type SET name='" +
-                    name + "', price=" +
-                    price + " WHERE id=" + id;
+            String sql = "UPDATE pass_type SET name='" +
+                    name + "' WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
         } catch (SQLException e) {
             e.printStackTrace();
-            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
     }
 
-    public void deleteAttractionType(int id) {
+    public void deletePassType(int id) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "DELETE FROM attraction_type WHERE id=" + id;
+            String sql = "DELETE FROM pass_type WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");

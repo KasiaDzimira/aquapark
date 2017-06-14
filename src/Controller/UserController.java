@@ -95,6 +95,30 @@ public class UserController {
         return users;
     }
 
+    public User findById(int id) {
+        this.connector.connect();
+        try {
+            Statement st = this.connector.getConnection().createStatement();
+            String sql = "SELECT * FROM aquapark_user WHERE id=" + id;
+            ResultSet rs = st.executeQuery(sql);
+
+            if (rs.next()) {
+                User user = new User();
+                user = this.setUserFields(user, rs);
+                this.connector.closeConnection(rs);
+                return user;
+            } else {
+                this.connector.closeConnection(rs);
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.connector.closeConnection(null);
+        }
+        return null;
+    }
+
     public ArrayList<User> findBy(String fieldName, String fieldValue) {
         this.connector.connect();
         ArrayList<User> users = new ArrayList<User>();
