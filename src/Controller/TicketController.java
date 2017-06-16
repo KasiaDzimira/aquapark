@@ -1,10 +1,7 @@
 package Controller;
 
 import Database.Connector;
-import Model.Attraction;
-import Model.History;
-import Model.Ticket;
-import Model.Watch;
+import Model.*;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -134,7 +131,7 @@ public class TicketController {
         return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
     }
 
-    public BigDecimal countPrice(Ticket ticket) {
+    public BigDecimal countPrice(Ticket ticket, Day day, DiscountGroup discountGroup, Daytime daytime) {
         BigDecimal price = new BigDecimal(0.0);
         this.connector.connect();
         List<History> result = new ArrayList<>();
@@ -160,7 +157,7 @@ public class TicketController {
             Date now = new Date();
             long minutes = getDateDiff(ticket.getStamp(), now, TimeUnit.MINUTES);
             if (minutes > 60) {
-
+                TicketPriceListPositionController ticketPriceListPositionController = new TicketPriceListPositionController();
             }
         } catch (SQLException e) {
             e.printStackTrace();

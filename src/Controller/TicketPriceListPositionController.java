@@ -1,7 +1,7 @@
 package Controller;
 
 import Database.Connector;
-import Model.TicketPriceListPosition;
+import Model.*;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -110,7 +110,7 @@ public class TicketPriceListPositionController {
         TicketPriceListController ticketPriceListController = new TicketPriceListController();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM days WHERE id=" + id;
+            String sql = "SELECT * FROM tckt_prc_lst_pos WHERE id=" + id;
             ResultSet rs = st.executeQuery(sql);
 
             if (rs.next()) {
@@ -127,6 +127,36 @@ public class TicketPriceListPositionController {
                 return position;
             } else {
                 this.connector.closeConnection(null);
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.connector.closeConnection(null);
+        }
+        this.connector.closeConnection(null);
+        return null;
+    }
+
+    public BigDecimal getPrice(TicketPriceList priceList, Day day, DiscountGroup group, Daytime daytime, AttractionType attractionType) {
+        this.connector.connect();
+        AttractionTypeController attractionTypeController = new AttractionTypeController();
+        DayController dayController = new DayController();
+        DaytimeController daytimeController = new DaytimeController();
+        DiscountGroupController discountGroupController = new DiscountGroupController();
+        TicketPriceListController ticketPriceListController = new TicketPriceListController();
+        try {
+            Statement st = this.connector.getConnection().createStatement();
+            String sql = "SELECT price FROM tckt_prc_lst_pos WHERE tckt_prc_lst_id=" + priceList.getId() +
+                    " AND days_id=" + day.getId() + " AND disc_group_id=" + group.getId() + " AND daytime_id=" +
+                    daytime.getId() + " AND attraction_type_id=" + attractionType.getId();
+            ResultSet rs = st.executeQuery(sql);
+
+            if (rs.next()) {
+                BigDecimal price = new BigDecimal(rs.getString("price"));
+                this.connector.closeConnection(rs);
+                return price;
+            } else {
+                this.connector.closeConnection(rs);
                 return null;
             }
         } catch (SQLException e) {
