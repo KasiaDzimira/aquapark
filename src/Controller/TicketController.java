@@ -121,7 +121,7 @@ public class TicketController {
         }
         this.connector.closeConnection(null);
     }
-    
+
     /**
      * Get a diff between two dates
      * @param date1 the oldest date
