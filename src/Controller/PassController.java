@@ -130,4 +130,37 @@ public class PassController {
         }
         this.connector.closeConnection(null);
     }
+
+    public Pass findByWatch(Watch watch) {
+        this.connector.connect();
+        WatchController watchController = new WatchController();
+        UserController userController = new UserController();
+        PassTypeController passTypeController = new PassTypeController();
+        try {
+            Statement st = this.connector.getConnection().createStatement();
+            String sql = "SELECT * FROM pass WHERE watch_id=" + watch.getId();
+            ResultSet rs = st.executeQuery(sql);
+
+            if (rs.next()) {
+                Pass pass = new Pass(
+                        rs.getDate("start_date"),
+                        rs.getDate("end_date"),
+                        watchController.getWatchById(rs.getInt("watch_id")),
+                        userController.findById(rs.getInt("aquapark_user_id")),
+                        passTypeController.getPassTypeById(rs.getInt("pass_type_id"))
+                );
+                pass.setId(rs.getInt("id"));
+                this.connector.closeConnection(null);
+                return pass;
+            } else {
+                this.connector.closeConnection(null);
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        this.connector.closeConnection(null);
+        return null;
+
+    }
 }

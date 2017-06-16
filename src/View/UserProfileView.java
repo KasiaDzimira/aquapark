@@ -1,9 +1,12 @@
 package View;
 
+import Controller.UserController;
 import View.UserProfile.AccountView;
 import View.UserProfile.BuyView;
 import View.UserProfile.HistoryView;
 import View.UserProfile.HomeView;
+
+import Model.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,10 +18,15 @@ public class UserProfileView extends JFrame {
     final static String TAB_HISTORY = "HISTORY";
     final static String TAB_ACCOUNT = "ACCOUNT";
 
+    //Next 2 lines to delete ~F
+    private User user;
+    private UserController userController;
+
     private Dimension windowSize;
     private String userNick;
 
-    public UserProfileView(String windowTitle, String userNick) {
+    //Delete user and userController ~F
+    public UserProfileView(String windowTitle, String userNick, User user, UserController userController) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
         double height = screenSize.getHeight();
@@ -30,6 +38,8 @@ public class UserProfileView extends JFrame {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.userNick = userNick;
 
+        this.userController = userController;
+        this.user = user;
     }
 
     public void addComponentToPane() {
@@ -45,7 +55,8 @@ public class UserProfileView extends JFrame {
         accountCard.add(new Button("accountCardButton"));
 
         HomeView homeView = new HomeView();
-        AccountView accountView = new AccountView();
+        //Delete arguments ~F
+        AccountView accountView = new AccountView(user, userController);
         HistoryView historyView = new HistoryView();
         BuyView buyView = new BuyView();
 
@@ -58,7 +69,7 @@ public class UserProfileView extends JFrame {
         tabbedPane.setTabComponentAt(1, createLabel(TAB_BUY));
         tabbedPane.setTabComponentAt(2, createLabel(TAB_HISTORY));
         tabbedPane.setTabComponentAt(3, createLabel(TAB_ACCOUNT));
-        tabbedPane.setBackground(Color.blue);
+        tabbedPane.setBackground(Color.decode("#acf0f2"));
 
         Container pane = this.getContentPane();
         pane.add(tabbedPane, BorderLayout.CENTER);

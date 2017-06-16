@@ -121,7 +121,7 @@ public class TicketController {
         }
         this.connector.closeConnection(null);
     }
-
+    
     /**
      * Get a diff between two dates
      * @param date1 the oldest date
@@ -158,7 +158,7 @@ public class TicketController {
             }
 
             Date now = new Date();
-            long minutes = getDateDiff(ticket.getStamp(),now,TimeUnit.MINUTES);
+            long minutes = getDateDiff(ticket.getStamp(), now, TimeUnit.MINUTES);
             if (minutes > 60) {
 
             }
@@ -167,5 +167,32 @@ public class TicketController {
             this.connector.closeConnection(null);
         }
         return price;
+    }
+
+    public Ticket findByWatch(Watch watch) {
+        this.connector.connect();
+        WatchController watchController = new WatchController();
+        try {
+            Statement st = this.connector.getConnection().createStatement();
+            String sql = "SELECT * FROM ticket WHERE watch_id=" + watch.getId();
+            ResultSet rs = st.executeQuery(sql);
+
+            if (rs.next()) {
+                Ticket ticket = new Ticket(
+                        rs.getDate("stamp"),
+                        watchController.getWatchById(rs.getInt("watch_id"))
+                );
+                ticket.setId(rs.getInt("id"));
+                this.connector.closeConnection(null);
+                return ticket;
+            } else {
+                this.connector.closeConnection(null);
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        this.connector.closeConnection(null);
+        return null;
     }
 }
