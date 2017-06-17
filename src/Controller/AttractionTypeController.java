@@ -86,6 +86,34 @@ public class AttractionTypeController {
         return null;
     }
 
+    public AttractionType getAttractionTypeByName(String name) {
+        this.connector.connect();
+        try {
+            Statement st = this.connector.getConnection().createStatement();
+            String sql = "SELECT * FROM attraction_type WHERE name='" + name + "'";
+            ResultSet rs = st.executeQuery(sql);
+
+
+            if (rs.next()) {
+                AttractionType attractionType = new AttractionType(
+                        rs.getString("name"),
+                        rs.getInt("price")
+                );
+                attractionType.setId(rs.getInt("id"));
+                this.connector.closeConnection(null);
+                return attractionType;
+            } else {
+                this.connector.closeConnection(null);
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.connector.closeConnection(null);
+        }
+        this.connector.closeConnection(null);
+        return null;
+    }
+
     public void updateAttractionType(int id, String name, int price) {
         this.connector.connect();
         try {

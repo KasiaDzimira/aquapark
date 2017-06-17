@@ -148,7 +148,8 @@ public class TicketPriceListPositionController {
             Statement st = this.connector.getConnection().createStatement();
             String sql = "SELECT price FROM tckt_prc_lst_pos WHERE tckt_prc_lst_id=" + priceList.getId() +
                     " AND days_id=" + day.getId() + " AND disc_group_id=" + group.getId() + " AND daytime_id=" +
-                    daytime.getId() + " AND attraction_type_id=" + attractionType.getId();
+                    daytime.getId() + " AND attraction_type_id="
+                    + attractionType.getId();
             ResultSet rs = st.executeQuery(sql);
 
             if (rs.next()) {

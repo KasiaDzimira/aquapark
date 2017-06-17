@@ -131,7 +131,7 @@ public class TicketController {
         return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
     }
 
-    public BigDecimal countPrice(Ticket ticket, Day day, DiscountGroup discountGroup, Daytime daytime) {
+    public BigDecimal calculatePrice(Ticket ticket, Day day, DiscountGroup discountGroup, Daytime daytime) {
         BigDecimal price = new BigDecimal(0.0);
         this.connector.connect();
         List<History> result = new ArrayList<>();
@@ -158,6 +158,11 @@ public class TicketController {
             long minutes = getDateDiff(ticket.getStamp(), now, TimeUnit.MINUTES);
             if (minutes > 60) {
                 TicketPriceListPositionController ticketPriceListPositionController = new TicketPriceListPositionController();
+                TicketPriceListController ticketPriceListController = new TicketPriceListController();
+                TicketPriceList currentPriceList = ticketPriceListController.getTicketPriceListForDay(now);
+                AttractionTypeController attractionTypeController = new AttractionTypeController();
+                AttractionType pool = attractionTypeController.getAttractionTypeByName("Pool");
+                price.add(ticketPriceListPositionController.getPrice(currentPriceList, day, discountGroup, daytime, pool));
             }
         } catch (SQLException e) {
             e.printStackTrace();

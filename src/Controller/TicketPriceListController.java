@@ -88,6 +88,36 @@ public class TicketPriceListController {
         return null;
     }
 
+    public TicketPriceList getTicketPriceListForDay(Date day) {
+        this.connector.connect();
+
+        try {
+            Statement st = this.connector.getConnection().createStatement();
+            String dayFormatted = new SimpleDateFormat("yyyy-MM-dd").format(day);
+            String sql = "SELECT * FROM tckt_prc_lst WHERE start_date <='" + dayFormatted + "'::date AND end_date >='" +
+                    dayFormatted + "'::date";
+            ResultSet rs = st.executeQuery(sql);
+
+            if (rs.next()) {
+                TicketPriceList ticketPriceList = new TicketPriceList(
+                        rs.getDate("start_date"),
+                        rs.getDate("end_date")
+                );
+                ticketPriceList.setId(rs.getInt("id"));
+                this.connector.closeConnection(rs);
+                return ticketPriceList;
+            } else {
+                this.connector.closeConnection(rs);
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.connector.closeConnection(null);
+        }
+        this.connector.closeConnection(null);
+        return null;
+    }
+
     public void updateTicketPriceList(int id, Date startDate, Date endDate) {
         this.connector.connect();
         try {
