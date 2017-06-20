@@ -47,9 +47,16 @@ public class TicketController {
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
+                Pass pass = null;
+                int passId = rs.getInt("pass_id");
+                if (passId != 0) {
+                    PassController passController = new PassController();
+                    pass = passController.getPassById(passId);
+                }
                 Ticket ticket = new Ticket(
                         rs.getDate("stamp"),
-                        watchController.getWatchById(rs.getInt("watch_id"))
+                        watchController.getWatchById(rs.getInt("watch_id")),
+                        pass
                 );
                 ticket.setId(rs.getInt("id"));
                 result.add(ticket);
@@ -72,9 +79,16 @@ public class TicketController {
             ResultSet rs = st.executeQuery(sql);
 
             if (rs.next()) {
+                Pass pass = null;
+                int passId = rs.getInt("pass_id");
+                if (passId != 0) {
+                    PassController passController = new PassController();
+                    pass = passController.getPassById(passId);
+                }
                 Ticket ticket = new Ticket(
                         rs.getDate("stamp"),
-                        watchController.getWatchById(rs.getInt("watch_id"))
+                        watchController.getWatchById(rs.getInt("watch_id")),
+                        pass
                 );
                 ticket.setId(rs.getInt("id"));
                 this.connector.closeConnection(null);
@@ -122,52 +136,34 @@ public class TicketController {
 
     public BigDecimal calculatePrice(Ticket ticket, Day day, DiscountGroup discountGroup, Daytime daytime) {
         BigDecimal price = new BigDecimal(0.0);
-        this.connector.connect();
-        List<History> result = new ArrayList<>();
-        AttractionController attractionController = new AttractionController();
-        try {
-            Date now = new Date();
-            Statement st = this.connector.getConnection().createStatement();
-            String ticketStampFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ticket.getStamp());
-            String nowFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ticket.getStamp());
-            String sql = "SELLECT * FROM history WHERE watch_id=" + ticket.getWatch().getId() + " AND entry_time >= timestamp '" +
-                    ticketStampFormatted + "' AND (exit_time IS NULL OR exit_time <= timestamp '" + nowFormatted + "')";
-            ResultSet rs = st.executeQuery(sql);
+        HistoryController historyController = new HistoryController();
+        List<History> result = historyController.getAllHistoriesForTicket(ticket);
+        Date now = new Date();
 
-            while (rs.next()) {
-                History history = new History(
-                        rs.getDate("entry_time"),
-                        rs.getDate("exit_time"),
-                        attractionController.getAttractionById(rs.getInt("attraction_id")),
-                        ticket.getWatch()
-                );
-                history.setId(rs.getInt("id"));
-                result.add(history);
-            }
+        long minutes = TimeUtilities.getDateDiff(ticket.getStamp(), now, TimeUnit.MINUTES);
+        if (minutes > 60) {
+            TicketPriceListPositionController ticketPriceListPositionController = new TicketPriceListPositionController();
+            TicketPriceListController ticketPriceListController = new TicketPriceListController();
+            TicketPriceList currentPriceList = ticketPriceListController.getTicketPriceListForDay(now);
+            AttractionTypeController attractionTypeController = new AttractionTypeController();
+            AttractionType pool = attractionTypeController.getAttractionTypeByName("Basic Zone");
+            price = price.add(ticketPriceListPositionController.getPrice(currentPriceList, day, discountGroup, daytime, pool).divide(new BigDecimal(60), BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(minutes - 60)));
+        }
 
-            long minutes = TimeUtilities.getDateDiff(ticket.getStamp(), now, TimeUnit.MINUTES);
-            if (minutes > 60) {
-                TicketPriceListPositionController ticketPriceListPositionController = new TicketPriceListPositionController();
-                TicketPriceListController ticketPriceListController = new TicketPriceListController();
-                TicketPriceList currentPriceList = ticketPriceListController.getTicketPriceListForDay(now);
-                AttractionTypeController attractionTypeController = new AttractionTypeController();
-                AttractionType pool = attractionTypeController.getAttractionTypeByName("Basic Zone");
-                price = price.add(ticketPriceListPositionController.getPrice(currentPriceList, day, discountGroup, daytime, pool).divide(new BigDecimal(60), BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(minutes - 60)));
+        for (History history : result) {
+            if (history.getAttraction().getAttractionType().getName().equals("Basic Zone")) {
+                continue;
             }
-
-            for (History history : result) {
-                if (history.getAttraction().getAttractionType().getName().equals("Basic Zone")) {
-                    continue;
-                }
-                long timeDiff = TimeUtilities.getDateDiff(history.getEntryTime(), history.getExitTime(), TimeUnit.MINUTES);
-                TicketPriceListPositionController ticketPriceListPositionController = new TicketPriceListPositionController();
-                TicketPriceListController ticketPriceListController = new TicketPriceListController();
-                TicketPriceList currentPriceList = ticketPriceListController.getTicketPriceListForDay(now);
-                price = price.add(ticketPriceListPositionController.getPrice(currentPriceList, day, discountGroup, daytime, history.getAttraction().getAttractionType()).divide(new BigDecimal(60), BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(timeDiff - 60)));
+            Date exitTime = history.getExitTime();
+            if (exitTime == null) {
+                exitTime = now;
+                historyController.updateHistory(history.getId(), history.getEntryTime(), now, history.getAttraction(), history.getWatch());
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            this.connector.closeConnection(null);
+            long timeDiff = TimeUtilities.getDateDiff(history.getEntryTime(), exitTime, TimeUnit.MINUTES);
+            TicketPriceListPositionController ticketPriceListPositionController = new TicketPriceListPositionController();
+            TicketPriceListController ticketPriceListController = new TicketPriceListController();
+            TicketPriceList currentPriceList = ticketPriceListController.getTicketPriceListForDay(now);
+            price = price.add(ticketPriceListPositionController.getPrice(currentPriceList, day, discountGroup, daytime, history.getAttraction().getAttractionType()).divide(new BigDecimal(60), BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(timeDiff - 60)));
         }
         return price;
     }
@@ -181,9 +177,16 @@ public class TicketController {
             ResultSet rs = st.executeQuery(sql);
 
             if (rs.next()) {
+                Pass pass = null;
+                int passId = rs.getInt("pass_id");
+                if (passId != 0) {
+                    PassController passController = new PassController();
+                    pass = passController.getPassById(passId);
+                }
                 Ticket ticket = new Ticket(
                         rs.getDate("stamp"),
-                        watchController.getWatchById(rs.getInt("watch_id"))
+                        watchController.getWatchById(rs.getInt("watch_id")),
+                        pass
                 );
                 ticket.setId(rs.getInt("id"));
                 this.connector.closeConnection(null);

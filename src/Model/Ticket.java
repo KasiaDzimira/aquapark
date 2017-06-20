@@ -6,10 +6,12 @@ public class Ticket {
     private int id;
     private Date stamp;
     private Watch watch;
+    private Pass pass;
 
-    public Ticket(Date stamp, Watch watch) {
+    public Ticket(Date stamp, Watch watch, Pass pass) {
         this.stamp = stamp;
         this.watch = watch;
+        this.pass = pass;
     }
 
     public Ticket(Watch watch) {
@@ -38,6 +40,14 @@ public class Ticket {
 
     public void setStamp(Date stamp) {
         this.stamp = stamp;
+    }
+
+    public Pass getPass() {
+        return pass;
+    }
+
+    public void setPass(Pass pass) {
+        this.pass = pass;
     }
 
     @Override

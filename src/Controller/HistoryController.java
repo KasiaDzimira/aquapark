@@ -3,6 +3,7 @@ package Controller;
 import Database.Connector;
 import Model.Attraction;
 import Model.History;
+import Model.Ticket;
 import Model.Watch;
 
 import java.sql.ResultSet;
@@ -58,6 +59,39 @@ public class HistoryController {
                 history.setId(rs.getInt("id"));
                 result.add(history);
             }
+            System.out.println("Query has been executed");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.connector.closeConnection(null);
+        }
+        this.connector.closeConnection(null);
+        return result;
+    }
+
+    public List<History> getAllHistoriesForTicket(Ticket ticket) {
+        List<History> result = new ArrayList<>();
+        AttractionController attractionController = new AttractionController();
+        this.connector.connect();
+        try {
+            Date now = new Date();
+            Statement st = this.connector.getConnection().createStatement();
+            String ticketStampFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ticket.getStamp());
+            String nowFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ticket.getStamp());
+            String sql = "SELLECT * FROM history WHERE watch_id=" + ticket.getWatch().getId() + " AND entry_time >= timestamp '" +
+                    ticketStampFormatted + "' AND (exit_time IS NULL OR exit_time <= timestamp '" + nowFormatted + "')";
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                History history = new History(
+                        rs.getDate("entry_time"),
+                        rs.getDate("exit_time"),
+                        attractionController.getAttractionById(rs.getInt("attraction_id")),
+                        ticket.getWatch()
+                );
+                history.setId(rs.getInt("id"));
+                result.add(history);
+            }
+
             System.out.println("Query has been executed");
         } catch (SQLException e) {
             e.printStackTrace();
