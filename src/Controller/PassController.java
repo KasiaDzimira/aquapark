@@ -131,4 +131,14 @@ public class PassController {
         }
         this.connector.closeConnection(null);
     }
+
+    public BigDecimal calculatePrice(Pass pass, DiscountGroup group) {
+        PassPriceListPositionController passPriceListPositionController = new PassPriceListPositionController();
+        PassPriceListController passPriceListController = new PassPriceListController();
+        Date now = new Date();
+        PassPriceList currentPriceList = passPriceListController.getPassPriceListForDay(now);
+        long timeDiff = TimeUtilities.getDateDiff(pass.getStartDate(), pass.getEndDate(), TimeUnit.HOURS);
+        long numberOfDays = (timeDiff % 24) + 1;
+        return passPriceListPositionController.getPrice(currentPriceList, group, pass.getPassType()).multiply(new BigDecimal(numberOfDays));
+    }
 }
