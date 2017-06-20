@@ -44,9 +44,9 @@ public class CreateAttractionTypePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = nameField.getText();
-                int price = (int) priceSpinner.getValue();
+//                int price = (int) priceSpinner.getValue();
 
-                createAttractionType(name, price);
+                createAttractionType(name);
 
                 JOptionPane.showMessageDialog(null, "Attraction type has been successfully created!");
                 nameField.setText("");
@@ -94,8 +94,8 @@ public class CreateAttractionTypePanel extends JPanel {
         this.setVisible(true);
     }
 
-    private void createAttractionType(String name, int price) {
-        attractionTypeController.createAttractionType(name, price);
+    private void createAttractionType(String name) {
+        attractionTypeController.createAttractionType(name);
     }
 
 }

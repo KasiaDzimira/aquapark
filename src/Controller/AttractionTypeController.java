@@ -16,13 +16,12 @@ public class AttractionTypeController {
         this.connector = new Connector();
     }
 
-    public void createAttractionType(String name, int price) {
+    public void createAttractionType(String name) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "INSERT INTO attraction_type (name, price) VALUES ('" +
-                    name + "'," +
-                    price + ")";
+            String sql = "INSERT INTO attraction_type (name) VALUES ('" +
+                    name + "')";
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
@@ -43,8 +42,7 @@ public class AttractionTypeController {
 
             while (rs.next()) {
                 AttractionType attractionType = new AttractionType(
-                        rs.getString("name"),
-                        rs.getInt("price")
+                        rs.getString("name")
                 );
                 attractionType.setId(rs.getInt("id"));
                 result.add(attractionType);
@@ -68,8 +66,7 @@ public class AttractionTypeController {
 
             if (rs.next()) {
                 AttractionType attractionType = new AttractionType(
-                        rs.getString("name"),
-                        rs.getInt("price")
+                        rs.getString("name")
                 );
                 attractionType.setId(rs.getInt("id"));
                 this.connector.closeConnection(null);
@@ -96,8 +93,7 @@ public class AttractionTypeController {
 
             if (rs.next()) {
                 AttractionType attractionType = new AttractionType(
-                        rs.getString("name"),
-                        rs.getInt("price")
+                        rs.getString("name")
                 );
                 attractionType.setId(rs.getInt("id"));
                 this.connector.closeConnection(null);
@@ -114,13 +110,12 @@ public class AttractionTypeController {
         return null;
     }
 
-    public void updateAttractionType(int id, String name, int price) {
+    public void updateAttractionType(int id, String name) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
             String sql = "UPDATE attraction_type SET name='" +
-                    name + "', price=" +
-                    price + " WHERE id=" + id;
+                    name + "' WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");

@@ -25,12 +25,11 @@ CREATE TABLE history (
 ALTER TABLE history ADD CONSTRAINT history_pk PRIMARY KEY ( id );
 
 CREATE TABLE pass (
-	id				SERIAL NOT NULL,
-	start_date		DATE,
-	end_date		DATE,
-	watch_id		INTEGER NOT NULL,
-	aquapark_user_id			INTEGER NOT NULL,
-	pass_type_id	INTEGER NOT NULL
+	id					SERIAL NOT NULL,
+	start_date			DATE,
+	end_date			DATE,
+	aquapark_user_id	INTEGER NOT NULL,
+	pass_type_id		INTEGER NOT NULL
 );
 
 ALTER TABLE pass ADD CONSTRAINT pass_pk PRIMARY KEY ( id );
@@ -67,8 +66,7 @@ ALTER TABLE attraction ADD CONSTRAINT attraction_pk PRIMARY KEY ( id );
 
 CREATE TABLE attraction_type (
 	id		SERIAL NOT NULL,
-	name	VARCHAR(25),
-	price   INTEGER
+	name	VARCHAR(25)
 );
 
 ALTER TABLE attraction_type ADD CONSTRAINT attraction_type_pk PRIMARY KEY ( id );
@@ -143,8 +141,6 @@ ALTER TABLE ticket ADD CONSTRAINT tckt_watch_fk FOREIGN KEY ( watch_id ) REFEREN
 ALTER TABLE history ADD CONSTRAINT hist_watch_fk FOREIGN KEY ( watch_id ) REFERENCES watch ( id );
 
 ALTER TABLE history ADD CONSTRAINT hist_attraction_fk FOREIGN KEY ( attraction_id ) REFERENCES attraction ( id );
-
-ALTER TABLE pass ADD CONSTRAINT pass_watch_fk FOREIGN KEY ( watch_id ) REFERENCES watch ( id );
 
 ALTER TABLE pass ADD CONSTRAINT pass_aquapark_user_fk FOREIGN KEY ( aquapark_user_id ) REFERENCES aquapark_user ( id );
 

@@ -3,11 +3,9 @@ package Model;
 public class AttractionType {
     private int id;
     private String name;
-    private int price;
 
-    public AttractionType(String name, int price) {
+    public AttractionType(String name) {
         this.name = name;
-        this.price = price;
     }
 
     public int getId() {
@@ -24,14 +22,6 @@ public class AttractionType {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 
     @Override

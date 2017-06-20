@@ -2,6 +2,7 @@ package Controller;
 
 import Database.Connector;
 import Model.*;
+import Utils.TimeUtilities;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -119,28 +120,18 @@ public class TicketController {
         this.connector.closeConnection(null);
     }
 
-    /**
-     * Get a diff between two dates
-     * @param date1 the oldest date
-     * @param date2 the newest date
-     * @param timeUnit the unit in which you want the diff
-     * @return the diff value, in the provided unit
-     */
-    private static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
-        long diffInMillies = date2.getTime() - date1.getTime();
-        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
-    }
-
     public BigDecimal calculatePrice(Ticket ticket, Day day, DiscountGroup discountGroup, Daytime daytime) {
         BigDecimal price = new BigDecimal(0.0);
         this.connector.connect();
         List<History> result = new ArrayList<>();
         AttractionController attractionController = new AttractionController();
         try {
+            Date now = new Date();
             Statement st = this.connector.getConnection().createStatement();
             String ticketStampFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ticket.getStamp());
-            String sql = "SELLECT * FROM history WHERE watch_id=" + ticket.getWatch().getId() + " AND entry_time > timestamp '" +
-                    ticketStampFormatted + "'";
+            String nowFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ticket.getStamp());
+            String sql = "SELLECT * FROM history WHERE watch_id=" + ticket.getWatch().getId() + " AND entry_time >= timestamp '" +
+                    ticketStampFormatted + "' AND (exit_time IS NULL OR exit_time <= timestamp '" + nowFormatted + "')";
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
@@ -154,15 +145,25 @@ public class TicketController {
                 result.add(history);
             }
 
-            Date now = new Date();
-            long minutes = getDateDiff(ticket.getStamp(), now, TimeUnit.MINUTES);
+            long minutes = TimeUtilities.getDateDiff(ticket.getStamp(), now, TimeUnit.MINUTES);
             if (minutes > 60) {
                 TicketPriceListPositionController ticketPriceListPositionController = new TicketPriceListPositionController();
                 TicketPriceListController ticketPriceListController = new TicketPriceListController();
                 TicketPriceList currentPriceList = ticketPriceListController.getTicketPriceListForDay(now);
                 AttractionTypeController attractionTypeController = new AttractionTypeController();
-                AttractionType pool = attractionTypeController.getAttractionTypeByName("Pool");
-                price.add(ticketPriceListPositionController.getPrice(currentPriceList, day, discountGroup, daytime, pool));
+                AttractionType pool = attractionTypeController.getAttractionTypeByName("Basic Zone");
+                price = price.add(ticketPriceListPositionController.getPrice(currentPriceList, day, discountGroup, daytime, pool).divide(new BigDecimal(60), BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(minutes - 60)));
+            }
+
+            for (History history : result) {
+                if (history.getAttraction().getAttractionType().getName().equals("Basic Zone")) {
+                    continue;
+                }
+                long timeDiff = TimeUtilities.getDateDiff(history.getEntryTime(), history.getExitTime(), TimeUnit.MINUTES);
+                TicketPriceListPositionController ticketPriceListPositionController = new TicketPriceListPositionController();
+                TicketPriceListController ticketPriceListController = new TicketPriceListController();
+                TicketPriceList currentPriceList = ticketPriceListController.getTicketPriceListForDay(now);
+                price = price.add(ticketPriceListPositionController.getPrice(currentPriceList, day, discountGroup, daytime, history.getAttraction().getAttractionType()).divide(new BigDecimal(60), BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(timeDiff - 60)));
             }
         } catch (SQLException e) {
             e.printStackTrace();

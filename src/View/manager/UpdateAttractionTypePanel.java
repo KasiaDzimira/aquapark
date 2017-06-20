@@ -57,13 +57,13 @@ public class UpdateAttractionTypePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = nameField.getText();
-                int price = (int) priceSpinner.getValue();
+//                int price = (int) priceSpinner.getValue();
 
-                updateAttractionType(name, price);
+                updateAttractionType(name);
 
                 int selected = attractionTypeJComboBox.getSelectedIndex();
                 attractionTypeJComboBox.getItemAt(selected).setName(name);
-                attractionTypeJComboBox.getItemAt(selected).setPrice(price);
+//                attractionTypeJComboBox.getItemAt(selected).setPrice(price);
 
                 JOptionPane.showMessageDialog(null, "Attraction type with name " + name + " has been successfully updated!");
                 attractionTypeJComboBox.setSelectedIndex(0);
@@ -77,7 +77,7 @@ public class UpdateAttractionTypePanel extends JPanel {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     AttractionType item = (AttractionType) e.getItem();
                     nameField.setText(item.getName());
-                    priceSpinner.setValue(item.getPrice());
+//                    priceSpinner.setValue(item.getPrice());
                 }
             }
         });
@@ -130,18 +130,18 @@ public class UpdateAttractionTypePanel extends JPanel {
         this.setVisible(true);
     }
 
-    private void updateAttractionType(String name, int price) {
+    private void updateAttractionType(String name) {
         AttractionType attractionType = (AttractionType) attractionTypeJComboBox.getSelectedItem();
 
         if (attractionType == null)
             return;
 
-        attractionTypeController.updateAttractionType(attractionType.getId(), name, price);
+        attractionTypeController.updateAttractionType(attractionType.getId(), name);
     }
 
     private void setDefaultComboBoxValue(JTextField nameField, JSpinner priceSpinner) {
         AttractionType attractionType = (AttractionType) attractionTypeJComboBox.getItemAt(0);
         nameField.setText(attractionType.getName());
-        priceSpinner.setValue(attractionType.getPrice());
+//        priceSpinner.setValue(attractionType.getPrice());
     }
 }

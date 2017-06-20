@@ -44,9 +44,10 @@ INSERT INTO watch (status) VALUES (1);
 INSERT INTO pass_type (name) VALUES ('Basic');
 INSERT INTO pass_type (name) VALUES ('Extended');
 
-INSERT INTO attraction_type (name, price) VALUES ('Pool', 5);
-INSERT INTO attraction_type (name, price) VALUES ('Slide', 7);
-INSERT INTO attraction_type (name, price) VALUES ('Sauna', 4);
+INSERT INTO attraction_type (name) VALUES ('Basic Zone');
+INSERT INTO attraction_type (name) VALUES ('Pool');
+INSERT INTO attraction_type (name) VALUES ('Slide');
+INSERT INTO attraction_type (name) VALUES ('Sauna');
 
 INSERT INTO ticket (stamp, watch_id) VALUES ('2017-04-20 10:23:54', 1);
 INSERT INTO ticket (stamp, watch_id) VALUES ('2017-04-20 10:25:17', 2);
@@ -55,12 +56,12 @@ INSERT INTO ticket (stamp, watch_id) VALUES ('2017-04-20 14:19:07', 8);
 INSERT INTO ticket (stamp, watch_id) VALUES ('2017-04-21 08:10:19', 1);
 INSERT INTO ticket (stamp, watch_id) VALUES ('2017-04-21 08:14:22', 10);
 
-INSERT INTO pass (start_date, end_date, watch_id, aquapark_user_id, pass_type_id) VALUES
-('2017-04-20', '2017-04-22', 7, (SELECT id from aquapark_user WHERE email='jnow@b.com'), (SELECT id from pass_type WHERE name='Basic'));
-INSERT INTO pass (start_date, end_date, watch_id, aquapark_user_id, pass_type_id) VALUES
-('2017-03-27', '2017-04-02', 1, (SELECT id from aquapark_user WHERE email='ryby@ryby.ru'), (SELECT id from pass_type WHERE name='Basic'));
-INSERT INTO pass (start_date, end_date, watch_id, aquapark_user_id, pass_type_id) VALUES
-('2017-04-10', '2017-05-08', 9, (SELECT id from aquapark_user WHERE email='ryby@ryby.ru'), (SELECT id from pass_type WHERE name='Extended'));
+INSERT INTO pass (start_date, end_date, aquapark_user_id, pass_type_id) VALUES
+('2017-04-20', '2017-04-22', (SELECT id from aquapark_user WHERE email='jnow@b.com'), (SELECT id from pass_type WHERE name='Basic'));
+INSERT INTO pass (start_date, end_date, aquapark_user_id, pass_type_id) VALUES
+('2017-03-27', '2017-04-02', (SELECT id from aquapark_user WHERE email='ryby@ryby.ru'), (SELECT id from pass_type WHERE name='Basic'));
+INSERT INTO pass (start_date, end_date, aquapark_user_id, pass_type_id) VALUES
+('2017-04-10', '2017-05-08', (SELECT id from aquapark_user WHERE email='ryby@ryby.ru'), (SELECT id from pass_type WHERE name='Extended'));
 
 INSERT INTO tckt_prc_lst (start_date, end_date) VALUES ('2017-03-01', '2017-03-31');
 INSERT INTO tckt_prc_lst (start_date, end_date) VALUES ('2017-04-01', '2017-05-31');
