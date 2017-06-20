@@ -17,12 +17,12 @@ public class PassPriceListPositionController {
         this.connector = new Connector();
     }
 
-    public void createPassPriceListPosition(BigDecimal price, int passPriceListId, int discountGroupId, int passTypeId, int attractionTypeId) {
+    public void createPassPriceListPosition(BigDecimal price, int passPriceListId, int discountGroupId, int passTypeId) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
             String sql = "INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_id, attraction_type_id) VALUES (" +
-                    price + "," + passPriceListId + "," + discountGroupId + "," + passTypeId + "," + attractionTypeId + ")";
+                    price + "," + passPriceListId + "," + discountGroupId + "," + passTypeId + ")";
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
@@ -34,7 +34,6 @@ public class PassPriceListPositionController {
 
     public List<PassPriceListPosition> getAllPassPriceListPositions() {
         List<PassPriceListPosition> result = new ArrayList<>();
-        AttractionTypeController attractionTypeController = new AttractionTypeController();
         PassTypeController passTypeController = new PassTypeController();
         DiscountGroupController discountGroupController = new DiscountGroupController();
         PassPriceListController passPriceListController = new PassPriceListController();
@@ -49,8 +48,7 @@ public class PassPriceListPositionController {
                         new BigDecimal(rs.getString("price")),
                         passPriceListController.getPassPriceListById(rs.getInt("pass_prc_lst_id")),
                         discountGroupController.getDiscountGroupById(rs.getInt("disc_group_id")),
-                        passTypeController.getPassTypeById(rs.getInt("pass_type_id")),
-                        attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
+                        passTypeController.getPassTypeById(rs.getInt("pass_type_id"))
                 );
                 position.setId(rs.getInt("id"));
                 result.add(position);
@@ -66,7 +64,6 @@ public class PassPriceListPositionController {
 
     public List<PassPriceListPosition> getAllPassPriceListPositionsByPassPriceList(int passPriceListId) {
         List<PassPriceListPosition> result = new ArrayList<>();
-        AttractionTypeController attractionTypeController = new AttractionTypeController();
         DiscountGroupController discountGroupController = new DiscountGroupController();
         PassTypeController passTypeController = new PassTypeController();
         PassPriceListController passPriceListController = new PassPriceListController();
@@ -81,8 +78,7 @@ public class PassPriceListPositionController {
                         new BigDecimal(rs.getString("price")),
                         passPriceListController.getPassPriceListById(rs.getInt("pass_prc_lst_id")),
                         discountGroupController.getDiscountGroupById(rs.getInt("disc_group_id")),
-                        passTypeController.getPassTypeById(rs.getInt("pass_type_id")),
-                        attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
+                        passTypeController.getPassTypeById(rs.getInt("pass_type_id"))
                 );
                 position.setId(rs.getInt("id"));
                 result.add(position);
@@ -98,7 +94,6 @@ public class PassPriceListPositionController {
 
     public PassPriceListPosition getPassPriceListPositionById(int id) {
         this.connector.connect();
-        AttractionTypeController attractionTypeController = new AttractionTypeController();
         DiscountGroupController discountGroupController = new DiscountGroupController();
         PassTypeController passTypeController = new PassTypeController();
         PassPriceListController passPriceListController = new PassPriceListController();
@@ -112,8 +107,7 @@ public class PassPriceListPositionController {
                         new BigDecimal(rs.getString("price")),
                         passPriceListController.getPassPriceListById(rs.getInt("pass_prc_lst_id")),
                         discountGroupController.getDiscountGroupById(rs.getInt("disc_group_id")),
-                        passTypeController.getPassTypeById(rs.getInt("pass_type_id")),
-                        attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
+                        passTypeController.getPassTypeById(rs.getInt("pass_type_id"))
                 );
                 position.setId(rs.getInt("id"));
                 this.connector.closeConnection(rs);
@@ -130,14 +124,12 @@ public class PassPriceListPositionController {
         return null;
     }
 
-    public BigDecimal getPrice(PassPriceList priceList, DiscountGroup group, PassType passType, AttractionType attractionType) {
+    public BigDecimal getPrice(PassPriceList priceList, DiscountGroup group, PassType passType) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
             String sql = "SELECT price FROM pass_prc_lst_pos WHERE pass_prc_lst_id=" + priceList.getId() +
-                    " AND disc_group_id=" + group.getId() + " AND pass_type_id=" +
-                    passType.getId() + " AND attraction_type_id="
-                    + attractionType.getId();
+                    " AND disc_group_id=" + group.getId() + " AND pass_type_id=" + passType.getId();
             ResultSet rs = st.executeQuery(sql);
 
             if (rs.next()) {

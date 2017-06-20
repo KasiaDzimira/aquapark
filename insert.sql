@@ -289,62 +289,54 @@ INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_i
 	0.0,
 	(SELECT id from pass_prc_lst WHERE start_date='2017-04-01'),
 	(SELECT id from disc_group WHERE name='None'),
-	(SELECT id from pass_type WHERE name='Basic'),
-	(SELECT id from attraction_type WHERE name='Pool')
+	(SELECT id from pass_type WHERE name='Basic')
 );
 
 INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_id, attraction_type_id) VALUES (
 	0.0,
 	(SELECT id from pass_prc_lst WHERE start_date='2017-04-01'),
 	(SELECT id from disc_group WHERE name='None'),
-	(SELECT id from pass_type WHERE name='Extended'),
-	(SELECT id from attraction_type WHERE name='Pool')
+	(SELECT id from pass_type WHERE name='Extended')
 );
 
 INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_id, attraction_type_id) VALUES (
 	10.0,
 	(SELECT id from pass_prc_lst WHERE start_date='2017-04-01'),
 	(SELECT id from disc_group WHERE name='None'),
-	(SELECT id from pass_type WHERE name='Basic'),
-	(SELECT id from attraction_type WHERE name='Slide')
+	(SELECT id from pass_type WHERE name='Basic')
 );
 
 INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_id, attraction_type_id) VALUES (
 	0.0,
 	(SELECT id from pass_prc_lst WHERE start_date='2017-04-01'),
 	(SELECT id from disc_group WHERE name='None'),
-	(SELECT id from pass_type WHERE name='Extended'),
-	(SELECT id from attraction_type WHERE name='Slide')
+	(SELECT id from pass_type WHERE name='Extended')
 );
 
 INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_id, attraction_type_id) VALUES (
 	0.0,
 	(SELECT id from pass_prc_lst WHERE start_date='2017-01-01'),
 	(SELECT id from disc_group WHERE name='None'),
-	(SELECT id from pass_type WHERE name='Basic'),
-	(SELECT id from attraction_type WHERE name='Pool')
+	(SELECT id from pass_type WHERE name='Basic')
 );
 
 INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_id, attraction_type_id) VALUES (
 	0.0,
 	(SELECT id from pass_prc_lst WHERE start_date='2017-01-01'),
 	(SELECT id from disc_group WHERE name='None'),
-	(SELECT id from pass_type WHERE name='Extended'),
-	(SELECT id from attraction_type WHERE name='Pool')
+	(SELECT id from pass_type WHERE name='Extended')
 );
 
 INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_id, attraction_type_id) VALUES (
 	9.0,
 	(SELECT id from pass_prc_lst WHERE start_date='2017-01-01'),
 	(SELECT id from disc_group WHERE name='None'),
-	(SELECT id from pass_type WHERE name='Basic'),
-	(SELECT id from attraction_type WHERE name='Slide')
+	(SELECT id from pass_type WHERE name='Basic')
 );
 
 INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_id, attraction_type_id) VALUES (
 	0.0,
 	(SELECT id from pass_prc_lst WHERE start_date='2017-01-01'),
 	(SELECT id from disc_group WHERE name='None'),
-	(SELECT id from pass_type WHERE name='Extended'),
-	(SELECT id from attraction_type WHERE name='Slide')
+	(SELECT id from pass_type WHERE name='Extended')
 );

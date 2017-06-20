@@ -8,14 +8,12 @@ public class PassPriceListPosition {
     private PassPriceList passPriceList;
     private DiscountGroup discountGroup;
     private PassType passType;
-    private AttractionType attractionType;
 
-    public PassPriceListPosition(BigDecimal price, PassPriceList passPriceList, DiscountGroup discountGroup, PassType passType, AttractionType attractionType) {
+    public PassPriceListPosition(BigDecimal price, PassPriceList passPriceList, DiscountGroup discountGroup, PassType passType) {
         this.price = price;
         this.passPriceList = passPriceList;
         this.discountGroup = discountGroup;
         this.passType = passType;
-        this.attractionType = attractionType;
     }
 
     public void setId(int id) {
@@ -26,20 +24,12 @@ public class PassPriceListPosition {
         return id;
     }
 
-    public AttractionType getAttractionType() {
-        return attractionType;
-    }
-
     public BigDecimal getPrice() {
         return price;
     }
 
     public DiscountGroup getDiscountGroup() {
         return discountGroup;
-    }
-
-    public void setAttractionType(AttractionType attractionType) {
-        this.attractionType = attractionType;
     }
 
     public void setPrice(BigDecimal price) {
@@ -67,6 +57,6 @@ public class PassPriceListPosition {
     }
 
     @Override public String toString() {
-        return passType.toString() + " " + discountGroup.toString() + " " + attractionType.toString() + " " + price.toString();
+        return passType.toString() + " " + discountGroup.toString() + " " + price.toString();
     }
 }

@@ -129,8 +129,7 @@ CREATE TABLE pass_prc_lst_pos (
 	price				NUMERIC,
 	pass_prc_lst_id		INTEGER NOT NULL,
 	disc_group_id		INTEGER NOT NULL,
-	pass_type_id		INTEGER NOT NULL,
-	attraction_type_id	INTEGER NOT NULL
+	pass_type_id		INTEGER NOT NULL
 );
 
 ALTER TABLE pass_prc_lst_pos ADD CONSTRAINT pass_prc_lst_pos_pk PRIMARY KEY ( id, pass_prc_lst_id,
