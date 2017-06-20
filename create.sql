@@ -9,7 +9,8 @@ ALTER TABLE watch ADD CONSTRAINT watch_pk PRIMARY KEY ( id );
 CREATE TABLE ticket (
 	id			SERIAL NOT NULL,
 	stamp 		TIMESTAMP,
-	watch_id	INTEGER NOT NULL
+	watch_id	INTEGER NOT NULL,
+	pass_id		INTEGER
 );
 
 ALTER TABLE ticket ADD CONSTRAINT ticket_pk PRIMARY KEY ( id );
@@ -25,12 +26,11 @@ CREATE TABLE history (
 ALTER TABLE history ADD CONSTRAINT history_pk PRIMARY KEY ( id );
 
 CREATE TABLE pass (
-	id				SERIAL NOT NULL,
-	start_date		DATE,
-	end_date		DATE,
-	watch_id		INTEGER NOT NULL,
-	aquapark_user_id			INTEGER NOT NULL,
-	pass_type_id	INTEGER NOT NULL
+	id					SERIAL NOT NULL,
+	start_date			DATE,
+	end_date			DATE,
+	aquapark_user_id	INTEGER NOT NULL,
+	pass_type_id		INTEGER NOT NULL
 );
 
 ALTER TABLE pass ADD CONSTRAINT pass_pk PRIMARY KEY ( id );
@@ -67,8 +67,7 @@ ALTER TABLE attraction ADD CONSTRAINT attraction_pk PRIMARY KEY ( id );
 
 CREATE TABLE attraction_type (
 	id		SERIAL NOT NULL,
-	name	VARCHAR(25),
-	price   INTEGER
+	name	VARCHAR(25)
 );
 
 ALTER TABLE attraction_type ADD CONSTRAINT attraction_type_pk PRIMARY KEY ( id );
@@ -115,6 +114,7 @@ ALTER TABLE pass_prc_lst ADD CONSTRAINT pass_prc_lst_pk PRIMARY KEY ( id );
 
 CREATE TABLE tckt_prc_lst_pos (
 	id					SERIAL NOT NULL,
+	-- price per hour
 	price				NUMERIC,
 	tckt_prc_lst_id		INTEGER NOT NULL,
 	days_id				INTEGER NOT NULL,
@@ -128,23 +128,23 @@ days_id, disc_group_id, daytime_id, attraction_type_id );
 
 CREATE TABLE pass_prc_lst_pos (
 	id					SERIAL NOT NULL,
+	-- price per day
 	price				NUMERIC,
 	pass_prc_lst_id		INTEGER NOT NULL,
 	disc_group_id		INTEGER NOT NULL,
-	pass_type_id		INTEGER NOT NULL,
-	attraction_type_id	INTEGER NOT NULL
+	pass_type_id		INTEGER NOT NULL
 );
 
 ALTER TABLE pass_prc_lst_pos ADD CONSTRAINT pass_prc_lst_pos_pk PRIMARY KEY ( id, pass_prc_lst_id,
-disc_group_id, pass_type_id, attraction_type_id );
+disc_group_id, pass_type_id );
 
 ALTER TABLE ticket ADD CONSTRAINT tckt_watch_fk FOREIGN KEY ( watch_id ) REFERENCES watch ( id );
+
+ALTER TABLE ticket ADD CONSTRAINT tckt_pass_fk FOREIGN KEY ( pass_id ) REFERENCES pass ( id );
 
 ALTER TABLE history ADD CONSTRAINT hist_watch_fk FOREIGN KEY ( watch_id ) REFERENCES watch ( id );
 
 ALTER TABLE history ADD CONSTRAINT hist_attraction_fk FOREIGN KEY ( attraction_id ) REFERENCES attraction ( id );
-
-ALTER TABLE pass ADD CONSTRAINT pass_watch_fk FOREIGN KEY ( watch_id ) REFERENCES watch ( id );
 
 ALTER TABLE pass ADD CONSTRAINT pass_aquapark_user_fk FOREIGN KEY ( aquapark_user_id ) REFERENCES aquapark_user ( id );
 
@@ -167,5 +167,3 @@ ALTER TABLE pass_prc_lst_pos ADD CONSTRAINT pass_pos_pass_prc_lst_fk FOREIGN KEY
 ALTER TABLE pass_prc_lst_pos ADD CONSTRAINT pass_pos_disc_group_fk FOREIGN KEY ( disc_group_id ) REFERENCES disc_group ( id );
 
 ALTER TABLE pass_prc_lst_pos ADD CONSTRAINT pass_pos_pass_type_fk FOREIGN KEY ( pass_type_id ) REFERENCES pass_type ( id );
-
-ALTER TABLE pass_prc_lst_pos ADD CONSTRAINT pass_pos_attraction_type_fk FOREIGN KEY ( attraction_type_id ) REFERENCES attraction_type ( id );

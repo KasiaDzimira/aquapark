@@ -220,7 +220,7 @@ public class StatisticsView extends JPanel {
         String info = "";
         Pass pass = null;
         for (History h : histories) {
-            pass = passController.findByWatch(h.getWatch());
+//            pass = passController.findByWatch(h.getWatch());
             if (pass != null) {
                 info += "Using pass by: " + pass.getUser() + "\n" + "\tEntry time: " + h.getEntryTime() + " \n\tExit time: " + h.getExitTime() +
                         "\n\ton Attraction: " + h.getAttraction().getName() + "\n";

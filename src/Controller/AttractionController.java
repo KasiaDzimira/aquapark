@@ -109,10 +109,10 @@ public class AttractionController {
                         attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
                 );
                 attraction.setId(rs.getInt("id"));
-                this.connector.closeConnection(null);
+                this.connector.closeConnection(rs);
                 return attraction;
             } else {
-                this.connector.closeConnection(null);
+                this.connector.closeConnection(rs);
                 return null;
             }
         } catch (SQLException e) {

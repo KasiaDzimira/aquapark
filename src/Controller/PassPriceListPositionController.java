@@ -10,20 +10,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TicketPriceListPositionController {
+public class PassPriceListPositionController {
     private Connector connector;
 
-    public TicketPriceListPositionController() {
+    public PassPriceListPositionController() {
         this.connector = new Connector();
     }
 
-    public void createTicketPriceListPosition(BigDecimal price, int ticketPriceListId, int daysId, int discountGroupId, int daytimeId, int attractionTypeId) {
+    public void createPassPriceListPosition(BigDecimal price, int passPriceListId, int discountGroupId, int passTypeId) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "INSERT INTO tckt_prc_lst_pos (price, tckt_prc_lst_id, days_id, disc_group_id, daytime_id, attraction_type_id) VALUES (" +
-                    price + "," + ticketPriceListId + "," + daysId + "," + discountGroupId + "," +
-                    daytimeId + "," + attractionTypeId + ")";
+            String sql = "INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_id, attraction_type_id) VALUES (" +
+                    price + "," + passPriceListId + "," + discountGroupId + "," + passTypeId + ")";
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
@@ -33,27 +32,23 @@ public class TicketPriceListPositionController {
         this.connector.closeConnection(null);
     }
 
-    public List<TicketPriceListPosition> getAllTicketPriceListPositions() {
-        List<TicketPriceListPosition> result = new ArrayList<>();
-        AttractionTypeController attractionTypeController = new AttractionTypeController();
-        DayController dayController = new DayController();
-        DaytimeController daytimeController = new DaytimeController();
+    public List<PassPriceListPosition> getAllPassPriceListPositions() {
+        List<PassPriceListPosition> result = new ArrayList<>();
+        PassTypeController passTypeController = new PassTypeController();
         DiscountGroupController discountGroupController = new DiscountGroupController();
-        TicketPriceListController ticketPriceListController = new TicketPriceListController();
+        PassPriceListController passPriceListController = new PassPriceListController();
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM tckt_prc_lst_pos";
+            String sql = "SELECT * FROM pass_prc_lst_pos";
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
-                TicketPriceListPosition position = new TicketPriceListPosition(
+                PassPriceListPosition position = new PassPriceListPosition(
                         new BigDecimal(rs.getString("price")),
-                        ticketPriceListController.getTicketPriceListById(rs.getInt("tckt_prc_lst_id")),
-                        dayController.getDayById(rs.getInt("days_id")),
+                        passPriceListController.getPassPriceListById(rs.getInt("pass_prc_lst_id")),
                         discountGroupController.getDiscountGroupById(rs.getInt("disc_group_id")),
-                        daytimeController.getDaytimeById(rs.getInt("daytime_id")),
-                        attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
+                        passTypeController.getPassTypeById(rs.getInt("pass_type_id"))
                 );
                 position.setId(rs.getInt("id"));
                 result.add(position);
@@ -67,27 +62,23 @@ public class TicketPriceListPositionController {
         return result;
     }
 
-    public List<TicketPriceListPosition> getAllTicketPriceListPositionsByTicketPriceList(int ticketPriceListId) {
-        List<TicketPriceListPosition> result = new ArrayList<>();
-        AttractionTypeController attractionTypeController = new AttractionTypeController();
-        DayController dayController = new DayController();
-        DaytimeController daytimeController = new DaytimeController();
+    public List<PassPriceListPosition> getAllPassPriceListPositionsByPassPriceList(int passPriceListId) {
+        List<PassPriceListPosition> result = new ArrayList<>();
         DiscountGroupController discountGroupController = new DiscountGroupController();
-        TicketPriceListController ticketPriceListController = new TicketPriceListController();
+        PassTypeController passTypeController = new PassTypeController();
+        PassPriceListController passPriceListController = new PassPriceListController();
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM tckt_prc_lst_pos WHERE tckt_prc_lst_id=" + ticketPriceListId;
+            String sql = "SELECT * FROM pass_prc_lst_pos WHERE pass_prc_lst_id=" + passPriceListId;
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
-                TicketPriceListPosition position = new TicketPriceListPosition(
+                PassPriceListPosition position = new PassPriceListPosition(
                         new BigDecimal(rs.getString("price")),
-                        ticketPriceListController.getTicketPriceListById(rs.getInt("tckt_prc_lst_id")),
-                        dayController.getDayById(rs.getInt("days_id")),
+                        passPriceListController.getPassPriceListById(rs.getInt("pass_prc_lst_id")),
                         discountGroupController.getDiscountGroupById(rs.getInt("disc_group_id")),
-                        daytimeController.getDaytimeById(rs.getInt("daytime_id")),
-                        attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
+                        passTypeController.getPassTypeById(rs.getInt("pass_type_id"))
                 );
                 position.setId(rs.getInt("id"));
                 result.add(position);
@@ -101,32 +92,28 @@ public class TicketPriceListPositionController {
         return result;
     }
 
-    public TicketPriceListPosition getTicketPriceListPositionById(int id) {
+    public PassPriceListPosition getPassPriceListPositionById(int id) {
         this.connector.connect();
-        AttractionTypeController attractionTypeController = new AttractionTypeController();
-        DayController dayController = new DayController();
-        DaytimeController daytimeController = new DaytimeController();
         DiscountGroupController discountGroupController = new DiscountGroupController();
-        TicketPriceListController ticketPriceListController = new TicketPriceListController();
+        PassTypeController passTypeController = new PassTypeController();
+        PassPriceListController passPriceListController = new PassPriceListController();
         try {
             Statement st = this.connector.getConnection().createStatement();
             String sql = "SELECT * FROM tckt_prc_lst_pos WHERE id=" + id;
             ResultSet rs = st.executeQuery(sql);
 
             if (rs.next()) {
-                TicketPriceListPosition position = new TicketPriceListPosition(
+                PassPriceListPosition position = new PassPriceListPosition(
                         new BigDecimal(rs.getString("price")),
-                        ticketPriceListController.getTicketPriceListById(rs.getInt("tckt_prc_lst_id")),
-                        dayController.getDayById(rs.getInt("days_id")),
+                        passPriceListController.getPassPriceListById(rs.getInt("pass_prc_lst_id")),
                         discountGroupController.getDiscountGroupById(rs.getInt("disc_group_id")),
-                        daytimeController.getDaytimeById(rs.getInt("daytime_id")),
-                        attractionTypeController.getAttractionTypeById(rs.getInt("attraction_type_id"))
+                        passTypeController.getPassTypeById(rs.getInt("pass_type_id"))
                 );
                 position.setId(rs.getInt("id"));
-                this.connector.closeConnection(null);
+                this.connector.closeConnection(rs);
                 return position;
             } else {
-                this.connector.closeConnection(null);
+                this.connector.closeConnection(rs);
                 return null;
             }
         } catch (SQLException e) {
@@ -137,14 +124,12 @@ public class TicketPriceListPositionController {
         return null;
     }
 
-    public BigDecimal getPrice(TicketPriceList priceList, Day day, DiscountGroup group, Daytime daytime, AttractionType attractionType) {
+    public BigDecimal getPrice(PassPriceList priceList, DiscountGroup group, PassType passType) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT price FROM tckt_prc_lst_pos WHERE tckt_prc_lst_id=" + priceList.getId() +
-                    " AND days_id=" + day.getId() + " AND disc_group_id=" + group.getId() + " AND daytime_id=" +
-                    daytime.getId() + " AND attraction_type_id="
-                    + attractionType.getId();
+            String sql = "SELECT price FROM pass_prc_lst_pos WHERE pass_prc_lst_id=" + priceList.getId() +
+                    " AND disc_group_id=" + group.getId() + " AND pass_type_id=" + passType.getId();
             ResultSet rs = st.executeQuery(sql);
 
             if (rs.next()) {
@@ -163,11 +148,11 @@ public class TicketPriceListPositionController {
         return null;
     }
 
-    public void updateTicketPriceListPosition(int id, BigDecimal price) {
+    public void updatePassPriceListPosition(int id, BigDecimal price) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "UPDATE tckt_prc_lst_pos SET price=" +
+            String sql = "UPDATE pass_prc_lst_pos SET price=" +
                     price + " WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
@@ -178,12 +163,12 @@ public class TicketPriceListPositionController {
         this.connector.closeConnection(null);
     }
 
-    public void updateTicketPriceListPosition(int id, int ticketPriceListId) {
+    public void updatePassPriceListPosition(int id, int passPriceListId) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "UPDATE tckt_prc_lst_pos SET tckt_prc_lst_id=" +
-                    ticketPriceListId + " WHERE id=" + id;
+            String sql = "UPDATE pass_prc_lst_pos SET pass_prc_lst_id=" +
+                    passPriceListId + " WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
@@ -193,11 +178,11 @@ public class TicketPriceListPositionController {
         this.connector.closeConnection(null);
     }
 
-    public void deleteTicketPriceListPosition(int id) {
+    public void deletePassPriceListPosition(int id) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "DELETE FROM tckt_prc_lst_pos WHERE id=" + id;
+            String sql = "DELETE FROM pass_prc_lst_pos WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");

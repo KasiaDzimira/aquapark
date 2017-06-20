@@ -6,14 +6,12 @@ public class Pass {
     private int id;
     private Date startDate;
     private Date endDate;
-    private Watch watch;
     private User user;
     private PassType passType;
 
-    public Pass(Date startDate, Date endDate, Watch watch, User user, PassType passType) {
+    public Pass(Date startDate, Date endDate, User user, PassType passType) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.watch = watch;
         this.user = user;
         this.passType = passType;
     }
@@ -24,14 +22,6 @@ public class Pass {
 
     public int getId() {
         return id;
-    }
-
-    public void setWatch(Watch watch) {
-        this.watch = watch;
-    }
-
-    public Watch getWatch() {
-        return watch;
     }
 
     public void setStartDate(Date startDate) {

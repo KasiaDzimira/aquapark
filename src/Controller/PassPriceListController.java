@@ -1,51 +1,55 @@
 package Controller;
 
 import Database.Connector;
-import Model.AttractionType;
+import Model.PassPriceList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class AttractionTypeController {
+public class PassPriceListController {
     private Connector connector;
 
-    public AttractionTypeController() {
+    public PassPriceListController() {
         this.connector = new Connector();
     }
 
-    public void createAttractionType(String name) {
+    public void createPassPriceList(Date startDate, Date endDate) {
         this.connector.connect();
         try {
+            String startDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(startDate);
+            String endDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(endDate);
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "INSERT INTO attraction_type (name) VALUES ('" +
-                    name + "')";
+            String sql = "INSERT INTO pass_prc_lst (start_date, end_date) VALUES ('" +
+                    startDateFormatted + "', '" + endDateFormatted + "')";
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
         } catch (SQLException e) {
             e.printStackTrace();
-            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
     }
 
-    public List<AttractionType> getAllAttractionTypes() {
-        List<AttractionType> result = new ArrayList<>();
+    public List<PassPriceList> getAllPassPriceLists() {
+        List<PassPriceList> result = new ArrayList<>();
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM attraction_type";
+            String sql = "SELECT * FROM pass_prc_lst";
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
-                AttractionType attractionType = new AttractionType(
-                        rs.getString("name")
+                PassPriceList passPriceList = new PassPriceList(
+                        rs.getDate("start_date"),
+                        rs.getDate("end_date")
                 );
-                attractionType.setId(rs.getInt("id"));
-                result.add(attractionType);
+                passPriceList.setId(rs.getInt("id"));
+                result.add(passPriceList);
             }
             System.out.println("Query has been executed");
         } catch (SQLException e) {
@@ -56,23 +60,24 @@ public class AttractionTypeController {
         return result;
     }
 
-    public AttractionType getAttractionTypeById(int id) {
+    public PassPriceList getPassPriceListById(int id) {
         this.connector.connect();
+
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM attraction_type WHERE id=" + id;
+            String sql = "SELECT * FROM pass_prc_lst WHERE id=" + id;
             ResultSet rs = st.executeQuery(sql);
 
-
             if (rs.next()) {
-                AttractionType attractionType = new AttractionType(
-                        rs.getString("name")
+                PassPriceList passPriceList = new PassPriceList(
+                        rs.getDate("start_date"),
+                        rs.getDate("end_date")
                 );
-                attractionType.setId(rs.getInt("id"));
-                this.connector.closeConnection(null);
-                return attractionType;
+                passPriceList.setId(rs.getInt("id"));
+                this.connector.closeConnection(rs);
+                return passPriceList;
             } else {
-                this.connector.closeConnection(null);
+                this.connector.closeConnection(rs);
                 return null;
             }
         } catch (SQLException e) {
@@ -83,23 +88,26 @@ public class AttractionTypeController {
         return null;
     }
 
-    public AttractionType getAttractionTypeByName(String name) {
+    public PassPriceList getPassPriceListForDay(Date day) {
         this.connector.connect();
+
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "SELECT * FROM attraction_type WHERE name='" + name + "'";
+            String dayFormatted = new SimpleDateFormat("yyyy-MM-dd").format(day);
+            String sql = "SELECT * FROM pass_prc_lst WHERE start_date <='" + dayFormatted + "'::date AND end_date >='" +
+                    dayFormatted + "'::date";
             ResultSet rs = st.executeQuery(sql);
 
-
             if (rs.next()) {
-                AttractionType attractionType = new AttractionType(
-                        rs.getString("name")
+                PassPriceList passPriceList = new PassPriceList(
+                        rs.getDate("start_date"),
+                        rs.getDate("end_date")
                 );
-                attractionType.setId(rs.getInt("id"));
-                this.connector.closeConnection(null);
-                return attractionType;
+                passPriceList.setId(rs.getInt("id"));
+                this.connector.closeConnection(rs);
+                return passPriceList;
             } else {
-                this.connector.closeConnection(null);
+                this.connector.closeConnection(rs);
                 return null;
             }
         } catch (SQLException e) {
@@ -110,27 +118,27 @@ public class AttractionTypeController {
         return null;
     }
 
-    public void updateAttractionType(int id, String name) {
+    public void updatePassPriceList(int id, Date startDate, Date endDate) {
         this.connector.connect();
         try {
+            String startDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(startDate);
+            String endDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(endDate);
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "UPDATE attraction_type SET name='" +
-                    name + "' WHERE id=" + id;
+            String sql = "UPDATE pass_prc_lst SET start_date='" + startDateFormatted + "', end_date='" + endDateFormatted + "' WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
         } catch (SQLException e) {
             e.printStackTrace();
-            this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
     }
 
-    public void deleteAttractionType(int id) {
+    public void deletePassPriceList(int id) {
         this.connector.connect();
         try {
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "DELETE FROM attraction_type WHERE id=" + id;
+            String sql = "DELETE FROM pass_prc_lst WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
