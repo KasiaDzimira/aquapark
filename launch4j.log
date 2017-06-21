@@ -1,0 +1,28 @@
+
+
+Version:	3.9
+CmdLine:	C:\Users\Kasia\Desktop\aquapark\aquapark.exe --l4j-debug
+WOW64:		no
+Working dir:	C:\Users\Kasia\Desktop\aquapark\.
+32-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Check:		SOFTWARE\JavaSoft\Java Runtime Environment\1.8
+Check launcher:	C:\Program Files\Java\jre1.8.0_131\bin\javaw.exe (OK)
+Match:		1.8
+Check:		SOFTWARE\JavaSoft\Java Runtime Environment\1.8.0_121
+Check launcher:	C:\Program Files\Java\jre1.8.0_121\bin\javaw.exe (OK)
+Match:		1.8.0_121
+Check:		SOFTWARE\JavaSoft\Java Runtime Environment\1.8.0_131
+Check launcher:	C:\Program Files\Java\jre1.8.0_131\bin\javaw.exe (OK)
+Match:		1.8.0_131
+32-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Check:		SOFTWARE\JavaSoft\Java Development Kit\1.8
+Ignore:		1.8
+Check:		SOFTWARE\JavaSoft\Java Development Kit\1.8.0_102
+Ignore:		1.8.0_102
+Check:		SOFTWARE\JavaSoft\Java Development Kit\1.8.0_131
+Ignore:		1.8.0_131
+Runtime used:	1.8.0_131 (32-bit)
+Launcher:	C:\Program Files\Java\jre1.8.0_131\bin\javaw.exe
+Launcher args:	-jar "C:\Users\Kasia\Desktop\aquapark\aquapark.exe"
+Args length:	51/32768 chars
+Exit code:	0

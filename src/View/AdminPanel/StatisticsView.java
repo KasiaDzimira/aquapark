@@ -143,7 +143,7 @@ public class StatisticsView extends JPanel {
         inputPanel.add(discountGroupLabel);
         inputPanel.add(attractionTypeLabel);
         inputPanel.add(attractionLabel);
-//        inputPanel.add(discountGroupJComboBox);
+        inputPanel.add(discountGroupJComboBox);
         inputPanel.add(attractionTypeJComboBox);
         inputPanel.add(attractionJComboBox);
         inputPanel.add(isTicketRadio);
