@@ -113,7 +113,7 @@ public class Attraction {
     }
 
     /**
-     * Stringyfies the attraction
+     * Stringifies the attraction
      *
      * @return name of the attraction
      */
