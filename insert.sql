@@ -49,6 +49,12 @@ INSERT INTO attraction_type (name) VALUES ('Pool');
 INSERT INTO attraction_type (name) VALUES ('Slide');
 INSERT INTO attraction_type (name) VALUES ('Sauna');
 
+INSERT INTO attraction (name, status, attraction_type_id) VALUES ('Sport Pool', true, (SELECT id from attraction_type WHERE name='Pool'));
+INSERT INTO attraction (name, status, attraction_type_id) VALUES ('Red Slide', true, (SELECT id from attraction_type WHERE name='Slide'));
+INSERT INTO attraction (name, status, attraction_type_id) VALUES ('Green Slide', false, (SELECT id from attraction_type WHERE name='Slide'));
+INSERT INTO attraction (name, status, attraction_type_id) VALUES ('Yellow Slide', true, (SELECT id from attraction_type WHERE name='Slide'));
+INSERT INTO attraction (name, status, attraction_type_id) VALUES ('Turkish Sauna', true, (SELECT id from attraction_type WHERE name='Sauna'));
+
 INSERT INTO pass (start_date, end_date, aquapark_user_id, pass_type_id) VALUES
 ('2017-04-20', '2017-04-22', (SELECT id from aquapark_user WHERE email='jnow@b.com'), (SELECT id from pass_type WHERE name='Basic'));
 INSERT INTO pass (start_date, end_date, aquapark_user_id, pass_type_id) VALUES
@@ -62,6 +68,12 @@ INSERT INTO ticket (stamp, watch_id, pass_id) VALUES ('2017-04-20 12:41:22', 4, 
 INSERT INTO ticket (stamp, watch_id) VALUES ('2017-04-20 14:19:07', 8);
 INSERT INTO ticket (stamp, watch_id, pass_id) VALUES ('2017-04-21 08:10:19', 1, (SELECT id FROM pass WHERE aquapark_user_id = (SELECT id from aquapark_user WHERE email='jnow@b.com')));
 INSERT INTO ticket (stamp, watch_id) VALUES ('2017-04-21 08:14:22', 10);
+
+INSERT INTO history (entry_time, exit_time, attraction_id, watch_id) VALUES ('2017-04-20 10:31:16', '2017-04-20 10:51:49', (SELECT id from attraction WHERE name='Sport Pool'), 1);
+INSERT INTO history (entry_time, exit_time, attraction_id, watch_id) VALUES ('2017-04-20 10:31:44', '2017-04-20 10:51:28', (SELECT id from attraction WHERE name='Sport Pool'), 2);
+INSERT INTO history (entry_time, exit_time, attraction_id, watch_id) VALUES ('2017-04-20 10:58:30', '2017-04-20 11:15:13', (SELECT id from attraction WHERE name='Red Slide'), 1);
+INSERT INTO history (entry_time, exit_time, attraction_id, watch_id) VALUES ('2017-04-21 08:36:09', '2017-04-21 08:44:02', (SELECT id from attraction WHERE name='Turkish Sauna'), 1);
+INSERT INTO history (entry_time, exit_time, attraction_id, watch_id) VALUES ('2017-04-21 08:52:11', '2017-04-21 09:38:55', (SELECT id from attraction WHERE name='Turkish Sauna'), 1);
 
 INSERT INTO tckt_prc_lst (start_date, end_date) VALUES ('2017-03-01', '2017-03-31');
 INSERT INTO tckt_prc_lst (start_date, end_date) VALUES ('2017-04-01', '2017-05-31');
