@@ -56,8 +56,8 @@ public class TicketController {
                     pass = passController.getPassById(passId);
                 }
                 Ticket ticket = new Ticket(
-                        rs.getDate("stamp"),
-                        rs.getDate("stamp_out"),
+                        rs.getTimestamp("stamp"),
+                        rs.getTimestamp("stamp_out"),
                         watchController.getWatchById(rs.getInt("watch_id")),
                         pass
                 );
@@ -89,8 +89,8 @@ public class TicketController {
                     pass = passController.getPassById(passId);
                 }
                 Ticket ticket = new Ticket(
-                        rs.getDate("stamp"),
-                        rs.getDate("stamp_out"),
+                        rs.getTimestamp("stamp"),
+                        rs.getTimestamp("stamp_out"),
                         watchController.getWatchById(rs.getInt("watch_id")),
                         pass
                 );
@@ -188,8 +188,8 @@ public class TicketController {
                     pass = passController.getPassById(passId);
                 }
                 Ticket ticket = new Ticket(
-                        rs.getDate("stamp"),
-                        rs.getDate("stamp_out"),
+                        rs.getTimestamp("stamp"),
+                        rs.getTimestamp("stamp_out"),
                         watchController.getWatchById(rs.getInt("watch_id")),
                         pass
                 );
@@ -211,8 +211,8 @@ public class TicketController {
         this.connector.connect();
         WatchController watchController = new WatchController();
         try {
-            String startDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(entryTime);
-            String endDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(exitTime);
+            String startDateFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entryTime);
+            String endDateFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(exitTime);
             Statement st = this.connector.getConnection().createStatement();
             String sql = "SELECT * FROM ticket WHERE watch_id=" + watch.getId() +
                     " AND stamp <= '" + startDateFormatted +
@@ -227,8 +227,8 @@ public class TicketController {
                     pass = passController.getPassById(passId);
                 }
                 Ticket ticket = new Ticket(
-                        rs.getDate("stamp"),
-                        rs.getDate("stamp_out"),
+                        rs.getTimestamp("stamp"),
+                        rs.getTimestamp("stamp_out"),
                         watchController.getWatchById(rs.getInt("watch_id")),
                         pass
                 );

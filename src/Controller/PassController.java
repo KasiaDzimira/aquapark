@@ -52,8 +52,8 @@ public class PassController {
 
             while (rs.next()) {
                 Pass pass = new Pass(
-                        rs.getDate("start_date"),
-                        rs.getDate("end_date"),
+                        rs.getTimestamp("start_date"),
+                        rs.getTimestamp("end_date"),
                         userController.findById(rs.getInt("aquapark_user_id")),
                         passTypeController.getPassTypeById(rs.getInt("pass_type_id"))
                 );
@@ -81,8 +81,8 @@ public class PassController {
 
             if (rs.next()) {
                 Pass pass = new Pass(
-                        rs.getDate("start_date"),
-                        rs.getDate("end_date"),
+                        rs.getTimestamp("start_date"),
+                        rs.getTimestamp("end_date"),
                         userController.findById(rs.getInt("aquapark_user_id")),
                         passTypeController.getPassTypeById(rs.getInt("pass_type_id"))
                 );

@@ -198,6 +198,9 @@ public class StatisticsView extends JPanel {
             if (isPass) {
                 message += getHistoryAndPassInfo(histories);
             }
+            if (message.isEmpty()) {
+                message = "There is no entries matching Your requirements.";
+            }
             Object[] options = {"Close", "Export to PDF", "Print"};
             showOptionBox(message, options);
 
@@ -216,14 +219,16 @@ public class StatisticsView extends JPanel {
     }
 
     private String getHistoryAndPassInfo(ArrayList<History> histories) {
-        PassController passController = new PassController();
+        TicketController ticketController = new TicketController();
         String info = "";
-        Pass pass = null;
         for (History h : histories) {
-//            pass = passController.findByWatch(h.getWatch());
-            if (pass != null) {
-                info += "Using pass by: " + pass.getUser() + "\n" + "\tEntry time: " + h.getEntryTime() + " \n\tExit time: " + h.getExitTime() +
-                        "\n\ton Attraction: " + h.getAttraction().getName() + "\n";
+            Ticket ticket = ticketController.findByWatchAndDatesWithinStamps(h.getWatch(), h.getEntryTime(), h.getExitTime());
+            if (ticket != null) {
+                Pass pass = ticket.getPass();
+                if (pass != null) {
+                    info += "Using pass by: " + pass.getUser() + "\n" + "\tEntry time: " + h.getEntryTime() + " \n\tExit time: " + h.getExitTime() +
+                            "\n\ton Attraction: " + h.getAttraction().getName() + "\n";
+                }
             }
         }
         return info;
@@ -235,7 +240,8 @@ public class StatisticsView extends JPanel {
 
         String info = "";
         for (History h : histories) {
-            if (ticketController.findByWatchAndDatesWithinStamps(h.getWatch(), h.getEntryTime(), h.getExitTime()) != null) {
+            Ticket ticket = ticketController.findByWatchAndDatesWithinStamps(h.getWatch(), h.getEntryTime(), h.getExitTime());
+            if (ticket != null && ticket.getPass() == null) {
                 info += "Using ticket:\n" + "\tEntry time: " + h.getEntryTime() + " \n\tExit time: " + h.getExitTime() +
                         "\n\ton Attraction: " + h.getAttraction().getName() + "\n";
             }

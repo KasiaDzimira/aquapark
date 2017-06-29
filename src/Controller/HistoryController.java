@@ -51,8 +51,8 @@ public class HistoryController {
 
             while (rs.next()) {
                 History history = new History(
-                        rs.getDate("entry_time"),
-                        rs.getDate("exit_time"),
+                        rs.getTimestamp("entry_time"),
+                        rs.getTimestamp("exit_time"),
                         attractionController.getAttractionById(rs.getInt("attraction_id")),
                         watchController.getWatchById(rs.getInt("watch_id"))
                 );
@@ -83,8 +83,8 @@ public class HistoryController {
 
             while (rs.next()) {
                 History history = new History(
-                        rs.getDate("entry_time"),
-                        rs.getDate("exit_time"),
+                        rs.getTimestamp("entry_time"),
+                        rs.getTimestamp("exit_time"),
                         attractionController.getAttractionById(rs.getInt("attraction_id")),
                         ticket.getWatch()
                 );
@@ -113,8 +113,8 @@ public class HistoryController {
 
             if (rs.next()) {
                 History history = new History(
-                        rs.getDate("entry_time"),
-                        rs.getDate("exit_time"),
+                        rs.getTimestamp("entry_time"),
+                        rs.getTimestamp("exit_time"),
                         attractionController.getAttractionById(rs.getInt("attraction_id")),
                         watchController.getWatchById(rs.getInt("watch_id"))
                 );
@@ -166,28 +166,23 @@ public class HistoryController {
 
     public List<History> findAllByAttractionAndDateFromAndDateTo(Attraction attraction, Date dateFrom, Date dateTo) {
         List<History> result = new ArrayList<>();
-        AttractionController attractionController = new AttractionController();
         WatchController watchController = new WatchController();
         this.connector.connect();
         try {
-            String startDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(dateFrom);
-            String endDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(dateTo);
+            String startDateFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dateFrom);
+            String endDateFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dateTo);
             System.out.println(startDateFormatted);
             Statement st = this.connector.getConnection().createStatement();
             String sql = "SELECT * FROM history WHERE " +
                     "attraction_id = " + attraction.getId() +
-//                    " AND entry_time >= " + startDateFormatted +
-//                    "::date" +
-//                    " AND exit_time <= " + endDateFormatted +
-//                    "::date";
                     " AND entry_time >= '" + startDateFormatted +
                     "' AND exit_time <= '" + endDateFormatted + "'";
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
                 History history = new History(
-                        rs.getDate("entry_time"),
-                        rs.getDate("exit_time"),
+                        rs.getTimestamp("entry_time"),
+                        rs.getTimestamp("exit_time"),
                         attraction,
                         watchController.getWatchById(rs.getInt("watch_id"))
                 );
@@ -210,8 +205,8 @@ public class HistoryController {
         WatchController watchController = new WatchController();
         this.connector.connect();
         try {
-            String startDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(dateFrom);
-            String endDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(dateTo);
+            String startDateFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dateFrom);
+            String endDateFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dateTo);
             System.out.println(startDateFormatted);
             Statement st = this.connector.getConnection().createStatement();
             String sql = "SELECT * FROM history WHERE " +
@@ -221,8 +216,8 @@ public class HistoryController {
 
             while (rs.next()) {
                 History history = new History(
-                        rs.getDate("entry_time"),
-                        rs.getDate("exit_time"),
+                        rs.getTimestamp("entry_time"),
+                        rs.getTimestamp("exit_time"),
                         attractionController.getAttractionById(rs.getInt("attraction_id")),
                         watchController.getWatchById(rs.getInt("watch_id"))
                 );
