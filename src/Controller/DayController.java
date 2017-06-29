@@ -9,13 +9,27 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles database related actions with Day class
+ */
 public class DayController {
+
+    /**
+     * Responsible for connection to the database
+     */
     private Connector connector;
 
+    /**
+     * Constructor without parametric
+     */
     public DayController() {
         this.connector = new Connector();
     }
 
+    /**
+     * Creates a new day in the database
+     * @param name name of the new day
+     */
     public void createDay(String name) {
         this.connector.connect();
         try {
@@ -31,6 +45,10 @@ public class DayController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Lists all days in the database
+     * @return list of all days in the database
+     */
     public List<Day> getAllDays() {
         List<Day> result = new ArrayList<>();
         this.connector.connect();
@@ -55,6 +73,11 @@ public class DayController {
         return result;
     }
 
+    /**
+     * Looks for the day with given id
+     * @param id id of the day
+     * @return desired Day object or null if the day couldn't be found
+     */
     public Day getDayById(int id) {
         this.connector.connect();
 
@@ -81,6 +104,11 @@ public class DayController {
         return null;
     }
 
+    /**
+     * Updates day in the database
+     * @param id id of the day to update
+     * @param name new name of the day
+     */
     public void updateDay(int id, String name) {
         this.connector.connect();
         try {
@@ -96,6 +124,10 @@ public class DayController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Removes day from the database
+     * @param id id of the day to be removed
+     */
     public void deleteDay(int id) {
         this.connector.connect();
         try {

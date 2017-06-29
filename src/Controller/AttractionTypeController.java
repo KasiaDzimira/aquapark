@@ -9,13 +9,27 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles database related actions with Attraction class
+ */
 public class AttractionTypeController {
+
+    /**
+     * Responsible for connection to the database
+     */
     private Connector connector;
 
+    /**
+     * Constructor without parametric
+     */
     public AttractionTypeController() {
         this.connector = new Connector();
     }
 
+    /**
+     * Creates a new attraction type in the database
+     * @param name name of the new attraction type
+     */
     public void createAttractionType(String name) {
         this.connector.connect();
         try {
@@ -32,6 +46,10 @@ public class AttractionTypeController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Lists all attraction types in the database
+     * @return list of all attraction types in the database
+     */
     public List<AttractionType> getAllAttractionTypes() {
         List<AttractionType> result = new ArrayList<>();
         this.connector.connect();
@@ -56,6 +74,11 @@ public class AttractionTypeController {
         return result;
     }
 
+    /**
+     * Looks for the attraction type with given id
+     * @param id id of the attraction type
+     * @return desired AttractionType object or null if the attraction type couldn't be found
+     */
     public AttractionType getAttractionTypeById(int id) {
         this.connector.connect();
         try {
@@ -83,6 +106,11 @@ public class AttractionTypeController {
         return null;
     }
 
+    /**
+     * Looks for the attraction type with given name
+     * @param name name of the attraction type
+     * @return desired AttractionType object or null if the attraction type couldn't be found
+     */
     public AttractionType getAttractionTypeByName(String name) {
         this.connector.connect();
         try {
@@ -110,6 +138,11 @@ public class AttractionTypeController {
         return null;
     }
 
+    /**
+     * Updates attraction type in the database
+     * @param id id of the attraction type to update
+     * @param name new name of the attraction type
+     */
     public void updateAttractionType(int id, String name) {
         this.connector.connect();
         try {
@@ -126,6 +159,10 @@ public class AttractionTypeController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Removes attraction type from the database
+     * @param id id of the attraction type to be removed
+     */
     public void deleteAttractionType(int id) {
         this.connector.connect();
         try {

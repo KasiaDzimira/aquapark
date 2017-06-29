@@ -10,13 +10,29 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles database related actions with Attraction class
+ */
 public class AttractionController {
+
+    /**
+     * Responsible for connection to the database
+     */
     private Connector connector;
 
+    /**
+     * Constructor without parametric
+     */
     public AttractionController() {
         this.connector = new Connector();
     }
 
+    /**
+     * Creates a new attraction in the database
+     * @param name name of the new attraction
+     * @param status status of the new attraction
+     * @param attractionTypeId id of the attraction type of the new attraction
+     */
     public void createAttraction(String name, boolean status, int attractionTypeId) {
         this.connector.connect();
         try {
@@ -35,6 +51,10 @@ public class AttractionController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Lists all attractions in the database
+     * @return list of all attractions in the database
+     */
     public List<Attraction> getAllAttractions() {
         List<Attraction> result = new ArrayList<>();
         AttractionTypeController attractionTypeController = new AttractionTypeController();
@@ -62,6 +82,11 @@ public class AttractionController {
         return result;
     }
 
+    /**
+     * Lists all attractions in the database for the given type
+     * @param attractionType type of the attractions
+     * @return list of all attractions in the database for the given type
+     */
     public List<Attraction> getAttractionByType(AttractionType attractionType) {
         List<Attraction> result = new ArrayList<>();
         AttractionTypeController attractionTypeController = new AttractionTypeController();
@@ -92,6 +117,11 @@ public class AttractionController {
         return result;
     }
 
+    /**
+     * Looks for the attraction with given id
+     * @param id id of the attraction
+     * @return desired Attraction object or null if the attraction couldn't be found
+     */
     public Attraction getAttractionById(int id) {
         this.connector.connect();
 
@@ -123,6 +153,13 @@ public class AttractionController {
         return null;
     }
 
+    /**
+     * Updates attraction in the database
+     * @param id id of the attraction to update
+     * @param name new name of the attraction
+     * @param status new status of the attraction
+     * @param attractionTypeId new id of the attraction type of the attraction
+     */
     public void updateAttraction(int id, String name, Boolean status, int attractionTypeId) {
         this.connector.connect();
         try {
@@ -140,6 +177,10 @@ public class AttractionController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Removes attraction from the database
+     * @param id id of the attraction to be removed
+     */
     public void deleteAttraction(int id) {
         this.connector.connect();
         try {

@@ -11,13 +11,29 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Handles database related actions with Daytime class
+ */
 public class DaytimeController {
+
+    /**
+     * Responsible for connection to the database
+     */
     private Connector connector;
 
+    /**
+     * Constructor without parametric
+     */
     public DaytimeController() {
         this.connector = new Connector();
     }
 
+    /**
+     * Creates a new daytime in the database
+     * @param name name of the new daytime
+     * @param startHour starting hour of the new daytime
+     * @param endHour ending hour of the new daytime
+     */
     public void createDaytime(String name, Date startHour, Date endHour) {
         this.connector.connect();
         try {
@@ -35,6 +51,10 @@ public class DaytimeController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Lists all daytimes in the database
+     * @return list of all daytimes in the database
+     */
     public List<Daytime> getAllDaytimes() {
         List<Daytime> result = new ArrayList<>();
         this.connector.connect();
@@ -60,6 +80,11 @@ public class DaytimeController {
         return result;
     }
 
+    /**
+     * Looks for the daytime with given id
+     * @param id id of the daytime
+     * @return desired Daytime object or null if the daytime couldn't be found
+     */
     public Daytime getDaytimeById(int id) {
         this.connector.connect();
 
@@ -89,6 +114,13 @@ public class DaytimeController {
         return null;
     }
 
+    /**
+     * Updates daytime in the database
+     * @param id id of the daytime to update
+     * @param name new name of the dayime
+     * @param startHour new starting hour of the daytime
+     * @param endHour new ending hour of the daytime
+     */
     public void updateDaytime(int id, String name, Date startHour, Date endHour) {
         this.connector.connect();
         try {
@@ -105,6 +137,10 @@ public class DaytimeController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Removes daytime from the database
+     * @param id id of the daytime to be removed
+     */
     public void deleteDaytime(int id) {
         this.connector.connect();
         try {

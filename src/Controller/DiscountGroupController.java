@@ -9,13 +9,28 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles database related actions with DiscountGroup class
+ */
 public class DiscountGroupController {
+
+    /**
+     * Responsible for connection to the database
+     */
     private Connector connector;
 
+    /**
+     * Constructor without parametric
+     */
     public DiscountGroupController() {
         this.connector = new Connector();
     }
 
+    /**
+     * Creates a new attraction in the database
+     * @param name name of the new group
+     * @param discount discount of the new group
+     */
     public void createDiscountGroup(String name, float discount) {
         this.connector.connect();
         try {
@@ -31,6 +46,10 @@ public class DiscountGroupController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Lists all groups in the database
+     * @return list of all groups in the database
+     */
     public List<DiscountGroup> getAllDiscountGroups() {
         List<DiscountGroup> result = new ArrayList<>();
         this.connector.connect();
@@ -56,6 +75,11 @@ public class DiscountGroupController {
         return result;
     }
 
+    /**
+     * Looks for the group with given id
+     * @param id id of the group
+     * @return desired DiscountGroup object or null if the group couldn't be found
+     */
     public DiscountGroup getDiscountGroupById(int id) {
         this.connector.connect();
 
@@ -84,6 +108,12 @@ public class DiscountGroupController {
         return null;
     }
 
+    /**
+     * Updates group in the database
+     * @param id id of the group to update
+     * @param name new name of the group
+     * @param discount new discount of the group
+     */
     public void updateDiscountGroup(int id, String name, float discount) {
         this.connector.connect();
         try {
@@ -99,6 +129,10 @@ public class DiscountGroupController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Removes group from the database
+     * @param id id of the group to be removed
+     */
     public void deleteDiscountGroup(int id) {
         this.connector.connect();
         try {
