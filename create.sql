@@ -9,6 +9,7 @@ ALTER TABLE watch ADD CONSTRAINT watch_pk PRIMARY KEY ( id );
 CREATE TABLE ticket (
 	id			SERIAL NOT NULL,
 	stamp 		TIMESTAMP,
+	stamp_out   TIMESTAMP,
 	watch_id	INTEGER NOT NULL,
 	pass_id		INTEGER
 );

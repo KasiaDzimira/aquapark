@@ -62,12 +62,12 @@ INSERT INTO pass (start_date, end_date, aquapark_user_id, pass_type_id) VALUES
 INSERT INTO pass (start_date, end_date, aquapark_user_id, pass_type_id) VALUES
 ('2017-04-10', '2017-05-08', (SELECT id from aquapark_user WHERE email='ryby@ryby.ru'), (SELECT id from pass_type WHERE name='Extended'));
 
-INSERT INTO ticket (stamp, watch_id) VALUES ('2017-04-20 10:23:54', 1);
-INSERT INTO ticket (stamp, watch_id) VALUES ('2017-04-20 10:25:17', 2);
-INSERT INTO ticket (stamp, watch_id, pass_id) VALUES ('2017-04-20 12:41:22', 4, (SELECT id FROM pass WHERE aquapark_user_id = (SELECT id from aquapark_user WHERE email='jnow@b.com')));
-INSERT INTO ticket (stamp, watch_id) VALUES ('2017-04-20 14:19:07', 8);
-INSERT INTO ticket (stamp, watch_id, pass_id) VALUES ('2017-04-21 08:10:19', 1, (SELECT id FROM pass WHERE aquapark_user_id = (SELECT id from aquapark_user WHERE email='jnow@b.com')));
-INSERT INTO ticket (stamp, watch_id) VALUES ('2017-04-21 08:14:22', 10);
+INSERT INTO ticket (stamp, stamp_out, watch_id) VALUES ('2017-04-20 10:23:54', '2017-04-20 12:23:54', 1);
+INSERT INTO ticket (stamp, stamp_out, watch_id) VALUES ('2017-04-20 10:25:17', '2017-04-20 14:25:17', 2);
+INSERT INTO ticket (stamp, stamp_out, watch_id, pass_id) VALUES ('2017-04-20 12:41:22', '2017-04-20 16:41:22', 4, (SELECT id FROM pass WHERE aquapark_user_id = (SELECT id from aquapark_user WHERE email='jnow@b.com')));
+INSERT INTO ticket (stamp, stamp_out, watch_id) VALUES ('2017-04-20 14:19:07', '2017-04-20 18:19:07', 8);
+INSERT INTO ticket (stamp, stamp_out, watch_id, pass_id) VALUES ('2017-04-21 08:10:19', '2017-04-21 09:40:19', 1, (SELECT id FROM pass WHERE aquapark_user_id = (SELECT id from aquapark_user WHERE email='jnow@b.com')));
+INSERT INTO ticket (stamp, stamp_out, watch_id) VALUES ('2017-04-21 08:14:22', '2017-04-21 10:14:22', 10);
 
 INSERT INTO history (entry_time, exit_time, attraction_id, watch_id) VALUES ('2017-04-20 10:31:16', '2017-04-20 10:51:49', (SELECT id from attraction WHERE name='Sport Pool'), 1);
 INSERT INTO history (entry_time, exit_time, attraction_id, watch_id) VALUES ('2017-04-20 10:31:44', '2017-04-20 10:51:28', (SELECT id from attraction WHERE name='Sport Pool'), 2);

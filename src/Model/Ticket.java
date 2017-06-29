@@ -5,6 +5,7 @@ import java.util.Date;
 public class Ticket {
     private int id;
     private Date stamp;
+    private Date stampOut;
     private Watch watch;
     private Pass pass;
 
@@ -48,6 +49,14 @@ public class Ticket {
 
     public void setPass(Pass pass) {
         this.pass = pass;
+    }
+
+    public Date getStampOut() {
+        return stampOut;
+    }
+
+    public void setStampOut(Date stampOut) {
+        this.stampOut = stampOut;
     }
 
     @Override

@@ -179,7 +179,7 @@ public class StatisticsView extends JPanel {
         HistoryController historyController = new HistoryController();
         ArrayList<History> histories = new ArrayList<>();
         if (attractionType == null) {
-            histories = (ArrayList<History>) historyController.findAllByDateFromAndDateTo();
+            histories = (ArrayList<History>) historyController.findAllByDateFromAndDateTo(dateFrom, dateTo);
         } else {
             AttractionController attractionController = new AttractionController();
             if (attraction == null) {
