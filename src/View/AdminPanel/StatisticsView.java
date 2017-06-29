@@ -143,7 +143,7 @@ public class StatisticsView extends JPanel {
         inputPanel.add(discountGroupLabel);
         inputPanel.add(attractionTypeLabel);
         inputPanel.add(attractionLabel);
-        inputPanel.add(discountGroupJComboBox);
+//        inputPanel.add(discountGroupJComboBox);
         inputPanel.add(attractionTypeJComboBox);
         inputPanel.add(attractionJComboBox);
         inputPanel.add(isTicketRadio);
@@ -190,21 +190,20 @@ public class StatisticsView extends JPanel {
                 histories = (ArrayList<History>) historyController.findAllByAttractionAndDateFromAndDateTo(attraction, dateFrom, dateTo);
             }
         }
+        String message = "";
         if (!histories.isEmpty()) {
-            String message = "";
             if (isTicket) {
                 message += getHistoryAndTicketInfo(histories);
             }
             if (isPass) {
                 message += getHistoryAndPassInfo(histories);
             }
-            if (message.isEmpty()) {
-                message = "There is no entries matching Your requirements.";
-            }
-            Object[] options = {"Close", "Export to PDF", "Print"};
-            showOptionBox(message, options);
-
         }
+        if (message.isEmpty()) {
+            message = "There is no entries matching Your requirements.";
+        }
+        Object[] options = {"Close", "Export to PDF", "Print"};
+        showOptionBox(message, options);
 
     }
 
