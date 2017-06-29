@@ -13,6 +13,14 @@ public class Ticket {
         this.stamp = stamp;
         this.watch = watch;
         this.pass = pass;
+        this.stampOut = null;
+    }
+
+    public Ticket(Date stamp, Date stampOut, Watch watch, Pass pass) {
+        this.stamp = stamp;
+        this.watch = watch;
+        this.pass = pass;
+        this.stampOut = stampOut;
     }
 
     public Ticket(Watch watch) {

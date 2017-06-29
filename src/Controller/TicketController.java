@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class TicketController {
@@ -21,12 +22,13 @@ public class TicketController {
         this.connector = new Connector();
     }
 
-    public void createTicket(Date stamp, Watch watch) {
+    public void createTicket(Date stamp, Date stampOut, Watch watch) {
         this.connector.connect();
         try {
             String stampFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(stamp);
+            String stampOutFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(stampOut);
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "INSERT INTO ticket (stamp, watch_id) VALUES ('" +
+            String sql = "INSERT INTO ticket (stamp, stamp_out, watch_id) VALUES ('" +
                     stampFormatted + "', " + watch.getId() + ")";
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
@@ -55,6 +57,7 @@ public class TicketController {
                 }
                 Ticket ticket = new Ticket(
                         rs.getDate("stamp"),
+                        rs.getDate("stamp_out"),
                         watchController.getWatchById(rs.getInt("watch_id")),
                         pass
                 );
@@ -87,6 +90,7 @@ public class TicketController {
                 }
                 Ticket ticket = new Ticket(
                         rs.getDate("stamp"),
+                        rs.getDate("stamp_out"),
                         watchController.getWatchById(rs.getInt("watch_id")),
                         pass
                 );
@@ -104,13 +108,13 @@ public class TicketController {
         return null;
     }
 
-    public void updateTicket(int id, Date stamp, Watch watch) {
+    public void updateTicket(int id, Date stamp, Date stampOut, Watch watch) {
         this.connector.connect();
         try {
             String stampFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(stamp);
             Statement st = this.connector.getConnection().createStatement();
             String sql = "UPDATE ticket SET stamp='" +
-                    stampFormatted + "', watch_id=" + watch.getId() + " WHERE id=" + id;
+                    stampFormatted + "', stamp_out=" + stampOut + "', watch_id=" + watch.getId() + " WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");
@@ -185,6 +189,46 @@ public class TicketController {
                 }
                 Ticket ticket = new Ticket(
                         rs.getDate("stamp"),
+                        rs.getDate("stamp_out"),
+                        watchController.getWatchById(rs.getInt("watch_id")),
+                        pass
+                );
+                ticket.setId(rs.getInt("id"));
+                this.connector.closeConnection(null);
+                return ticket;
+            } else {
+                this.connector.closeConnection(null);
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        this.connector.closeConnection(null);
+        return null;
+    }
+
+    public Ticket findByWatchAndDatesWithinStamps(Watch watch, Date entryTime, Date exitTime) {
+        this.connector.connect();
+        WatchController watchController = new WatchController();
+        try {
+            String startDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(entryTime);
+            String endDateFormatted = new SimpleDateFormat("yyyy-MM-dd").format(exitTime);
+            Statement st = this.connector.getConnection().createStatement();
+            String sql = "SELECT * FROM ticket WHERE watch_id=" + watch.getId() +
+                    " AND stamp <= '" + startDateFormatted +
+                    "' AND stamp_out >= '" + endDateFormatted + "'";
+            ResultSet rs = st.executeQuery(sql);
+
+            if (rs.next()) {
+                Pass pass = null;
+                int passId = rs.getInt("pass_id");
+                if (passId != 0) {
+                    PassController passController = new PassController();
+                    pass = passController.getPassById(passId);
+                }
+                Ticket ticket = new Ticket(
+                        rs.getDate("stamp"),
+                        rs.getDate("stamp_out"),
                         watchController.getWatchById(rs.getInt("watch_id")),
                         pass
                 );

@@ -215,7 +215,7 @@ public class HistoryController {
             System.out.println(startDateFormatted);
             Statement st = this.connector.getConnection().createStatement();
             String sql = "SELECT * FROM history WHERE " +
-                    " AND entry_time >= '" + startDateFormatted +
+                    "entry_time >= '" + startDateFormatted +
                     "' AND exit_time <= '" + endDateFormatted + "'";
             ResultSet rs = st.executeQuery(sql);
 

@@ -233,12 +233,9 @@ public class StatisticsView extends JPanel {
     private String getHistoryAndTicketInfo(ArrayList<History> histories) {
         TicketController ticketController = new TicketController();
 
-
-        PassController passController = new PassController();
         String info = "";
-        Pass pass = null;
         for (History h : histories) {
-            if (ticketController.findByWatch(h.getWatch()) != null) {
+            if (ticketController.findByWatchAndDatesWithinStamps(h.getWatch(), h.getEntryTime(), h.getExitTime()) != null) {
                 info += "Using ticket:\n" + "\tEntry time: " + h.getEntryTime() + " \n\tExit time: " + h.getExitTime() +
                         "\n\ton Attraction: " + h.getAttraction().getName() + "\n";
             }
