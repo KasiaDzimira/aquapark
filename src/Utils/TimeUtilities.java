@@ -3,6 +3,9 @@ package Utils;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Provides utility methods related to time
+ */
 public class TimeUtilities {
 
     /**
