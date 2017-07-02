@@ -1,8 +1,15 @@
 package Dictionary;
 
-public enum  UserRoleDictionary {
+/**
+ * Enum for different roles
+ */
+public enum UserRoleDictionary {
     ROLE_USER, ROLE_ADMIN, ROLE_EMPLOYEE, ROLE_MANAGER;
 
+    /**
+     * Stringifies role
+     * @return string value of the role
+     */
     @Override
     public String toString() {
         switch (this) {
