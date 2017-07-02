@@ -15,13 +15,29 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Handles database related actions with Ticket class
+ */
 public class TicketController {
+
+    /**
+     * Responsible for connection to the database
+     */
     private Connector connector;
 
+    /**
+     * Constructor without parametric
+     */
     public TicketController() {
         this.connector = new Connector();
     }
 
+    /**
+     * Creates a new ticket in the database
+     * @param stamp timestamp of entry of the new ticket
+     * @param stampOut timestamp of exit of the new ticket
+     * @param watch watch of the new ticket
+     */
     public void createTicket(Date stamp, Date stampOut, Watch watch) {
         this.connector.connect();
         try {
@@ -39,6 +55,10 @@ public class TicketController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Lists all tickets in the database
+     * @return list of all tickets in the database
+     */
     public List<Ticket> getAllTickets() {
         List<Ticket> result = new ArrayList<>();
         WatchController watchController = new WatchController();
@@ -73,6 +93,11 @@ public class TicketController {
         return result;
     }
 
+    /**
+     * Looks for the ticket with given id
+     * @param id id of the ticket
+     * @return desired Ticket object or null if the ticket couldn't be found
+     */
     public Ticket getTicketById(int id) {
         this.connector.connect();
         WatchController watchController = new WatchController();
@@ -108,6 +133,13 @@ public class TicketController {
         return null;
     }
 
+    /**
+     * Updates ticket in the database
+     * @param id id of the ticket to update
+     * @param stamp new timestamp of entry of the ticket
+     * @param stampOut new timestamp of exit of the ticket
+     * @param watch new watch of the ticket
+     */
     public void updateTicket(int id, Date stamp, Date stampOut, Watch watch) {
         this.connector.connect();
         try {
@@ -124,6 +156,10 @@ public class TicketController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Removes ticket from the database
+     * @param id id of the ticket to be removed
+     */
     public void deleteTicket(int id) {
         this.connector.connect();
         try {
@@ -138,6 +174,15 @@ public class TicketController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Calculates the price of the ticket
+     * Requires existence of the attraction type called "Basic Zone"!
+     * @param ticket Ticket object that must have field stamp correctly filled
+     * @param day day when the ticket is being bought
+     * @param discountGroup discount group of the client that is buying the ticket
+     * @param daytime daytime when the ticket is being bought
+     * @return price of the ticket
+     */
     public BigDecimal calculatePrice(Ticket ticket, Day day, DiscountGroup discountGroup, Daytime daytime) {
         BigDecimal price = new BigDecimal(0.0);
         HistoryController historyController = new HistoryController();
@@ -172,6 +217,11 @@ public class TicketController {
         return price;
     }
 
+    /**
+     * Looks for the ticket with given watch
+     * @param watch watch
+     * @return desired Ticket object or null if the ticket couldn't be found
+     */
     public Ticket findByWatch(Watch watch) {
         this.connector.connect();
         WatchController watchController = new WatchController();
@@ -207,6 +257,13 @@ public class TicketController {
         return null;
     }
 
+    /**
+     * Looks for the ticket with given watch and between timestamps
+     * @param watch watch
+     * @param entryTime first timestamp (earlier)
+     * @param exitTime second timestamp (later)
+     * @return desired Ticket object or null if the ticket couldn't be found
+     */
     public Ticket findByWatchAndDatesWithinStamps(Watch watch, Date entryTime, Date exitTime) {
         this.connector.connect();
         WatchController watchController = new WatchController();

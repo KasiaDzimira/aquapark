@@ -14,13 +14,30 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Handles database related actions with Attraction class
+ */
 public class PassController {
+
+    /**
+     * Responsible for connection to the database
+     */
     private Connector connector;
 
+    /**
+     * Constructor without parametric
+     */
     public PassController() {
         this.connector = new Connector();
     }
 
+    /**
+     * Creates a new pass in the database
+     * @param startDate name of the new pass
+     * @param endDate status of the new pass
+     * @param user user of the new pass
+     * @param passType type of the pass of the new pass
+     */
     public void createPass(Date startDate, Date endDate, User user, PassType passType) {
         this.connector.connect();
         try {
@@ -39,9 +56,12 @@ public class PassController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Lists all passes in the database
+     * @return list of all passes in the database
+     */
     public List<Pass> getAllPasses() {
         List<Pass> result = new ArrayList<>();
-        WatchController watchController = new WatchController();
         UserController userController = new UserController();
         PassTypeController passTypeController = new PassTypeController();
         this.connector.connect();
@@ -69,6 +89,11 @@ public class PassController {
         return result;
     }
 
+    /**
+     * Looks for the pass with given id
+     * @param id id of the pass
+     * @return desired Pass object or null if the pass couldn't be found
+     */
     public Pass getPassById(int id) {
         this.connector.connect();
         WatchController watchController = new WatchController();
@@ -100,6 +125,14 @@ public class PassController {
         return null;
     }
 
+    /**
+     * Updates pass in the database
+     * @param id id of the pass to update
+     * @param startDate new starting date of the pass
+     * @param endDate new ending date of the pass
+     * @param user new user of the pass
+     * @param passType new pass type of the pass
+     */
     public void updatePass(int id, Date startDate, Date endDate, User user, PassType passType) {
         this.connector.connect();
         try {
@@ -118,6 +151,10 @@ public class PassController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Removes pass from the database
+     * @param id id of the pass to be removed
+     */
     public void deletePass(int id) {
         this.connector.connect();
         try {
@@ -132,6 +169,12 @@ public class PassController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Calculates the price of the pass
+     * @param pass pass object that must have fields startDate, endDate, passType correctly filled
+     * @param group discount group of the client that is buying the pass
+     * @return price of the pass
+     */
     public BigDecimal calculatePrice(Pass pass, DiscountGroup group) {
         PassPriceListPositionController passPriceListPositionController = new PassPriceListPositionController();
         PassPriceListController passPriceListController = new PassPriceListController();

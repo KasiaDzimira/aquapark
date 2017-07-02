@@ -14,13 +14,30 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Handles database related actions with Attraction class
+ */
 public class HistoryController {
+
+    /**
+     * Responsible for connection to the database
+     */
     private Connector connector;
 
+    /**
+     * Constructor without parametric
+     */
     public HistoryController() {
         this.connector = new Connector();
     }
 
+    /**
+     * Creates a new history in the database
+     * @param entryTime entry time of the new history
+     * @param exitTime exit time of the new history
+     * @param attraction attraction of the new history
+     * @param watch watch of the new history
+     */
     public void createHistory(Date entryTime, Date exitTime, Attraction attraction, Watch watch) {
         this.connector.connect();
         try {
@@ -39,6 +56,10 @@ public class HistoryController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Lists all histories in the database
+     * @return list of all histories in the database
+     */
     public List<History> getAllHistories() {
         List<History> result = new ArrayList<>();
         AttractionController attractionController = new AttractionController();
@@ -68,6 +89,11 @@ public class HistoryController {
         return result;
     }
 
+    /**
+     * Lists all histories in the database for the given ticket
+     * @param ticket ticket
+     * @return list of all histories in the database for the given ticket
+     */
     public List<History> getAllHistoriesForTicket(Ticket ticket) {
         List<History> result = new ArrayList<>();
         AttractionController attractionController = new AttractionController();
@@ -101,6 +127,11 @@ public class HistoryController {
         return result;
     }
 
+    /**
+     * Looks for the history with given id
+     * @param id id of the history
+     * @return desired History object or null if the history couldn't be found
+     */
     public History getHistoryById(int id) {
         this.connector.connect();
 
@@ -132,6 +163,14 @@ public class HistoryController {
         return null;
     }
 
+    /**
+     * Updates history in the database
+     * @param id id of the history to update
+     * @param entryTime new entry time of the history
+     * @param exitTime new exit time of the history
+     * @param attraction new attraction of the history
+     * @param watch new watch of the history
+     */
     public void updateHistory(int id, Date entryTime, Date exitTime, Attraction attraction, Watch watch) {
         this.connector.connect();
         try {
@@ -150,6 +189,10 @@ public class HistoryController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Removes history from the database
+     * @param id id of the history to be removed
+     */
     public void deleteHistory(int id) {
         this.connector.connect();
         try {
@@ -164,6 +207,13 @@ public class HistoryController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Lists all histories in the database for the given attraction and between dates
+     * @param attraction attraction
+     * @param dateFrom starting date
+     * @param dateTo ending date
+     * @return list of all histories in the database for the given attraction and between dates
+     */
     public List<History> findAllByAttractionAndDateFromAndDateTo(Attraction attraction, Date dateFrom, Date dateTo) {
         List<History> result = new ArrayList<>();
         WatchController watchController = new WatchController();
@@ -199,6 +249,12 @@ public class HistoryController {
 
     }
 
+    /**
+     * Lists all histories in the database between dates
+     * @param dateFrom starting date
+     * @param dateTo ending date
+     * @return list of all histories in the database between dates
+     */
     public List<History> findAllByDateFromAndDateTo(Date dateFrom, Date dateTo) {
         List<History> result = new ArrayList<>();
         AttractionController attractionController = new AttractionController();

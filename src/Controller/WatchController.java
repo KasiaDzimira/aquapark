@@ -9,13 +9,27 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles database related actions with Watch class
+ */
 public class WatchController {
+
+    /**
+     * Responsible for connection to the database
+     */
     private Connector connector;
 
+    /**
+     * Constructor without parametric
+     */
     public WatchController() {
         this.connector = new Connector();
     }
 
+    /**
+     * Creates a new watch in the database
+     * @param status status of the new watch
+     */
     public void createWatch(int status) {
         this.connector.connect();
         try {
@@ -31,6 +45,10 @@ public class WatchController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Lists all watches in the database
+     * @return list of all watches in the database
+     */
     public List<Watch> getAllWatches() {
         List<Watch> result = new ArrayList<>();
         this.connector.connect();
@@ -55,6 +73,11 @@ public class WatchController {
         return result;
     }
 
+    /**
+     * Looks for the watch with given id
+     * @param id id of the watch
+     * @return desired Watch object or null if the watch couldn't be found
+     */
     public Watch getWatchById(int id) {
         this.connector.connect();
 
@@ -81,6 +104,11 @@ public class WatchController {
         return null;
     }
 
+    /**
+     * Updates watch in the database
+     * @param id id of the watch to update
+     * @param status new status of the watch
+     */
     public void updateWatch(int id, int status) {
         this.connector.connect();
         try {
@@ -97,6 +125,10 @@ public class WatchController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Removes watch from the database
+     * @param id id of the watch to be removed
+     */
     public void deleteWatch(int id) {
         this.connector.connect();
         try {

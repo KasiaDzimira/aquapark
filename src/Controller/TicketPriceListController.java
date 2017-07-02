@@ -11,13 +11,28 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Handles database related actions with TicketPriceList class
+ */
 public class TicketPriceListController {
+
+    /**
+     * Responsible for connection to the database
+     */
     private Connector connector;
 
+    /**
+     * Constructor without parametric
+     */
     public TicketPriceListController() {
         this.connector = new Connector();
     }
 
+    /**
+     * Creates a new price list in the database
+     * @param startDate starting date of the new price list
+     * @param endDate ending date of the new price list
+     */
     public void createTicketPriceList(Date startDate, Date endDate) {
         this.connector.connect();
         try {
@@ -35,6 +50,10 @@ public class TicketPriceListController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Lists all price lists in the database
+     * @return list of all price lists in the database
+     */
     public List<TicketPriceList> getAllTicketPriceLists() {
         List<TicketPriceList> result = new ArrayList<>();
         this.connector.connect();
@@ -60,6 +79,11 @@ public class TicketPriceListController {
         return result;
     }
 
+    /**
+     * Looks for the price list with given id
+     * @param id id of the price list
+     * @return desired TicketPriceList object or null if the price list couldn't be found
+     */
     public TicketPriceList getTicketPriceListById(int id) {
         this.connector.connect();
 
@@ -88,6 +112,11 @@ public class TicketPriceListController {
         return null;
     }
 
+    /**
+     * Looks for the price list with given day
+     * @param day day for which the price list is valid
+     * @return desired TicketPriceList object or null if the price list couldn't be found
+     */
     public TicketPriceList getTicketPriceListForDay(Date day) {
         this.connector.connect();
 
@@ -118,6 +147,12 @@ public class TicketPriceListController {
         return null;
     }
 
+    /**
+     * Updates price list in the database
+     * @param id id of the price list to update
+     * @param startDate new starting date of the price list
+     * @param endDate new ending date of the price list
+     */
     public void updateTicketPriceList(int id, Date startDate, Date endDate) {
         this.connector.connect();
         try {
@@ -134,6 +169,10 @@ public class TicketPriceListController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Removes price list from the database
+     * @param id id of the price list to be removed
+     */
     public void deleteTicketPriceList(int id) {
         this.connector.connect();
         try {

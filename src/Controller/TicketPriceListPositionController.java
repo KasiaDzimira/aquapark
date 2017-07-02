@@ -10,13 +10,32 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles database related actions with TicketPriceListPosition class
+ */
 public class TicketPriceListPositionController {
+
+    /**
+     * Responsible for connection to the database
+     */
     private Connector connector;
 
+    /**
+     * Constructor without parametric
+     */
     public TicketPriceListPositionController() {
         this.connector = new Connector();
     }
 
+    /**
+     * Creates a new position in the database
+     * @param price price for the new position
+     * @param ticketPriceListId id of the price list for the new position
+     * @param daysId id of the day for the new position
+     * @param discountGroupId id of the group for the new position
+     * @param daytimeId if of the daytime for the new position
+     * @param attractionTypeId id of the attraction type for the new position
+     */
     public void createTicketPriceListPosition(BigDecimal price, int ticketPriceListId, int daysId, int discountGroupId, int daytimeId, int attractionTypeId) {
         this.connector.connect();
         try {
@@ -33,6 +52,10 @@ public class TicketPriceListPositionController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Lists all positions in the database
+     * @return list of all positions in the database
+     */
     public List<TicketPriceListPosition> getAllTicketPriceListPositions() {
         List<TicketPriceListPosition> result = new ArrayList<>();
         AttractionTypeController attractionTypeController = new AttractionTypeController();
@@ -67,6 +90,11 @@ public class TicketPriceListPositionController {
         return result;
     }
 
+    /**
+     * Lists all positions in the database for the given price list
+     * @param ticketPriceListId id of the price list
+     * @return list of all positions in the database for the given price list
+     */
     public List<TicketPriceListPosition> getAllTicketPriceListPositionsByTicketPriceList(int ticketPriceListId) {
         List<TicketPriceListPosition> result = new ArrayList<>();
         AttractionTypeController attractionTypeController = new AttractionTypeController();
@@ -101,6 +129,11 @@ public class TicketPriceListPositionController {
         return result;
     }
 
+    /**
+     * Looks for the position with given id
+     * @param id id of the position
+     * @return desired TicketPriceListPosition object or null if the position couldn't be found
+     */
     public TicketPriceListPosition getTicketPriceListPositionById(int id) {
         this.connector.connect();
         AttractionTypeController attractionTypeController = new AttractionTypeController();
@@ -137,6 +170,15 @@ public class TicketPriceListPositionController {
         return null;
     }
 
+    /**
+     * Reads price from the position for given parameters
+     * @param priceList price list
+     * @param day day
+     * @param group discount group
+     * @param daytime daytime
+     * @param attractionType type of the attraction
+     * @return price from the position for given parameters
+     */
     public BigDecimal getPrice(TicketPriceList priceList, Day day, DiscountGroup group, Daytime daytime, AttractionType attractionType) {
         this.connector.connect();
         try {
@@ -163,6 +205,11 @@ public class TicketPriceListPositionController {
         return null;
     }
 
+    /**
+     * Updates position in the database
+     * @param id id of the position to be updated
+     * @param price new price for the position
+     */
     public void updateTicketPriceListPosition(int id, BigDecimal price) {
         this.connector.connect();
         try {
@@ -178,6 +225,11 @@ public class TicketPriceListPositionController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Updates position in the database
+     * @param id id of the position to be updated
+     * @param ticketPriceListId id of the new price list for the position
+     */
     public void updateTicketPriceListPosition(int id, int ticketPriceListId) {
         this.connector.connect();
         try {
@@ -193,6 +245,10 @@ public class TicketPriceListPositionController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Removes position from the database
+     * @param id id of the position to be removed
+     */
     public void deleteTicketPriceListPosition(int id) {
         this.connector.connect();
         try {

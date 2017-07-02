@@ -9,13 +9,27 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles database related actions with PassType class
+ */
 public class PassTypeController {
+
+    /**
+     * Responsible for connection to the database
+     */
     private Connector connector;
 
+    /**
+     * Constructor without parametric
+     */
     public PassTypeController() {
         this.connector = new Connector();
     }
 
+    /**
+     * Creates a new pass type in the database
+     * @param name name of the new pass type
+     */
     public void createPassType(String name) {
         this.connector.connect();
         try {
@@ -31,6 +45,10 @@ public class PassTypeController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Lists all pass types in the database
+     * @return list of all pass types in the database
+     */
     public List<PassType> getAllPassTypes() {
         List<PassType> result = new ArrayList<>();
         this.connector.connect();
@@ -55,6 +73,11 @@ public class PassTypeController {
         return result;
     }
 
+    /**
+     * Looks for the pass type with given id
+     * @param id id of the pass type
+     * @return desired PassType object or null if the pass type couldn't be found
+     */
     public PassType getPassTypeById(int id) {
         this.connector.connect();
 
@@ -81,6 +104,11 @@ public class PassTypeController {
         return null;
     }
 
+    /**
+     * Updates pass type in the database
+     * @param id id of the pass type to update
+     * @param name new name of the pass type
+     */
     public void updatePassType(int id, String name) {
         this.connector.connect();
         try {
@@ -96,6 +124,10 @@ public class PassTypeController {
         this.connector.closeConnection(null);
     }
 
+    /**
+     * Removes pass type from the database
+     * @param id id of the pass type to be removed
+     */
     public void deletePassType(int id) {
         this.connector.connect();
         try {
