@@ -1,7 +1,6 @@
 package View.manager;
 
 import Controller.AttractionTypeController;
-import Model.Attraction;
 import Model.AttractionType;
 
 import javax.swing.*;
@@ -10,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class UpdateAttractionTypePanel extends JPanel {

@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Handles database related actions with User class
@@ -113,11 +114,11 @@ public class UserController {
                 return null;
             }
 
-            while (resultSet.next()) {
+            do {
                 User user = new User();
-                user = this.setUserFields(user, resultSet);
+                user = this.setUserFields(user, resultSet, false);
                 users.add(user);
-            }
+            } while (resultSet.next());
 
             this.connector.closeConnection(resultSet);
         } catch (SQLException e) {
@@ -141,7 +142,7 @@ public class UserController {
 
             if (rs.next()) {
                 User user = new User();
-                user = this.setUserFields(user, rs);
+                user = this.setUserFields(user, rs, false);
                 this.connector.closeConnection(rs);
                 return user;
             } else {
@@ -162,25 +163,31 @@ public class UserController {
      * @param fieldValue parameter value
      * @return desired User object or null if the user couldn't be found
      */
-    public ArrayList<User> findBy(String fieldName, String fieldValue) {
+    public ArrayList<User> findBy(String fieldName, Object fieldValue) {
         this.connector.connect();
         ArrayList<User> users = new ArrayList<User>();
+        String sql = "";
 
         try {
             Statement statement = this.connector.getConnection().createStatement();
 
-            String sql = "SELECT * FROM aquapark_user WHERE " + fieldName + " LIKE '" + fieldValue + "'";
+            if (fieldValue instanceof String) {
+                sql = "SELECT * FROM aquapark_user WHERE " + fieldName + " LIKE '" + fieldValue + "'";
+            } else {
+                sql = "SELECT * FROM aquapark_user WHERE " + fieldName + " = '" + fieldValue + "'";
+            }
+
             ResultSet resultSet = statement.executeQuery(sql);
 
             if (!resultSet.next()) {
                 return null;
             }
 
-            while (resultSet.next()) {
+            do {
                 User user = new User();
-                user = this.setUserFields(user, resultSet);
+                user = this.setUserFields(user, resultSet, false);
                 users.add(user);
-            }
+            } while (resultSet.next());
 
             this.connector.closeConnection(resultSet);
         } catch (SQLException e) {
@@ -259,7 +266,7 @@ public class UserController {
                 return null;
             }
 
-            user = this.setUserFields(user, resultSet);
+            user = this.setUserFields(user, resultSet, false);
             this.connector.closeConnection(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -294,9 +301,13 @@ public class UserController {
      * @param resultSet result set
      * @return filled User object
      */
-    public User setUserFields(User user, ResultSet resultSet) {
+    public User setUserFields(User user, ResultSet resultSet, boolean isAquaparkUserId) {
         try {
-            user.setId(resultSet.getInt("id"));
+            if (isAquaparkUserId) {
+                user.setId(resultSet.getInt("aquapark_user_id"));
+            } else {
+                user.setId(resultSet.getInt("id"));
+            }
             user.setFirstName(resultSet.getString("first_name"));
             user.setLastName(resultSet.getString("last_name"));
             user.setEmail(resultSet.getString("email"));
@@ -309,5 +320,33 @@ public class UserController {
         }
 
         return user;
+    }
+
+    public List<User> getUsersWithPass() {
+        this.connector.connect();
+        ArrayList<User> users = new ArrayList<User>();
+
+        try {
+            Statement statement = this.connector.getConnection().createStatement();
+
+            String sql = "SELECT DISTINCT(pass.aquapark_user_id) FROM pass, aquapark_user " +
+                    "WHERE pass.aquapark_user_id IS NOT NULL " +
+                    "AND aquapark_user.id = pass.aquapark_user_id";
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            if (!resultSet.next()) {
+                return null;
+            }
+
+            do {
+                users.addAll(findBy("id", resultSet.getInt("aquapark_user_id")));
+            } while (resultSet.next());
+
+            this.connector.closeConnection(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return users;
     }
 }

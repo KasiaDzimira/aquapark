@@ -2,8 +2,6 @@ package View.AdminPanel;
 
 import Controller.*;
 import Model.*;
-import javafx.scene.control.ComboBox;
-import org.w3c.dom.Attr;
 
 import javax.swing.*;
 import java.awt.*;

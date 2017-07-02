@@ -31,7 +31,8 @@ CREATE TABLE pass (
 	start_date			DATE,
 	end_date			DATE,
 	aquapark_user_id	INTEGER NOT NULL,
-	pass_type_id		INTEGER NOT NULL
+	pass_type_id		INTEGER NOT NULL,
+	disc_group_id		INTEGER NOT NULL
 );
 
 ALTER TABLE pass ADD CONSTRAINT pass_pk PRIMARY KEY ( id );
@@ -150,6 +151,8 @@ ALTER TABLE history ADD CONSTRAINT hist_attraction_fk FOREIGN KEY ( attraction_i
 ALTER TABLE pass ADD CONSTRAINT pass_aquapark_user_fk FOREIGN KEY ( aquapark_user_id ) REFERENCES aquapark_user ( id );
 
 ALTER TABLE pass ADD CONSTRAINT pass_pass_type_fk FOREIGN KEY ( pass_type_id ) REFERENCES pass_type ( id );
+
+ALTER TABLE pass ADD CONSTRAINT pass_disc_group_fk FOREIGN KEY ( disc_group_id ) REFERENCES disc_group ( id );
 
 ALTER TABLE attraction ADD CONSTRAINT attr_attraction_type_fk FOREIGN KEY ( attraction_type_id ) REFERENCES attraction_type ( id );
 

@@ -4,6 +4,7 @@ import Controller.UserController;
 import Model.User;
 import View.UserProfile.HomeView;
 import View.manager.ManagerView;
+import View.CashierView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -75,6 +76,11 @@ public class AppView extends JFrame {
                                     window.runWelcome();
                                 }
                             });
+                            break;
+                        case ROLE_EMPLOYEE:
+                            CashierView cashierView = new CashierView("Cashier panel");
+                            dispose();
+                            cashierView.runWelcome();
                             break;
                     }
                 } else {

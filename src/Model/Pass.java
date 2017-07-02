@@ -33,17 +33,23 @@ public class Pass {
     private PassType passType;
 
     /**
+     * discount group for pass
+     */
+    private DiscountGroup discountGroup;
+
+    /**
      * Constructor
      * @param startDate start date of the new pass
      * @param endDate end date of the new pass
      * @param user owner of the new pass
      * @param passType type of the new pass
      */
-    public Pass(Date startDate, Date endDate, User user, PassType passType) {
+    public Pass(Date startDate, Date endDate, User user, PassType passType, DiscountGroup discountGroup) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.user = user;
         this.passType = passType;
+        this.discountGroup = discountGroup;
     }
 
     /**
@@ -127,11 +133,27 @@ public class Pass {
     }
 
     /**
+     * Getter for discount group
+     * @return discount group for the pass
+     */
+    public DiscountGroup getDiscountGroup() {
+        return discountGroup;
+    }
+
+    /**
+     * Setter for discount group
+     * @param discountGroup is discount group for the pass
+     */
+    public void setDiscountGroup(DiscountGroup discountGroup) {
+        this.discountGroup = discountGroup;
+    }
+
+    /**
      * Stringifies pass
      * @return an information about the pass: its id, user and type
      */
     @Override
     public String toString() {
-        return "Pass: " + Integer.toString(id) + ", user: " + user + ", type: " + passType;
+        return "Pass: " + Integer.toString(id) + ", type: " + passType;
     }
 }

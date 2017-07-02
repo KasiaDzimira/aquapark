@@ -23,6 +23,7 @@ INSERT INTO aquapark_user (first_name, last_name, email, telephone, nick, passwo
 INSERT INTO aquapark_user (first_name, last_name, email, telephone, nick, password, role_user) VALUES ('Tester', 'Admin', 'test@test.com', '555555555', 'TesterAdmin', '12345', 'ROLE_ADMIN');
 INSERT INTO aquapark_user (first_name, last_name, email, telephone, nick, password, role_user) VALUES ('Tester', 'Manager', 'test@test.com', '555555555', 'TesterManager', '12345', 'ROLE_MANAGER');
 INSERT INTO aquapark_user (first_name, last_name, email, telephone, nick, password, role_user) VALUES ('Tester', 'Testowy', 'test@test.com', '555555555', 'TesterTestowy', '12345', 'ROLE_USER');
+INSERT INTO aquapark_user (first_name, last_name, email, telephone, nick, password, role_user) VALUES ('Tester', 'Kasjer', 'test@test.com', '555555555', 'TesterKasjer', '12345', 'ROLE_EMPLOYEE');
 
 -- assuming 1 - in use, 0 - damaged, won't be used
 INSERT INTO watch (status) VALUES (1);
@@ -55,12 +56,12 @@ INSERT INTO attraction (name, status, attraction_type_id) VALUES ('Green Slide',
 INSERT INTO attraction (name, status, attraction_type_id) VALUES ('Yellow Slide', true, (SELECT id from attraction_type WHERE name='Slide'));
 INSERT INTO attraction (name, status, attraction_type_id) VALUES ('Turkish Sauna', true, (SELECT id from attraction_type WHERE name='Sauna'));
 
-INSERT INTO pass (start_date, end_date, aquapark_user_id, pass_type_id) VALUES
-('2017-04-20', '2017-04-22', (SELECT id from aquapark_user WHERE email='jnow@b.com'), (SELECT id from pass_type WHERE name='Basic'));
-INSERT INTO pass (start_date, end_date, aquapark_user_id, pass_type_id) VALUES
-('2017-03-27', '2017-04-02', (SELECT id from aquapark_user WHERE email='ryby@ryby.ru'), (SELECT id from pass_type WHERE name='Basic'));
-INSERT INTO pass (start_date, end_date, aquapark_user_id, pass_type_id) VALUES
-('2017-04-10', '2017-05-08', (SELECT id from aquapark_user WHERE email='ryby@ryby.ru'), (SELECT id from pass_type WHERE name='Extended'));
+INSERT INTO pass (start_date, end_date, aquapark_user_id, pass_type_id, disc_group_id) VALUES
+('2017-04-20', '2017-04-22', (SELECT id from aquapark_user WHERE email='jnow@b.com'), (SELECT id from pass_type WHERE name='Basic'), (SELECT id from disc_group WHERE name='None'));
+INSERT INTO pass (start_date, end_date, aquapark_user_id, pass_type_id, disc_group_id) VALUES
+('2017-03-27', '2017-04-02', (SELECT id from aquapark_user WHERE email='ryby@ryby.ru'), (SELECT id from pass_type WHERE name='Basic'), (SELECT id from disc_group WHERE name='Students'));
+INSERT INTO pass (start_date, end_date, aquapark_user_id, pass_type_id, disc_group_id) VALUES
+('2017-04-10', '2017-05-08', (SELECT id from aquapark_user WHERE email='ryby@ryby.ru'), (SELECT id from pass_type WHERE name='Extended'), (SELECT id from disc_group WHERE name='Students'));
 
 INSERT INTO ticket (stamp, stamp_out, watch_id) VALUES ('2017-04-20 10:23:54', '2017-04-20 12:23:54', 1);
 INSERT INTO ticket (stamp, stamp_out, watch_id) VALUES ('2017-04-20 10:25:17', '2017-04-20 14:25:17', 2);
@@ -79,7 +80,7 @@ INSERT INTO tckt_prc_lst (start_date, end_date) VALUES ('2017-03-01', '2017-03-3
 INSERT INTO tckt_prc_lst (start_date, end_date) VALUES ('2017-04-01', '2017-05-31');
 
 INSERT INTO pass_prc_lst (start_date, end_date) VALUES ('2017-01-01', '2017-03-31');
-INSERT INTO pass_prc_lst (start_date, end_date) VALUES ('2017-04-01', '2017-07-31');
+INSERT INTO pass_prc_lst (start_date, end_date) VALUES ('2017-04-01', '2017-12-31');
 
 INSERT INTO tckt_prc_lst_pos (price, tckt_prc_lst_id, days_id, disc_group_id, daytime_id, attraction_type_id) VALUES (
 	5.0,
@@ -300,14 +301,14 @@ INSERT INTO tckt_prc_lst_pos (price, tckt_prc_lst_id, days_id, disc_group_id, da
 INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_id) VALUES (
 	23.0,
 	(SELECT id from pass_prc_lst WHERE start_date='2017-04-01'),
-	(SELECT id from disc_group WHERE name='None'),
+	(SELECT id from disc_group WHERE name='Students'),
 	(SELECT id from pass_type WHERE name='Basic')
 );
 
 INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_id) VALUES (
 	40.0,
 	(SELECT id from pass_prc_lst WHERE start_date='2017-04-01'),
-	(SELECT id from disc_group WHERE name='None'),
+	(SELECT id from disc_group WHERE name='Students'),
 	(SELECT id from pass_type WHERE name='Extended')
 );
 
@@ -321,6 +322,33 @@ INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_i
 INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_id) VALUES (
 	37.0,
 	(SELECT id from pass_prc_lst WHERE start_date='2017-01-01'),
+	(SELECT id from disc_group WHERE name='None'),
+	(SELECT id from pass_type WHERE name='Extended')
+);
+INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_id) VALUES (
+	18.0,
+	(SELECT id from pass_prc_lst WHERE start_date='2017-01-01'),
+	(SELECT id from disc_group WHERE name='Students'),
+	(SELECT id from pass_type WHERE name='Basic')
+);
+
+INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_id) VALUES (
+	35.0,
+	(SELECT id from pass_prc_lst WHERE start_date='2017-01-01'),
+	(SELECT id from disc_group WHERE name='Students'),
+	(SELECT id from pass_type WHERE name='Extended')
+);
+
+INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_id) VALUES (
+	26.0,
+	(SELECT id from pass_prc_lst WHERE start_date='2017-04-01'),
+	(SELECT id from disc_group WHERE name='None'),
+	(SELECT id from pass_type WHERE name='Basic')
+);
+
+INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_id) VALUES (
+	42.0,
+	(SELECT id from pass_prc_lst WHERE start_date='2017-04-01'),
 	(SELECT id from disc_group WHERE name='None'),
 	(SELECT id from pass_type WHERE name='Extended')
 );
