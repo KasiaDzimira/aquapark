@@ -8,7 +8,7 @@ import java.awt.*;
 public class CashierView extends JFrame {
 
     final static String TAB_CREATE = "PASS MANAGEMENT";
-    final static String TAB_RPASS = "RETURN PASS";
+    final static String TAB_SELL_TICKET = "SELL TICKET";
     final static String TAB_RTICKET = "RETURN TICKET";
 
 
@@ -32,22 +32,22 @@ public class CashierView extends JFrame {
         buyCard.add(new Button("createPassCardButton"));
 
         JPanel historyCard = new JPanel();
-        historyCard.add(new Button("returnPassCardButton"));
+        historyCard.add(new Button("sellTicketCardButton"));
 
         JPanel accountCard = new JPanel();
         accountCard.add(new Button("returnTicketCardButton"));
 
         CreateNewPassView createPassView = new CreateNewPassView(); // buyView
-        ReturnPassView returnPassView = new ReturnPassView(); // historyView
+        CreateNewTicketView createNewTicketView = new CreateNewTicketView();
         ReturnTicketView returnTicketView = new ReturnTicketView(); // accountView
 
 
         tabbedPane.addTab(TAB_CREATE, createPassView.renderWindow());
-        tabbedPane.addTab(TAB_RPASS, returnPassView.renderWindow());
-        tabbedPane.addTab(TAB_RTICKET, returnTicketView.renderWindow());
+        tabbedPane.addTab(TAB_SELL_TICKET, createNewTicketView.renderWindow());
+        tabbedPane.addTab(TAB_RTICKET, returnTicketView);
 
         tabbedPane.setTabComponentAt(0, createLabel(TAB_CREATE));
-        tabbedPane.setTabComponentAt(1, createLabel(TAB_RPASS));
+        tabbedPane.setTabComponentAt(1, createLabel(TAB_SELL_TICKET));
         tabbedPane.setTabComponentAt(2, createLabel(TAB_RTICKET));
         tabbedPane.setBackground(Color.decode("#acf0f2"));
 

@@ -35,20 +35,26 @@ public class TicketController {
     /**
      * Creates a new ticket in the database
      * @param stamp timestamp of entry of the new ticket
-     * @param stampOut timestamp of exit of the new ticket
      * @param watch watch of the new ticket
      */
-    public void createTicket(Date stamp, Date stampOut, Watch watch) {
+    public void createTicket(Date stamp, Watch watch, Pass pass) {
         this.connector.connect();
         try {
             String stampFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(stamp);
-            String stampOutFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(stampOut);
+
             Statement st = this.connector.getConnection().createStatement();
-            String sql = "INSERT INTO ticket (stamp, stamp_out, watch_id) VALUES ('" +
-                    stampFormatted + "', " + watch.getId() + ")";
+            String sql = "";
+
+            if (pass != null) {
+                sql = "INSERT INTO ticket (stamp, watch_id, pass_id) VALUES ('" +
+                        stampFormatted + "', " + watch.getId() + ", " + pass.getId() + ")";
+            } else {
+                sql = "INSERT INTO ticket (stamp, watch_id) VALUES ('" +
+                        stampFormatted + "', " + watch.getId() + ")";
+            }
+
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
-            System.out.println("Query has been executed");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -146,7 +152,7 @@ public class TicketController {
             String stampFormatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(stamp);
             Statement st = this.connector.getConnection().createStatement();
             String sql = "UPDATE ticket SET stamp='" +
-                    stampFormatted + "', stamp_out=" + stampOut + "', watch_id=" + watch.getId() + " WHERE id=" + id;
+                    stampFormatted + "', stamp_out='" + stampOut + "', watch_id=" + watch.getId() + " WHERE id=" + id;
             st.executeUpdate(sql);
             this.connector.getConnection().commit();
             System.out.println("Query has been executed");

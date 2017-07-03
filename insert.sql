@@ -77,7 +77,7 @@ INSERT INTO history (entry_time, exit_time, attraction_id, watch_id) VALUES ('20
 INSERT INTO history (entry_time, exit_time, attraction_id, watch_id) VALUES ('2017-04-21 08:52:11', '2017-04-21 09:38:55', (SELECT id from attraction WHERE name='Turkish Sauna'), 1);
 
 INSERT INTO tckt_prc_lst (start_date, end_date) VALUES ('2017-03-01', '2017-03-31');
-INSERT INTO tckt_prc_lst (start_date, end_date) VALUES ('2017-04-01', '2017-05-31');
+INSERT INTO tckt_prc_lst (start_date, end_date) VALUES ('2017-04-01', '2017-10-31');
 
 INSERT INTO pass_prc_lst (start_date, end_date) VALUES ('2017-01-01', '2017-03-31');
 INSERT INTO pass_prc_lst (start_date, end_date) VALUES ('2017-04-01', '2017-12-31');
@@ -296,6 +296,14 @@ INSERT INTO tckt_prc_lst_pos (price, tckt_prc_lst_id, days_id, disc_group_id, da
 	(SELECT id from disc_group WHERE name='None'),
 	(SELECT id from daytime WHERE name='Afternoon'),
 	(SELECT id from attraction_type WHERE name='Slide')
+);
+INSERT INTO tckt_prc_lst_pos (price, tckt_prc_lst_id, days_id, disc_group_id, daytime_id, attraction_type_id) VALUES (
+	2.0,
+	(SELECT id from tckt_prc_lst WHERE start_date='2017-04-01'),
+	(SELECT id from days WHERE name='Tuesday'),
+	(SELECT id from disc_group WHERE name='Students'),
+	(SELECT id from daytime WHERE name='Morning'),
+	(SELECT id from attraction_type WHERE name='Basic Zone')
 );
 
 INSERT INTO pass_prc_lst_pos (price, pass_prc_lst_id, disc_group_id, pass_type_id) VALUES (

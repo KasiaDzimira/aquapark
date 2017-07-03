@@ -213,6 +213,6 @@ public class User {
      */
     @Override
     public String toString() {
-        return nick;
+        return firstName + ' ' + lastName + ' ' + nick;
     }
 }
