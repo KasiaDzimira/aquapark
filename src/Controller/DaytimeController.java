@@ -100,10 +100,45 @@ public class DaytimeController {
                         rs.getTime("end_hour")
                 );
                 daytime.setId(rs.getInt("id"));
-                this.connector.closeConnection(null);
+                this.connector.closeConnection(rs);
                 return daytime;
             } else {
-                this.connector.closeConnection(null);
+                this.connector.closeConnection(rs);
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.connector.closeConnection(null);
+        }
+        this.connector.closeConnection(null);
+        return null;
+    }
+
+    /**
+     * Looks for the daytime for given hour
+     * @param hour hour
+     * @return desired Daytime object or null if the daytime couldn't be found
+     */
+    public Daytime getDaytimeForHour(Date hour) {
+        this.connector.connect();
+
+        try {
+            String hourFormatted = new SimpleDateFormat("HH:mm:ss").format(hour);
+            Statement st = this.connector.getConnection().createStatement();
+            String sql = "SELECT * FROM daytime WHERE start_hour <'" + hourFormatted + "' AND end_hour > '" + hourFormatted + "'";
+            ResultSet rs = st.executeQuery(sql);
+
+            if (rs.next()) {
+                Daytime daytime = new Daytime(
+                        rs.getString("name"),
+                        rs.getTime("start_hour"),
+                        rs.getTime("end_hour")
+                );
+                daytime.setId(rs.getInt("id"));
+                this.connector.closeConnection(rs);
+                return daytime;
+            } else {
+                this.connector.closeConnection(rs);
                 return null;
             }
         } catch (SQLException e) {

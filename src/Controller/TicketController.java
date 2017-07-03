@@ -180,17 +180,18 @@ public class TicketController {
      * @param ticket Ticket object that must have field stamp correctly filled
      * @param day day when the ticket is being bought
      * @param discountGroup discount group of the client that is buying the ticket
-     * @param daytime daytime when the ticket is being bought
      * @return price of the ticket
      */
-    public BigDecimal calculatePrice(Ticket ticket, Day day, DiscountGroup discountGroup, Daytime daytime) {
+    public BigDecimal calculatePrice(Ticket ticket, Day day, DiscountGroup discountGroup) {
         BigDecimal price = new BigDecimal(0.0);
         HistoryController historyController = new HistoryController();
+        DaytimeController daytimeController = new DaytimeController();
         List<History> result = historyController.getAllHistoriesForTicket(ticket);
         Date now = new Date();
 
         long minutes = TimeUtilities.getDateDiff(ticket.getStamp(), now, TimeUnit.MINUTES);
         if (minutes > 60) {
+            Daytime daytime = daytimeController.getDaytimeForHour(now);
             TicketPriceListPositionController ticketPriceListPositionController = new TicketPriceListPositionController();
             TicketPriceListController ticketPriceListController = new TicketPriceListController();
             TicketPriceList currentPriceList = ticketPriceListController.getTicketPriceListForDay(now);
@@ -208,6 +209,7 @@ public class TicketController {
                 exitTime = now;
                 historyController.updateHistory(history.getId(), history.getEntryTime(), now, history.getAttraction(), history.getWatch());
             }
+            Daytime daytime = daytimeController.getDaytimeForHour(history.getEntryTime());
             long timeDiff = TimeUtilities.getDateDiff(history.getEntryTime(), exitTime, TimeUnit.MINUTES);
             TicketPriceListPositionController ticketPriceListPositionController = new TicketPriceListPositionController();
             TicketPriceListController ticketPriceListController = new TicketPriceListController();
