@@ -262,10 +262,51 @@ public class TicketController {
                         pass
                 );
                 ticket.setId(rs.getInt("id"));
-                this.connector.closeConnection(null);
+                this.connector.closeConnection(rs);
                 return ticket;
             } else {
-                this.connector.closeConnection(null);
+                this.connector.closeConnection(rs);
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        this.connector.closeConnection(null);
+        return null;
+    }
+
+    /**
+     * Looks for the ticket with given watch to mark it as exited
+     * @param watch watch
+     * @return desired Ticket object or null if the ticket couldn't be found
+     */
+    public Ticket findTicketForExit(Watch watch) {
+        this.connector.connect();
+        WatchController watchController = new WatchController();
+        try {
+            Statement st = this.connector.getConnection().createStatement();
+            String sql = "SELECT * FROM ticket INNER JOIN watch ON ticket.watch_id=watch.id WHERE watch_id=" +
+                    watch.getId() + " AND watch.status=2 AND stamp_out is null";
+            ResultSet rs = st.executeQuery(sql);
+
+            if (rs.next()) {
+                Pass pass = null;
+                int passId = rs.getInt("pass_id");
+                if (passId != 0) {
+                    PassController passController = new PassController();
+                    pass = passController.getPassById(passId);
+                }
+                Ticket ticket = new Ticket(
+                        rs.getTimestamp("stamp"),
+                        null,
+                        watch,
+                        pass
+                );
+                ticket.setId(rs.getInt("id"));
+                this.connector.closeConnection(rs);
+                return ticket;
+            } else {
+                this.connector.closeConnection(rs);
                 return null;
             }
         } catch (SQLException e) {
