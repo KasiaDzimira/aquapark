@@ -218,6 +218,24 @@ public class TicketController {
     }
 
     /**
+     * Calculates base price for a ticket (entry for basic zone for 1 hour)
+     * @param day day when the ticket is being bought
+     * @param group discount group of the client that is buying the ticket
+     * @param daytime daytime when the ticket is being bought
+     * @return basic price of the ticket
+     */
+    public BigDecimal calculateBasePrice(Day day, DiscountGroup group, Daytime daytime) {
+        TicketPriceListPositionController ticketPriceListPositionController = new TicketPriceListPositionController();
+        Date now = new Date();
+        TicketPriceListController ticketPriceListController = new TicketPriceListController();
+        TicketPriceList currentPriceList = ticketPriceListController.getTicketPriceListForDay(now);
+        AttractionTypeController attractionTypeController = new AttractionTypeController();
+        AttractionType pool = attractionTypeController.getAttractionTypeByName("Basic Zone");
+
+        return ticketPriceListPositionController.getPrice(currentPriceList, day, group, daytime, pool);
+    }
+
+    /**
      * Looks for the ticket with given watch
      * @param watch watch
      * @return desired Ticket object or null if the ticket couldn't be found
