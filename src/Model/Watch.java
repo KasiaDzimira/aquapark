@@ -13,7 +13,8 @@ public class Watch {
     /**
      * status of the watch
      * 0 - damaged, won't be used
-     * 1 - in use
+     * 1 - can be used
+     * 2 - used, taken by client
      */
     private int status;
 

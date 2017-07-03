@@ -91,10 +91,10 @@ public class WatchController {
                         rs.getInt("status")
                 );
                 watch.setId(rs.getInt("id"));
-                this.connector.closeConnection(null);
+                this.connector.closeConnection(rs);
                 return watch;
             } else {
-                this.connector.closeConnection(null);
+                this.connector.closeConnection(rs);
                 return null;
             }
         } catch (SQLException e) {
@@ -142,5 +142,35 @@ public class WatchController {
             this.connector.closeConnection(null);
         }
         this.connector.closeConnection(null);
+    }
+
+    /**
+     * Looks for first watch that is not in use and not damaged
+     * @return Watch object that is not in use and not damaged
+     */
+    public Watch getFreeWatch() {
+        this.connector.connect();
+
+        try {
+            Statement st = this.connector.getConnection().createStatement();
+            String sql = "SELECT * FROM watch WHERE status=1 LIMIT 1";
+            ResultSet rs = st.executeQuery(sql);
+
+            if (rs.next()) {
+                Watch watch = new Watch(
+                        rs.getInt("status")
+                );
+                watch.setId(rs.getInt("id"));
+                this.connector.closeConnection(rs);
+                return watch;
+            } else {
+                this.connector.closeConnection(rs);
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        this.connector.closeConnection(null);
+        return null;
     }
 }

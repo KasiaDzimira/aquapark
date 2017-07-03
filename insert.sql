@@ -25,7 +25,7 @@ INSERT INTO aquapark_user (first_name, last_name, email, telephone, nick, passwo
 INSERT INTO aquapark_user (first_name, last_name, email, telephone, nick, password, role_user) VALUES ('Tester', 'Testowy', 'test@test.com', '555555555', 'TesterTestowy', '12345', 'ROLE_USER');
 INSERT INTO aquapark_user (first_name, last_name, email, telephone, nick, password, role_user) VALUES ('Tester', 'Kasjer', 'test@test.com', '555555555', 'TesterKasjer', '12345', 'ROLE_EMPLOYEE');
 
--- assuming 1 - in use, 0 - damaged, won't be used
+-- assuming 2 - used, taken by client, 1 - can be used, 0 - damaged, won't be used
 INSERT INTO watch (status) VALUES (1);
 INSERT INTO watch (status) VALUES (1);
 INSERT INTO watch (status) VALUES (0);
