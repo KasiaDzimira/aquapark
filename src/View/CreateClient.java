@@ -8,10 +8,23 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * View for creating new client
+ */
 public class CreateClient extends JFrame {
+    /**
+     * Dimensions of the window
+     */
     private Dimension windowSize;
+    /**
+     * Informations if client is created
+     */
     private boolean isCreated;
 
+    /**
+     * Constructor for CreateClient
+     * @param windowTitle Title of the window
+     */
     public CreateClient(String windowTitle) {
         this.windowSize = new Dimension(400, 500);
         this.setTitle(windowTitle);
@@ -20,6 +33,9 @@ public class CreateClient extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     public void renderForm() {
         JPanel formPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -102,6 +118,9 @@ public class CreateClient extends JFrame {
         this.add(formPanel);
     }
 
+    /**
+     * Centers the window
+     */
     private void centeringWindow() {
         // place window in the center
         Dimension center = new Dimension(
@@ -112,6 +131,9 @@ public class CreateClient extends JFrame {
                 (int) (center.getHeight() - (this.windowSize.getHeight() / 2)));
     }
 
+    /**
+     * Closes window
+     */
     private void disposeFrame() {
         this.dispose();
     }

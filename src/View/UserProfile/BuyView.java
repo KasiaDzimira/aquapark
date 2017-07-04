@@ -5,14 +5,31 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * User view to buy ticket
+ */
 public class BuyView extends JPanel{
-
+    /**
+     * Buy panel
+     */
     private JPanel buyPanel;
+    /**
+     * Extend pass panel
+     */
     private JPanel extendPanel;
+    /**
+     * Panel for buttons
+     */
     private JPanel buttonsPanel;
 
+    /**
+     * Constructor without parameters
+     */
     public BuyView() {}
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     public JPanel renderView() {
 
         //BUTTONS PANEL

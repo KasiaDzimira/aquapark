@@ -7,14 +7,24 @@ import View.AdminPanel.UserManagementView;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Admin view
+ */
 public class AdminView extends JFrame {
     final static String TAB_STATISTICS = "Statistics";
     final static String TAB_CREATE_USER = "Create user";
     final static String TAB_EDIT_ROLE = "User management";
 
     //manually created
+    /**
+     * Dimensions of the window
+     */
     private Dimension windowSize;
 
+    /**
+     * Constructor for AdminView
+     * @param windowTitle Title of the window
+     */
     public AdminView(String windowTitle) {
         this.windowSize = new Dimension(1100, 900);
         this.setTitle(windowTitle);
@@ -23,6 +33,9 @@ public class AdminView extends JFrame {
         this.centeringWindow();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     public void runWelcome() {
         JTabbedPane tabbedPane = new JTabbedPane();
 
@@ -53,6 +66,9 @@ public class AdminView extends JFrame {
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
     }
 
+    /**
+     * Centers the window
+     */
     private void centeringWindow() {
         // place window in the center
         Dimension center = new Dimension(
@@ -63,6 +79,9 @@ public class AdminView extends JFrame {
                 (int) (center.getHeight() - (this.windowSize.getHeight() / 2)));
     }
 
+    /**
+     * Creates label
+     */
     private JLabel createLabel(String labelText) {
         JLabel label = new JLabel(labelText, SwingConstants.CENTER);
         label.setPreferredSize(new Dimension(230, 40));

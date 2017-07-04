@@ -12,22 +12,67 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Admin view for managing users
+ */
 public class UserManagementView extends JPanel {
-
+    /**
+     * Constraints for GridBag layout manager
+     */
     private GridBagConstraints gridBagConstraints;
+    /**
+     * List with users
+     */
     private JList<User> userList;
+    /**
+     * Default user list
+     */
     private DefaultListModel userListModel;
+    /**
+     * Controller for user
+     */
     private UserController userController;
+    /**
+     * Label with nick
+     */
     private JLabel nickLabel;
+    /**
+     * Label with first name
+     */
     private JLabel firstNameLabel;
+    /**
+     * Label with last name
+     */
     private JLabel lastNameLabel;
+    /**
+     * Label with role
+     */
     private JLabel userRoleLabel;
+    /**
+     * Field with nick
+     */
     private JTextField nickField;
+    /**
+     * Field with first name
+     */
     private JTextField firstNameField;
+    /**
+     * Field with last name
+     */
     private JTextField lastNameField;
+    /**
+     * ComboBox with user roles
+     */
     private JComboBox userRoleComboBox;
+    /**
+     * Scroll pane
+     */
     private JScrollPane pane = new JScrollPane();
 
+    /**
+     * Constructor without parameters
+     * Sets elements to display
+     */
     public UserManagementView() {
         this.setLayout(new GridBagLayout());
         this.gridBagConstraints = new GridBagConstraints();
@@ -56,6 +101,9 @@ public class UserManagementView extends JPanel {
         prepareGui();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     private void prepareGui() {
         JPanel detailsLabelPanel = new JPanel(new GridLayout(0, 1));
         JLabel attractionDetailsLabel = new JLabel("Select user:");
@@ -180,6 +228,9 @@ public class UserManagementView extends JPanel {
         this.add(inputPanel, gridBagConstraints);
     }
 
+    /**
+     * Prepares list of users
+     */
     private void prepareList() {
         loadFromDB();
         setOptionsVisibility(false);
@@ -203,6 +254,9 @@ public class UserManagementView extends JPanel {
         });
     }
 
+    /**
+     * Loads users from database
+     */
     private void loadFromDB() {
         userListModel.removeAllElements();
         for (User user : userController.getUsers()) {
@@ -210,6 +264,10 @@ public class UserManagementView extends JPanel {
         }
     }
 
+    /**
+     * Shows information fields
+     * @param visible State of fields
+     */
     private void setOptionsVisibility(boolean visible) {
         nickLabel.setVisible(visible);
         firstNameLabel.setVisible(visible);
@@ -221,6 +279,10 @@ public class UserManagementView extends JPanel {
         userRoleComboBox.setVisible(visible);
     }
 
+    /**
+     * Sets options about specific user
+     * @param user Specific user
+     */
     private void setOptionsValue(User user) {
         nickField.setText(user.getNick());
         firstNameField.setText(user.getFirstName());
@@ -228,6 +290,10 @@ public class UserManagementView extends JPanel {
         prepareComboBox(user.getRole());
     }
 
+    /**
+     * Prepares ComboBox with user roles
+     * @param userRole Role of user
+     */
     private void prepareComboBox(UserRoleDictionary userRole) {
         for (int i=0; i<userRoleComboBox.getItemCount(); i++) {
             System.out.println(userRoleComboBox.getItemAt(i));
@@ -238,6 +304,9 @@ public class UserManagementView extends JPanel {
         }
     }
 
+    /**
+     * Refreshes lists
+     */
     private void refreshLists() {
         userList.revalidate();
         userList.repaint();

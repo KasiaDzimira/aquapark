@@ -9,17 +9,44 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Cashier view when user is returning the pass
+ */
 public class ReturnPassView extends JPanel {
+    /**
+     * Button panel
+     */
     private JPanel buttonsPanel;
+    /**
+     * Controller for ticket
+     */
     private TicketController ticketController;
+    /**
+     * Ticket model
+     */
     private Ticket ticketModel;
+    /**
+     * Panel for payment
+     */
     private JPanel infoPaymentPanel;
+    /**
+     * Panel with time
+     */
     private JPanel timePanel;
+    /**
+     * Dimensions of the field
+     */
     private Dimension fieldSize = new Dimension(150, 50);
 
+    /**
+     * Constructor without parameters
+     */
     public ReturnPassView() {
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     public JPanel renderWindow() {
         // Info and payment Panel
         infoPaymentPanel = new JPanel(new GridLayout(0, 4));

@@ -11,12 +11,27 @@ import java.util.Date;
 import Controller.*;
 import Model.*;
 
-
+/**
+ * Cashier view for showing pass details
+ */
 public class PassDetailsView extends JFrame {
+    /**
+     * Constraints for GridBag layout manager
+     */
     private GridBagConstraints gridBagConstraints;
+    /**
+     * Controller for pass type
+     */
     private PassTypeController passTypeController;
+    /**
+     * Controller for discount group
+     */
     private DiscountGroupController discountGroupController;
 
+    /**
+     * Constructor without parameters
+     * Sets elements to display
+     */
     public PassDetailsView() {
         this.setLayout(new GridBagLayout());
         this.gridBagConstraints = new GridBagConstraints();
@@ -27,6 +42,9 @@ public class PassDetailsView extends JFrame {
         this.prepareGui();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     private void prepareGui() {
         Calendar calendar = Calendar.getInstance();
         JPanel detailsLabelPanel = new JPanel(new GridLayout(0, 1));
@@ -150,6 +168,9 @@ public class PassDetailsView extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Creates pass
+     */
     private void createPass() { }
 
 

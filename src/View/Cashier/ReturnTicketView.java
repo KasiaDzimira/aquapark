@@ -11,15 +11,43 @@ import java.util.Date;
 import Controller.*;
 import Model.*;
 
+/**
+ * Cashier view when user is returning the ticket
+ */
 public class ReturnTicketView extends JPanel {
+    /**
+     * Constraints for GridBag layout manager
+     */
     private GridBagConstraints gridBagConstraints;
+    /**
+     * Controller for watch
+     */
     private WatchController watchController;
+    /**
+     * Controller for day
+     */
     private DayController dayController;
+    /**
+     * Controller for daytime
+     */
     private DaytimeController daytimeController;
+    /**
+     * Controller for ticket
+     */
     private TicketController ticketController;
+    /**
+     * Controller for discount group
+     */
     private DiscountGroupController discountGroupController;
+    /**
+     * Button to calculate the price
+     */
     JButton confirmBtn = new JButton("Calculate price");
 
+    /**
+     * Constructor without parameters
+     * Sets elements to display
+     */
     public ReturnTicketView() {
         this.gridBagConstraints = new GridBagConstraints();
         this.watchController = new WatchController();
@@ -31,6 +59,9 @@ public class ReturnTicketView extends JPanel {
         prepareGui();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     private void prepareGui() {
         JLabel watchIdLabel = new JLabel("Watch id:");
         JTextField watchIdField = new JTextField();

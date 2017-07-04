@@ -8,12 +8,23 @@ import java.util.Arrays;
 
 import Model.User;
 
-
+/**
+ * User view to change password to account
+ */
 public class ChangePasswordPanel extends JFrame {
-
+    /**
+     * Dimensions of the window
+     */
     private Dimension windowSize;
+    /**
+     * Active user
+     */
     private User user;
 
+    /**
+     * Constructor for ChangePasswordPanel
+     * @param user User to change password of
+     */
     ChangePasswordPanel(User user){
         this.windowSize = new Dimension(400, 400);
         this.setSize(this.windowSize);
@@ -21,6 +32,9 @@ public class ChangePasswordPanel extends JFrame {
         renderView();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     void renderView(){
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setBackground(Color.white);

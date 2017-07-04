@@ -8,10 +8,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 
+/**
+ * Manager view to create attraction type
+ */
 public class CreateAttractionTypePanel extends JPanel {
+    /**
+     * Controller for attraction type
+     */
     private AttractionTypeController attractionTypeController;
+    /**
+     * Constraints for GridBag layout manager
+     */
     private GridBagConstraints gridBagConstraints;
 
+    /**
+     * Constructor without parameters
+     * Adjusts settings of elements to display
+     */
     public CreateAttractionTypePanel() {
         attractionTypeController = new AttractionTypeController();
         attractionTypeController = new AttractionTypeController();
@@ -20,6 +33,9 @@ public class CreateAttractionTypePanel extends JPanel {
         prepareGui();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     private void prepareGui() {
         JPanel detailsLabelPanel = new JPanel(new GridLayout(0, 1));
         JLabel attractionDetailsLabel = new JLabel("Attraction type details:");
@@ -94,6 +110,10 @@ public class CreateAttractionTypePanel extends JPanel {
         this.setVisible(true);
     }
 
+    /**
+     * Creates new attraction type
+     * @param name Type of attraction
+     */
     private void createAttractionType(String name) {
         attractionTypeController.createAttractionType(name);
     }

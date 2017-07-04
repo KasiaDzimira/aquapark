@@ -10,17 +10,53 @@ import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+/**
+ * Manager view to create new position
+ */
 public class CreatePositionView extends JFrame {
+    /**
+     * Dimensions of the window
+     */
     Dimension windowSize;
+    /**
+     * Constraints for GridBag layout manager
+     */
     GridBagConstraints gridBagConstraints;
+    /**
+     * Controller for attraction type
+     */
     AttractionTypeController attractionTypeController;
+    /**
+     * Controller for day
+     */
     DayController dayController;
+    /**
+     * Controller for discount group
+     */
     DiscountGroupController discountGroupController;
+    /**
+     * Controller for daytime
+     */
     DaytimeController daytimeController;
+    /**
+     * Controller for ticket price list position
+     */
     TicketPriceListPositionController ticketPriceListPositionController;
+    /**
+     * ComboBox with ticket price list positions
+     */
     JComboBox<TicketPriceListPosition> ticketPriceListPositionJComboBox;
+    /**
+     * List with ticket prices
+     */
     TicketPriceList ticketPriceList;
 
+    /**
+     * Constructor for CreatePositionView
+     * Adjusts settings of elements to display
+     * @param ticketPriceList List of ticket prices
+     * @param ticketPriceListPositionJComboBox ComboBox with ticket prices
+     */
     public CreatePositionView(TicketPriceList ticketPriceList, JComboBox<TicketPriceListPosition> ticketPriceListPositionJComboBox) {
         this.ticketPriceList = ticketPriceList;
         this.ticketPriceListPositionJComboBox = ticketPriceListPositionJComboBox;
@@ -41,6 +77,9 @@ public class CreatePositionView extends JFrame {
         prepareGui();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     private void prepareGui() {
         JLabel dayLabel = new JLabel("Day of week:");
         JLabel dayTimeLabel = new JLabel("Daytime");
@@ -139,6 +178,9 @@ public class CreatePositionView extends JFrame {
         this.add(createPositionButton, gridBagConstraints);
     }
 
+    /**
+     * Centers the window
+     */
     private void centeringWindow() {
         // place window in the center
         Dimension center = new Dimension(

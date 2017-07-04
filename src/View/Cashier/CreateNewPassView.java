@@ -12,14 +12,39 @@ import java.util.*;
 import Controller.UserController;
 import Model.User;
 
+/**
+ * Cashier view to create new pass
+ */
 public class CreateNewPassView extends JPanel {
+    /**
+     * Constraints for GridBag layout manager
+     */
     private GridBagConstraints gridBagConstraints;
+    /**
+     * Controller for user
+     */
     private UserController userController;
+    /**
+     * List with users
+     */
     private JList<User> userList;
+    /**
+     * Default list of users
+     */
     private DefaultListModel userListModel;
+    /**
+     * Scroll pane
+     */
     private JScrollPane pane = new JScrollPane();
+    /**
+     * Button for extension
+     */
     private JButton extensionBtn;
 
+    /**
+     * Constructor without parameters
+     * Sets elements to display
+     */
     public CreateNewPassView() {
         this.setLayout(new GridBagLayout());
         this.gridBagConstraints = new GridBagConstraints();
@@ -34,6 +59,9 @@ public class CreateNewPassView extends JPanel {
         renderWindow();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     public JPanel renderWindow() {
         JPanel detailsLabelPanel = new JPanel(new GridLayout(0, 1));
         JLabel cashierDetailsLabel = new JLabel("List of user with active pass:");
@@ -134,6 +162,9 @@ public class CreateNewPassView extends JPanel {
         return this;
     }
 
+    /**
+     * Prepares list of users
+     */
     private void prepareList() {
         loadFromDB();
         userList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -154,6 +185,9 @@ public class CreateNewPassView extends JPanel {
         });
     }
 
+    /**
+     * Loads users with passes from database
+     */
     private void loadFromDB() {
         userListModel.removeAllElements();
         for (User user : userController.getUsersWithPass()) {
@@ -161,6 +195,10 @@ public class CreateNewPassView extends JPanel {
         }
     }
 
+    /**
+     * Tests if there is a selection in userList
+     * @param button Button to change
+     */
     private void isEnabledBtn(JButton button) {
         if (userList.isSelectionEmpty()) {
             button.setEnabled(false);
@@ -171,6 +209,9 @@ public class CreateNewPassView extends JPanel {
         }
     }
 
+    /**
+     * Refreshes lists
+     */
     private void refreshLists() {
         userList.revalidate();
         userList.repaint();

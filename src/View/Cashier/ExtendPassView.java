@@ -15,26 +15,88 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Cashier view for extending the pass
+ */
 public class ExtendPassView extends JFrame {
+    /**
+     * Dimensions of the window
+     */
     private Dimension windowSize;
+    /**
+     * Selected user
+     */
     private User selectedUser;
+    /**
+     * Controller for pass
+     */
     private PassController passController;
+    /**
+     * ArrayList of passes
+     */
     private ArrayList<Pass> passes;
+    /**
+     * Constraints for GridBag layout manager
+     */
     private GridBagConstraints gridBagConstraints;
+    /**
+     * List of passes
+     */
     private JList<Pass> passJList;
+    /**
+     * Default list
+     */
     private DefaultListModel defaultListModel;
+    /**
+     * Scroll pane
+     */
     private JScrollPane pane;
+    /**
+     * Label - Since
+     */
     private JLabel sinceLabel = new JLabel("Since:");
+    /**
+     * LAbel - Until
+     */
     private JLabel untilLabel = new JLabel("Until:");
+    /**
+     * Label - Pass type
+     */
     private JLabel passTypeLabel = new JLabel("Pass type:");
+    /**
+     * Label
+     */
     private JLabel passType = new JLabel("");
+    /**
+     * Chooser for pass type
+     */
     private JDateChooser dateChooserFrom = new JDateChooser();
+    /**
+     * Chooser for ending date
+     */
     private JDateChooser dateChooserTo = new JDateChooser();
+    /**
+     * Label - Discount group
+     */
     private JLabel discountGroupLabel = new JLabel("Discount group:");
+    /**
+     * Label for discount group
+     */
     private JLabel discountGroup = new JLabel("");
+    /**
+     * Selected pass
+     */
     private Pass selectedPass;
+    /**
+     * Button to confirm
+     */
     JButton confirmBtn = new JButton("Confirm");
 
+    /**
+     * Constructor for ExtendPassView
+     * Sets elements to display
+     * @param selectedUser Chosen user to extend pass of
+     */
     public ExtendPassView(User selectedUser) {
         this.gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -53,6 +115,9 @@ public class ExtendPassView extends JFrame {
         prepareGui();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     public void prepareGui() {
         JLabel selectedUserLabel = new JLabel("Selected user:");
         JLabel userName = new JLabel(selectedUser.getFirstName() + ' ' + selectedUser.getLastName());
@@ -167,6 +232,9 @@ public class ExtendPassView extends JFrame {
         this.add(inputPanel, gridBagConstraints);
     }
 
+    /**
+     * Prepares list of available passes
+     */
     private void prepareList() {
         passJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         defaultListModel.removeAllElements();
@@ -176,6 +244,9 @@ public class ExtendPassView extends JFrame {
         }
     }
 
+    /**
+     * Centers the window
+     */
     private void centeringWindow() {
         // place window in the center
         Dimension center = new Dimension(
@@ -186,6 +257,10 @@ public class ExtendPassView extends JFrame {
                 (int) (center.getHeight() - (this.windowSize.getHeight() / 2)));
     }
 
+    /**
+     * Shows information fields
+     * @param visible State of fields
+     */
     private void setOptionsVisibility(boolean visible) {
         sinceLabel.setVisible(visible);
         untilLabel.setVisible(visible);

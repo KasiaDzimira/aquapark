@@ -11,11 +11,23 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Main window with log in options
+ */
 public class AppView extends JFrame {
+    /**
+     * Main panel
+     */
     private JPanel mainPanel;
-
+    /**
+     * Dimensions of the window
+     */
     private Dimension windowSize;
 
+    /**
+     * Constructor for AppView
+     * Adjusts settings for the window
+     */
     public AppView(String windowTitle) {
         this.windowSize = new Dimension(800, 800);
         this.setTitle(windowTitle);
@@ -26,6 +38,9 @@ public class AppView extends JFrame {
         this.centeringWindow();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     public void runWelcome() {
         JPanel welcomePanel = new JPanel(new GridBagLayout());
         JPanel buttonsPanel = new JPanel();
@@ -122,6 +137,9 @@ public class AppView extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Centers the window
+     */
     private void centeringWindow() {
         // place window in the center
         Dimension center = new Dimension(

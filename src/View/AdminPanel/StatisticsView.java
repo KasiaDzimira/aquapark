@@ -13,14 +13,39 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Admin view for showing statistics
+ */
 public class StatisticsView extends JPanel {
+    /**
+     * Constraints for GridBag layout manager
+     */
     private GridBagConstraints gridBagConstraints;
+    /**
+     * Controller for attraction type
+     */
     private AttractionTypeController attractionTypeController;
+    /**
+     * Controller for discount group
+     */
     private DiscountGroupController discountGroupController;
+    /**
+     * Controller for attraction
+     */
     private AttractionController attractionController;
+    /**
+     * ComboBox with attractions
+     */
     private JComboBox<Attraction> attractionJComboBox;
+    /**
+     * ComboBox with attractions types
+     */
     private JComboBox<AttractionType> attractionTypeJComboBox;
 
+    /**
+     * Constructor without parameters
+     * Sets elements to display
+     */
     public StatisticsView() {
         this.setLayout(new GridBagLayout());
         this.gridBagConstraints = new GridBagConstraints();
@@ -33,6 +58,9 @@ public class StatisticsView extends JPanel {
         this.prepareGui();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     private void prepareGui() {
         Calendar calendar = Calendar.getInstance();
         JPanel detailsLabelPanel = new JPanel(new GridLayout(0, 1));
@@ -141,7 +169,6 @@ public class StatisticsView extends JPanel {
         inputPanel.add(discountGroupLabel);
         inputPanel.add(attractionTypeLabel);
         inputPanel.add(attractionLabel);
-//        inputPanel.add(discountGroupJComboBox);
         inputPanel.add(attractionTypeJComboBox);
         inputPanel.add(attractionJComboBox);
         inputPanel.add(isTicketRadio);
@@ -171,6 +198,16 @@ public class StatisticsView extends JPanel {
         this.setVisible(true);
     }
 
+    /**
+     * Generates statistics and shows available actions
+     * @param discountGroup Chosen discount group
+     * @param attractionType Chosen attraction type
+     * @param attraction Chosen attraction
+     * @param dateFrom Starting date
+     * @param dateTo Ending date
+     * @param isTicket Information if get history of ticket
+     * @param isPass Information if get history of pass
+     */
     private void generateStatistics(DiscountGroup discountGroup, AttractionType attractionType,
                                     Attraction attraction, Date dateFrom, Date dateTo,
                                     Boolean isTicket, Boolean isPass) {
@@ -205,6 +242,11 @@ public class StatisticsView extends JPanel {
 
     }
 
+    /**
+     * Shows options box
+     * @param message Message to show
+     * @param options Available options
+     */
     private int showOptionBox(String message, Object[] options) {
         JTextArea textArea = new JTextArea(message);
         JScrollPane scrollPane = new JScrollPane(textArea);
@@ -215,6 +257,10 @@ public class StatisticsView extends JPanel {
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
     }
 
+    /**
+     * Returns informations about the pass
+     * @param histories Array of history entries
+     */
     private String getHistoryAndPassInfo(ArrayList<History> histories) {
         TicketController ticketController = new TicketController();
         String info = "";
@@ -232,6 +278,10 @@ public class StatisticsView extends JPanel {
 
     }
 
+    /**
+     * Returns informations about the ticket
+     * @param histories Array of history entries
+     */
     private String getHistoryAndTicketInfo(ArrayList<History> histories) {
         TicketController ticketController = new TicketController();
 
@@ -246,6 +296,10 @@ public class StatisticsView extends JPanel {
         return info;
     }
 
+    /**
+     * Updates ComboBox with types of attractions
+     * @param attractionType Type of attraction to update
+     */
     protected JComboBox<Attraction> updateAttractionJComboBox(AttractionType attractionType) {
         ArrayList<Attraction> attractions = (ArrayList<Attraction>) attractionController.getAttractionByType(attractionType);
         Attraction[] attractions1 = attractions.toArray(new Attraction[attractions.size()]);
@@ -259,6 +313,9 @@ public class StatisticsView extends JPanel {
         return  attractionJComboBox;
     }
 
+    /**
+     * Creates ComboBox with types of attractions
+     */
     protected JComboBox<AttractionType> createAttractionTypeJComboBox() {
         ArrayList<AttractionType> attractionTypes = (ArrayList<AttractionType>) attractionTypeController.getAllAttractionTypes();
         AttractionType[] attractionTypes1 = attractionTypes.toArray(new AttractionType[attractionTypes.size()]);

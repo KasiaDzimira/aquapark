@@ -13,12 +13,29 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 
+/**
+ * Manager view with ticket prices list
+ */
 public class TicketPriceListPanel extends JPanel {
+    /**
+     * Default list for all positions
+     */
     private DefaultListModel<TicketPriceListPosition> allPositionModel;
+    /**
+     * Default list for chosen position
+     */
     private DefaultListModel<TicketPriceListPosition> choosenPositionModel;
+    /**
+     * ComboBox with ticket price positions
+     */
     private JComboBox<TicketPriceListPosition> ticketPriceListPositionJComboBox;
+    /**
+     * Default table
+     */
     private DefaultTableModel tableModel;
-
+    /**
+     * Column names
+     */
     private String[] columnNames = {
             "Day",
             "Discount group",
@@ -27,17 +44,43 @@ public class TicketPriceListPanel extends JPanel {
             "Price",
             "Position id"
     };
-
+    /**
+     * Table data
+     */
     private Object[][] tableData;
-
+    /**
+     * Ticket prices list
+     */
     private TicketPriceList ticketPriceList;
+    /**
+     * Controller for ticket price list
+     */
     private TicketPriceListController ticketPriceListController;
+    /**
+     * Controller for ticket price positions list
+     */
     private TicketPriceListPositionController ticketPriceListPositionController;
+    /**
+     * ArrayList with ticket price positions
+     */
     private ArrayList<TicketPriceListPosition> ticketPriceListPositions;
+    /**
+     * ArrayList with all ticket positions
+     */
     private ArrayList<TicketPriceListPosition> allTicketPositions;
+    /**
+     * Constraints for GridBag layout manager
+     */
     private GridBagConstraints gridBagConstraints;
+    /**
+     * Table with chosen position
+     */
     private JTable choosenPositionTable;
 
+    /**
+     * Constructor without parameters
+     * Adjusts settings of elements to display
+     */
     public TicketPriceListPanel() {
         ticketPriceListController = new TicketPriceListController();
         ticketPriceListPositionController = new TicketPriceListPositionController();
@@ -54,6 +97,9 @@ public class TicketPriceListPanel extends JPanel {
         prepareGui();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     private void prepareGui() {
         JPanel detailsLabelPanel = new JPanel(new GridLayout(0, 1));
         JLabel attractionDetailsLabel = new JLabel("Ticket price list management:");
@@ -148,6 +194,9 @@ public class TicketPriceListPanel extends JPanel {
         this.setVisible(true);
     }
 
+    /**
+     * Adds positions to list
+     */
     private void addPositions() {
         Object[] newRow = new Object[6];
         TicketPriceListPosition selectedPosition = (TicketPriceListPosition) ticketPriceListPositionJComboBox.getSelectedItem();
@@ -170,6 +219,9 @@ public class TicketPriceListPanel extends JPanel {
         JOptionPane.showMessageDialog(null, "Position has been successfully added to price list!");
     }
 
+    /**
+     * Prepares lists
+     */
     private void prepareLists() {
         allPositionModel = new DefaultListModel<>();
         choosenPositionModel = new DefaultListModel<>();
@@ -192,6 +244,10 @@ public class TicketPriceListPanel extends JPanel {
         }
     }
 
+    /**
+     * Prepares ticket position list
+     * @param allPositionModel All existing positions
+     */
     private void prepareTicketPositionList(DefaultListModel allPositionModel) {
         for (TicketPriceListPosition position : ticketPriceListPositionController.getAllTicketPriceListPositions()) {
             allPositionModel.addElement(position);

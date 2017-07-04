@@ -5,17 +5,24 @@ import View.Cashier.*;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Cashier view
+ */
 public class CashierView extends JFrame {
 
     final static String TAB_CREATE = "PASS MANAGEMENT";
     final static String TAB_SELL_TICKET = "SELL TICKET";
     final static String TAB_RTICKET = "RETURN TICKET";
 
-
+    /**
+     * Dimensions of the window
+     */
     private Dimension windowSize;
 
-
-
+    /**
+     * Constructor for CashierView
+     * @param windowTitle Title of the window
+     */
     public CashierView(String windowTitle) {
         this.windowSize = new Dimension(1100, 700);
         this.setTitle(windowTitle);
@@ -24,6 +31,9 @@ public class CashierView extends JFrame {
         this.centeringWindow();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     public void runWelcome() {
         JTabbedPane tabbedPane = new JTabbedPane();
 
@@ -56,6 +66,9 @@ public class CashierView extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Creates label
+     */
     private JLabel createLabel(String labelText) {
         JLabel label = new JLabel(labelText, SwingConstants.CENTER);
         label.setPreferredSize(new Dimension(230, 40));
@@ -63,6 +76,9 @@ public class CashierView extends JFrame {
         return label;
     }
 
+    /**
+     * Centers the window
+     */
     private void centeringWindow() {
         // place window in the center
         Dimension center = new Dimension(

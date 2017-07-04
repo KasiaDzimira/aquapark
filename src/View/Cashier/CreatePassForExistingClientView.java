@@ -17,27 +17,91 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Cashier view to create pass for existing client
+ */
 public class CreatePassForExistingClientView extends JFrame {
+    /**
+     * Dimensions of the window
+     */
     private Dimension windowSize;
+    /**
+     * List of users
+     */
     private JList<User> userJList;
+    /**
+     * Default list
+     */
     private DefaultListModel defaultListModel;
+    /**
+     * Controller for user
+     */
     private UserController userController;
+    /**
+     * Controller for discount group
+     */
     private DiscountGroupController discountGroupController;
+    /**
+     * Controller for pass type
+     */
     private PassTypeController passTypeController;
+    /**
+     * Controller for pass
+     */
     private PassController passController;
+    /**
+     * Scroll pane
+     */
     private JScrollPane pane;
+    /**
+     * Label - Since
+     */
     private JLabel sinceLabel = new JLabel("Since:");
+    /**
+     * Label - Until
+     */
     private JLabel untilLabel = new JLabel("Until:");
+    /**
+     * Label - Pass type
+     */
     private JLabel passTypeLabel = new JLabel("Pass type:");
+    /**
+     * Label - Discount group
+     */
     private JLabel discountGroupLabel = new JLabel("Discount group:");
+    /**
+     * Date chooser for starting date
+     */
     private JDateChooser dateChooserFrom = new JDateChooser();
+    /**
+     * Date chooser for ending date
+     */
     private JDateChooser dateChooserTo = new JDateChooser();
+    /**
+     * Constraints for GridBag layout manager
+     */
     private GridBagConstraints gridBagConstraints;
+    /**
+     * ComboBox with discount groups
+     */
     private JComboBox<DiscountGroup> discountGroupJComboBox;
+    /**
+     * ComboBox with pass types
+     */
     private JComboBox<PassType> passTypeJComboBox;
+    /**
+     * Selected user
+     */
     private User selectedUser;
+    /**
+     * Button to confirm
+     */
     JButton confirmBtn = new JButton("Confirm");
 
+    /**
+     * Constructor without parameters
+     * Sets elements to display
+     */
     public CreatePassForExistingClientView() {
         this.gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -58,6 +122,9 @@ public class CreatePassForExistingClientView extends JFrame {
         prepareGui();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     private void prepareGui() {
         JLabel selectedUserLabel = new JLabel("Select user:");
         selectedUserLabel.setForeground(new Color(235, 127, 0));
@@ -156,6 +223,9 @@ public class CreatePassForExistingClientView extends JFrame {
         this.add(inputPanel, gridBagConstraints);
     }
 
+    /**
+     * Prepares list of users
+     */
     private void prepareList() {
         defaultListModel.removeAllElements();
 
@@ -163,7 +233,9 @@ public class CreatePassForExistingClientView extends JFrame {
             defaultListModel.addElement(user);
         }
     }
-
+    /**
+     * Centers the window
+     */
     private void centeringWindow() {
         // place window in the center
         Dimension center = new Dimension(
@@ -174,6 +246,10 @@ public class CreatePassForExistingClientView extends JFrame {
                 (int) (center.getHeight() - (this.windowSize.getHeight() / 2)));
     }
 
+    /**
+     * Shows information fields
+     * @param visible State of fields
+     */
     private void setOptionsVisibility(boolean visible) {
         sinceLabel.setVisible(visible);
         untilLabel.setVisible(visible);

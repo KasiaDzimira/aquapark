@@ -18,23 +18,75 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Cashier view to create pass for new client
+ */
 public class CreatePassForNewClientView extends JFrame {
+    /**
+     * Dimensions of the window
+     */
     private Dimension windowSize;
+    /**
+     * Controller for user
+     */
     private UserController userController;
+    /**
+     * Controller for discount group
+     */
     private DiscountGroupController discountGroupController;
+    /**
+     * Controller for pass type
+     */
     private PassTypeController passTypeController;
+    /**
+     * Controller for pass
+     */
     private PassController passController;
+    /**
+     * Label - Since
+     */
     private JLabel sinceLabel = new JLabel("Since:");
+    /**
+     * Label - Until
+     */
     private JLabel untilLabel = new JLabel("Until:");
+    /**
+     * Label - Pass type
+     */
     private JLabel passTypeLabel = new JLabel("Pass type:");
+    /**
+     * Label - Discount group
+     */
     private JLabel discountGroupLabel = new JLabel("Discount group:");
+    /**
+     * Chooser for starting date
+     */
     private JDateChooser dateChooserFrom = new JDateChooser();
+    /**
+     * Chooser for ending date
+     */
     private JDateChooser dateChooserTo = new JDateChooser();
+    /**
+     * Constraints for GridBag layout manager
+     */
     private GridBagConstraints gridBagConstraints;
+    /**
+     * ComboBox with discount groups
+     */
     private JComboBox<DiscountGroup> discountGroupJComboBox;
+    /**
+     * ComboBox with pass types
+     */
     private JComboBox<PassType> passTypeJComboBox;
+    /**
+     * Button to confirm
+     */
     JButton confirmBtn = new JButton("Confirm");
 
+    /**
+     * Constructor without parameters
+     * Sets elements to display
+     */
     public CreatePassForNewClientView() {
         this.gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -52,6 +104,9 @@ public class CreatePassForNewClientView extends JFrame {
         prepareGui();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     private void prepareGui() {
         JLabel selectedUserLabel = new JLabel("Add new client and pass:");
         selectedUserLabel.setForeground(new Color(235, 127, 0));
@@ -199,6 +254,9 @@ public class CreatePassForNewClientView extends JFrame {
         this.add(confirmBtn, gridBagConstraints);
     }
 
+    /**
+     * Centers the window
+     */
     private void centeringWindow() {
         // place window in the center
         Dimension center = new Dimension(

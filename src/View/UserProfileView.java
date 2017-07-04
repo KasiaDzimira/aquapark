@@ -11,6 +11,9 @@ import Model.User;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Main User view
+ */
 public class UserProfileView extends JFrame {
 
     final static String TAB_HOME = "HOME";
@@ -18,14 +21,30 @@ public class UserProfileView extends JFrame {
     final static String TAB_HISTORY = "HISTORY";
     final static String TAB_ACCOUNT = "ACCOUNT";
 
-    //Next 2 lines to delete ~F
+    /**
+     * User
+     */
     private User user;
+    /**
+     * Controller for user
+     */
     private UserController userController;
-
+    /**
+     * Dimensions of the window
+     */
     private Dimension windowSize;
+    /**
+     * User nick
+     */
     private String userNick;
 
-    //Delete user and userController ~F
+    /**
+     * Constructor for UserProfileView
+     * @param windowTitle Title of the window
+     * @param user Active user
+     * @param userNick User's nick
+     * @param userController Controller for active user
+     */
     public UserProfileView(String windowTitle, String userNick, User user, UserController userController) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
@@ -42,6 +61,9 @@ public class UserProfileView extends JFrame {
         this.user = user;
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     public void addComponentToPane() {
         JTabbedPane tabbedPane = new JTabbedPane();
 
@@ -75,6 +97,9 @@ public class UserProfileView extends JFrame {
         pane.add(tabbedPane, BorderLayout.CENTER);
     }
 
+    /**
+     * Creates label
+     */
     private JLabel createLabel(String labelText) {
         JLabel label = new JLabel(labelText, SwingConstants.CENTER);
         label.setPreferredSize(new Dimension(273, 50));
@@ -82,6 +107,9 @@ public class UserProfileView extends JFrame {
         return label;
     }
 
+    /**
+     * Centers the window
+     */
     private void centeringWindow() {
         // place window in the center
         Dimension center = new Dimension(

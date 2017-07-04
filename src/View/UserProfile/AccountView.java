@@ -7,20 +7,49 @@ import java.awt.event.ActionListener;
 import Controller.UserController;
 import Model.User;
 
+/**
+ * User view with informations about account
+ */
 public class AccountView extends JPanel {
 
+    /**
+     * Panel for buttons
+     */
     private JPanel buttonsPanel;
+    /**
+     * Controller for user
+     */
     private UserController userController;
+    /**
+     * User model
+     */
     private User userModel;
+    /**
+     * Panel for personal informations
+     */
     private JPanel personalPanel;
+    /**
+     * Panel for contact informations
+     */
     private JPanel contactPanel;
+    /**
+     * Dimensions of the field
+     */
     private Dimension fieldSize = new Dimension(300, 60);
     //Delete arguments ~F
+    /**
+     * Constructor for AccountView
+     * @param user Active user
+     * @param userController Controller for active user
+     */
     public AccountView(User user, UserController userController) {
         this.userModel = user;
         this.userController = userController;
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     public JPanel renderView() {
 
         //PERSONAL PANEL
@@ -164,6 +193,9 @@ public class AccountView extends JPanel {
         return this;
     }
 
+    /**
+     * Creates ImageIcon from file
+     */
     protected static ImageIcon createImageIcon(String path) {
         java.net.URL imgURL = HomeView.class.getResource(path);
         if (imgURL != null) {

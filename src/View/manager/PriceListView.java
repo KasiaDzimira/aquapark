@@ -8,12 +8,28 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Manager view with prices list
+ */
 public class PriceListView extends JFrame {
-
+    /**
+     * Dimensions of the window
+     */
     private Dimension windowSize;
+    /**
+     * Scroll pane
+     */
     private JScrollPane pane;
+    /**
+     * Controller for ticket price list position
+     */
     private TicketPriceListPositionController positionController;
 
+    /**
+     * Constructor for PriceListView
+     * Adjusts settings of elements to display
+     * @param table Table with prices positions
+     */
     public PriceListView(JTable table) {
         this.positionController = new TicketPriceListPositionController();
         this.setTitle("Price list");
@@ -40,6 +56,9 @@ public class PriceListView extends JFrame {
         this.centeringWindow();
     }
 
+    /**
+     * Centers the window
+     */
     private void centeringWindow() {
         // place window in the center
         Dimension center = new Dimension(
@@ -50,6 +69,9 @@ public class PriceListView extends JFrame {
                 (int) (center.getHeight() - (this.windowSize.getHeight() / 2)));
     }
 
+    /**
+     * Removes positions from table
+     */
     private void removePositions(JTable table) {
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
         positionController.deleteTicketPriceListPosition((int) tableModel.getValueAt(table.getSelectedRow(), 5));

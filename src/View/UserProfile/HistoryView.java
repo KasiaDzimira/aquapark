@@ -7,11 +7,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+/**
+ * User view with history of his account
+ */
 public class HistoryView extends JPanel{
 
+    /**
+     * Constructor without parameters
+     */
     public HistoryView() {}
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     public JPanel renderView() {
 
         //BUTTONS PANEL

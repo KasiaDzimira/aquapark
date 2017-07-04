@@ -11,11 +11,27 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
+/**
+ * Manager view for updating attractions type
+ */
 public class UpdateAttractionTypePanel extends JPanel {
+    /**
+     * ComboBox with attraction types
+     */
     private JComboBox<AttractionType> attractionTypeJComboBox;
+    /**
+     * Controller for attraction type
+     */
     private AttractionTypeController attractionTypeController;
+    /**
+     * Constraints for GridBag layout manager
+     */
     private GridBagConstraints gridBagConstraints;
 
+    /**
+     * Constructor without parameters
+     * Adjusts settings of elements to display
+     */
     public UpdateAttractionTypePanel() {
         attractionTypeController = new AttractionTypeController();
         ArrayList<AttractionType> attractionTypes = (ArrayList<AttractionType>) attractionTypeController.getAllAttractionTypes();
@@ -26,6 +42,9 @@ public class UpdateAttractionTypePanel extends JPanel {
         prepareGui();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     private void prepareGui() {
         JPanel detailsLabelPanel = new JPanel(new GridLayout(0, 1));
         JLabel attractionDetailsLabel = new JLabel("Update attraction type data:");
@@ -128,6 +147,10 @@ public class UpdateAttractionTypePanel extends JPanel {
         this.setVisible(true);
     }
 
+    /**
+     * Updates attraction type
+     * @param name Attraction type
+     */
     private void updateAttractionType(String name) {
         AttractionType attractionType = (AttractionType) attractionTypeJComboBox.getSelectedItem();
 
@@ -137,6 +160,11 @@ public class UpdateAttractionTypePanel extends JPanel {
         attractionTypeController.updateAttractionType(attractionType.getId(), name);
     }
 
+    /**
+     * Sets values for default ComboBox
+     * @param nameField Field with attraction type name
+     * @param  priceSpinner Prices
+     */
     private void setDefaultComboBoxValue(JTextField nameField, JSpinner priceSpinner) {
         AttractionType attractionType = (AttractionType) attractionTypeJComboBox.getItemAt(0);
         nameField.setText(attractionType.getName());

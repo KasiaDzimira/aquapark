@@ -16,18 +16,55 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
 
+/**
+ * Cashier view to create new ticket
+ */
 public class CreateNewTicketView extends JPanel {
-        private GridBagConstraints gridBagConstraints;
-        private UserController userController;
-        private JList<User> userList;
-        private User selectedUser;
-        private PassController passController;
-        private TicketController ticketController;
-        private DefaultListModel userListModel;
-        private WatchController watchController;
-        private JScrollPane pane = new JScrollPane();
-        JButton createTicketForExistsBtn = new JButton("Sell ticket");
+    /**
+     * Constraints for GridBag layout manager
+     */
+    private GridBagConstraints gridBagConstraints;
+    /**
+     * Controller for user
+     */
+    private UserController userController;
+    /**
+     * List with users
+     */
+    private JList<User> userList;
+    /**
+     * Selected user
+     */
+    private User selectedUser;
+    /**
+     * Controller for pass
+     */
+    private PassController passController;
+    /**
+     * Controller for ticket
+     */
+    private TicketController ticketController;
+    /**
+     * Default user list
+     */
+    private DefaultListModel userListModel;
+    /**
+     * Controller for watch
+     */
+    private WatchController watchController;
+    /**
+     * Scroll pane
+     */
+    private JScrollPane pane = new JScrollPane();
+    /**
+     * Button for selling ticket
+     */
+    JButton createTicketForExistsBtn = new JButton("Sell ticket");
 
+    /**
+     * Constructor without parameters
+     * Sets elements to display
+     */
     public CreateNewTicketView() {
             this.setLayout(new GridBagLayout());
             this.gridBagConstraints = new GridBagConstraints();
@@ -44,6 +81,9 @@ public class CreateNewTicketView extends JPanel {
             renderWindow();
         }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     public JPanel renderWindow() {
         JPanel createPassLabelPanel = new JPanel(new GridLayout(0, 1));
         JLabel createPassDetailsLabel = new JLabel("Sell ticket for user with active pass:");
@@ -124,6 +164,9 @@ public class CreateNewTicketView extends JPanel {
         return this;
     }
 
+    /**
+     * Prepares list of users
+     */
     private void prepareList() {
         loadFromDB();
         userList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -144,6 +187,9 @@ public class CreateNewTicketView extends JPanel {
         });
     }
 
+    /**
+     * Loads users with tickets from database
+     */
     private void loadFromDB() {
         userListModel.removeAllElements();
         for (User user : userController.getUsersWithPass()) {
@@ -151,6 +197,10 @@ public class CreateNewTicketView extends JPanel {
         }
     }
 
+    /**
+     * Tests if there is a selection in userList
+     * @param button Button to change
+     */
     private void isEnabledBtn(JButton button) {
         if (userList.isSelectionEmpty()) {
             button.setEnabled(false);
@@ -161,6 +211,9 @@ public class CreateNewTicketView extends JPanel {
         }
     }
 
+    /**
+     * Refreshes lists
+     */
     private void refreshLists() {
         userList.revalidate();
         userList.repaint();

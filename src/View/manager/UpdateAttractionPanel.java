@@ -15,15 +15,39 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
+/**
+ * Manager view for updating attractions
+ */
 public class UpdateAttractionPanel extends JPanel {
+    /**
+     * List with attractions
+     */
     private JList<Attraction> attractionList;
+    /**
+     * Default attraction list
+     */
     private DefaultListModel attractionListModel;
+    /**
+     * Constraints for GridBag layout manager
+     */
     private GridBagConstraints gridBagConstraints;
-
+    /**
+     * ArrayList with all attractions
+     */
     private ArrayList<Attraction> allAttraction;
+    /**
+     * Controller for attraction type
+     */
     AttractionTypeController attractionTypeController;
+    /**
+     * Controller for attraction
+     */
     AttractionController attractionController;
 
+    /**
+     * Constructor without parameters
+     * Adjusts settings of elements to display
+     */
     public UpdateAttractionPanel() {
         this.setLayout(new GridBagLayout());
         this.gridBagConstraints = new GridBagConstraints();
@@ -35,6 +59,9 @@ public class UpdateAttractionPanel extends JPanel {
         prepareGui();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     private void prepareGui() {
         JPanel detailsLabelPanel = new JPanel(new GridLayout(0, 1));
         JLabel attractionDetailsLabel = new JLabel("Update attraction data:");
@@ -138,6 +165,11 @@ public class UpdateAttractionPanel extends JPanel {
         this.setVisible(true);
     }
 
+    /**
+     * Updates attraction
+     * @param name Name of attraction
+     * @param isActive State of attraction
+     */
     private void updateAttraction(String name, Boolean isActive) {
         Attraction attraction = attractionList.getSelectedValue();
         if (attraction == null)
@@ -146,6 +178,14 @@ public class UpdateAttractionPanel extends JPanel {
         attractionController.updateAttraction(attraction.getId(), name , isActive, attraction.getAttractionType().getId());
     }
 
+    /**
+     * Prepares lists
+     * @param attractionType Type of attraction
+     * @param nameLabel Name of attraction
+     * @param nameField Field with name
+     * @param updateButton Button to update
+     * @param isActiveRadio Button to choose state of attraction
+     */
     private void prepareLists(AttractionType attractionType, JLabel nameLabel, JTextField nameField, JButton updateButton, JRadioButton isActiveRadio) {
         loadFromDB(attractionType);
         setOptionsVisibility(nameLabel, nameField, isActiveRadio, updateButton, false);
@@ -168,6 +208,10 @@ public class UpdateAttractionPanel extends JPanel {
         });
     }
 
+    /**
+     * Loads attractions from database
+     * @param attractionType Type of attraction
+     */
     private void loadFromDB(AttractionType attractionType) {
         attractionListModel.removeAllElements();
         for (Attraction attraction : attractionController.getAttractionByType(attractionType)) {
@@ -175,6 +219,14 @@ public class UpdateAttractionPanel extends JPanel {
         }
     }
 
+    /**
+     * Makes elements visible
+     * @param nameLabel Name of attraction
+     * @param nameField Field with name
+     * @param isActive State of attraction
+     * @param updateButton Button to update
+     * @param visible State of elements to show
+     */
     private void setOptionsVisibility(JLabel nameLabel, JTextField nameField, JRadioButton isActive, JButton updateButton, boolean visible) {
         nameLabel.setVisible(visible);
         nameField.setVisible(visible);
@@ -182,11 +234,20 @@ public class UpdateAttractionPanel extends JPanel {
         updateButton.setVisible(visible);
     }
 
+    /**
+     * Sets values of options
+     * @param nameField Field with name
+     * @param isActive State of attraction
+     * @param attraction Attraction
+     */
     private void setOptionsValue(JTextField nameField, JRadioButton isActive, Attraction attraction) {
         nameField.setText(attraction.getName());
         isActive.setSelected(attraction.getStatus());
     }
 
+    /**
+     * Refreshes lists
+     */
     private void refreshLists() {
         attractionList.revalidate();
         attractionList.repaint();

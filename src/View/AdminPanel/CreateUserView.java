@@ -8,10 +8,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Admin view for creating new user
+ */
 public class CreateUserView extends JPanel {
 
+    /**
+     * Constraints for GridBag layout manager
+     */
     public GridBagConstraints gridBagConstraints;
 
+    /**
+     * Constructor without parameters
+     * Adjusts settings of the window
+     */
     public CreateUserView() {
         super();
         setOpaque(true);
@@ -20,6 +30,9 @@ public class CreateUserView extends JPanel {
         this.gridBagConstraints = new GridBagConstraints();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     public JPanel renderView() {
         String[] userRoles = {
                 UserRoleDictionary.ROLE_USER.toString(),

@@ -9,6 +9,10 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
+/**
+ * Adds gray default values to fields if nothing is typed
+ * Copied class
+ */
 public class GhostText implements FocusListener, DocumentListener, PropertyChangeListener
 {
     private final JTextComponent textComp;

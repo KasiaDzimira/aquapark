@@ -11,6 +11,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Main manager view
+ */
 public class ManagerView extends JFrame {
 
     final static String TAB_CREATE_ATTRACTION = "CREATE ATTRACTION";
@@ -18,16 +21,44 @@ public class ManagerView extends JFrame {
     final static String TAB_UPDATE_ATTRACTION_TYPE = "UPDATE ATTRACTION TYPE";
     final static String TAB_UPDATE_ATTRACTION = "UPDATE ATTRACTION";
     final static String TAB_TICKET_PRICE_LIST = "TICKET PRICE LIST";
-
+    /**
+     * Dimensions of the window
+     */
     private Dimension windowSize;
+    /**
+     * Panel with buttons
+     */
     private JPanel buttonsPanel;
+    /**
+     * Panel with cards
+     */
     private JPanel cardsPanel;
+    /**
+     * Panel with attraction creation
+     */
     private CreateAttractionPanel createAttraction;
+    /**
+     * Panel with attraction type creation
+     */
     private CreateAttractionTypePanel createAttractionTypePanel;
+    /**
+     * Panel with attraction type update
+     */
     private UpdateAttractionTypePanel updateAttractionTypePanel;
+    /**
+     * Panel with attraction update
+     */
     private UpdateAttractionPanel updateAttractionPanel;
+    /**
+     * Panel with ticket prices
+     */
     private TicketPriceListPanel ticketPriceListPanel;
 
+    /**
+     * Constructor for ManagerView
+     * Adjusts settings of elements to display
+     * @param title Title of window
+     */
     public ManagerView(String title) {
         this.windowSize = new Dimension(1100, 700);
         this.setTitle(title);
@@ -44,6 +75,9 @@ public class ManagerView extends JFrame {
         this.addComponentToPane();
     }
 
+    /**
+     * Creates every element of page and adds it to main pane
+     */
     private void addComponentToPane() {
         JTabbedPane tabbedPane = new JTabbedPane();
 
@@ -79,6 +113,9 @@ public class ManagerView extends JFrame {
         pane.add(tabbedPane, BorderLayout.CENTER);
     }
 
+    /**
+     * Creates label
+     */
     private JLabel createLabel(String labelText) {
         JLabel label = new JLabel(labelText, SwingConstants.CENTER);
         label.setPreferredSize(new Dimension(190, 40));
@@ -86,11 +123,17 @@ public class ManagerView extends JFrame {
         return label;
     }
 
+    /**
+     * Shows window
+     */
     public void runWelcome() {
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
         this.setVisible(true);
     }
 
+    /**
+     * Centers window
+     */
     private void centeringWindow() {
         // place window in the center
         Dimension center = new Dimension(

@@ -14,30 +14,83 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by blurpek on 15.05.17.
+ * Manager view to create ticket price position
  */
 public class CreateTicketPriceListPositionPanel extends JPanel {
+    /**
+     * List with attractions
+     */
     private JList<Attraction> attractionList;
+    /**
+     * List with attractions types
+     */
     private JList<AttractionType> attractionTypeList;
+    /**
+     * Default list for attractions
+     */
     private DefaultListModel attractionListModel;
+    /**
+     * Default list for attractions types
+     */
     private DefaultListModel attractionTypeListModel;
+    /**
+     * Panel with options
+     */
     private JPanel options;
+    /**
+     * ComboBox with days
+     */
     private JComboBox<Day> dayJComboBox;
+    /**
+     * ComboBox with daytime
+     */
     private JComboBox<Daytime> daytimeJComboBox;
+    /**
+     * ComboBox with discount groups
+     */
     private JComboBox<DiscountGroup> discountGroupJComboBox;
+    /**
+     * Field with price
+     */
     private JTextField priceField;
-
+    /**
+     * Controller for day
+     */
     private DayController dayController;
+    /**
+     * Controller for daytime
+     */
     private DaytimeController daytimeController;
+    /**
+     * Controller for discount group
+     */
     private DiscountGroupController discountGroupController;
+    /**
+     * Controller for ticket price list position
+     */
     private TicketPriceListPositionController ticketPriceListPositionController;
-
+    /**
+     * List with ticket prices
+     */
     private TicketPriceList ticketPriceList;
+    /**
+     * ArrayList with all attractions
+     */
     private ArrayList<Attraction> allAttraction;
-    //controllers
+    /**
+     * Controller for attraction type
+     */
     AttractionTypeController attractionTypeController;
+    /**
+     * Controller for attraction
+     */
     AttractionController attractionController;
 
+    /**
+     * Constructor for CreateTicketPriceListPositionPanel
+     * Adjusts settings of elements to display
+     * @param ticketPriceList List of ticket prices
+     */
     public CreateTicketPriceListPositionPanel(TicketPriceList ticketPriceList) {
         this.ticketPriceList = ticketPriceList;
         attractionTypeController = new AttractionTypeController();
@@ -50,6 +103,9 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
         prepareGui();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     private void prepareGui() {
         this.setLayout(new FlowLayout());
         options = new JPanel();
@@ -62,6 +118,9 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
         this.setVisible(true);
     }
 
+    /**
+     * Prepares lists to show
+     */
     private void prepareLists() {
         attractionTypeListModel = new DefaultListModel();
         attractionListModel = new DefaultListModel();
@@ -108,9 +167,17 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
         });
     }
 
+    /**
+     * Sets available options
+     * @param attraction Attraction
+     */
     private void setOptions(Attraction attraction) {
     }
 
+    /**
+     * Filters attractions
+     * @param selectedAttractionTypes Selected types of attractions
+     */
     private void filterAttractions(int[] selectedAttractionTypes) {
         Set<AttractionType> attractionTypeSet = new HashSet<>();
         for (int i = 0; i < selectedAttractionTypes.length; i++) {
@@ -129,6 +196,9 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
         }
     }
 
+    /**
+     * Loads attraction types from database
+     */
     public void loadFromDB() {
         for (AttractionType at : attractionTypeController.getAllAttractionTypes()) {
             attractionTypeListModel.addElement(at);
@@ -139,6 +209,9 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
         }
     }
 
+    /**
+     * Refreshes lists
+     */
     private void refreshLists() {
         attractionList.revalidate();
         attractionList.repaint();
@@ -146,6 +219,9 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
         attractionTypeList.repaint();
     }
 
+    /**
+     * Prepares available options
+     */
     private void prepareOptions() {
         BoxLayout boxLayout = new BoxLayout(options, BoxLayout.Y_AXIS);
         options.setLayout(boxLayout);
@@ -176,6 +252,9 @@ public class CreateTicketPriceListPositionPanel extends JPanel {
         options.add(createButton);
     }
 
+    /**
+     * Validates position to create
+     */
     private void validateAndCreate() {
         //TODO: validation
 

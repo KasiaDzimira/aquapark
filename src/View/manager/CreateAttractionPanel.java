@@ -10,11 +10,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Manager view to create attraction
+ */
 public class CreateAttractionPanel extends JPanel {
+    /**
+     * Controller for attraction type
+     */
     private AttractionTypeController attractionTypeController;
+    /**
+     * Controller for attraction
+     */
     private AttractionController attractionController;
+    /**
+     * Constraints for GridBag layout manager
+     */
     private GridBagConstraints gridBagConstraints;
 
+    /**
+     * Constructor without parameters
+     * Adjusts settings of elements to display
+     */
     public CreateAttractionPanel() {
         attractionController = new AttractionController();
         attractionTypeController = new AttractionTypeController();
@@ -23,6 +39,9 @@ public class CreateAttractionPanel extends JPanel {
         prepareGui();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     private void prepareGui() {
         JPanel detailsLabelPanel = new JPanel(new GridLayout(0, 1));
         JLabel attractionDetailsLabel = new JLabel("Attraction details:");
@@ -112,6 +131,12 @@ public class CreateAttractionPanel extends JPanel {
         this.setVisible(true);
     }
 
+    /**
+     * Creates new attraction
+     * @param name Name of the attraction
+     * @param isActive State of the attraction
+     * @param attractionType Type of the attraction
+     */
     private void createAttraction(String name, boolean isActive, AttractionType attractionType) {
         attractionController.createAttraction(name, isActive, attractionType.getId());
     }

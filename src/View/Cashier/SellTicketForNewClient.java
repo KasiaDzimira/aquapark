@@ -14,17 +14,51 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Cashier view for selling ticket to new client
+ */
 public class SellTicketForNewClient extends JFrame {
+    /**
+     * Dimensions of the window
+     */
     private Dimension windowSize;
+    /**
+     * Constraints for GridBag layout manager
+     */
     private GridBagConstraints gridBagConstraints;
+    /**
+     * Contrller for watch
+     */
     private WatchController watchController;
+    /**
+     * Controller for day
+     */
     private DayController dayController;
+    /**
+     * Controller for daytime
+     */
     private DaytimeController daytimeController;
+    /**
+     * Controller for ticket
+     */
     private TicketController ticketController;
+    /**
+     * ComboBox with discount groups
+     */
     private JComboBox<DiscountGroup> discountGroupJComboBox;
+    /**
+     * Controller for discount group
+     */
     private DiscountGroupController discountGroupController;
+    /**
+     * Button to calculate price
+     */
     JButton confirmBtn = new JButton("Calculate price");
 
+    /**
+     * Constructor without parameters
+     * Sets elements to display
+     */
     public SellTicketForNewClient() {
         this.windowSize = new Dimension(300, 300);
         this.gridBagConstraints = new GridBagConstraints();
@@ -40,6 +74,9 @@ public class SellTicketForNewClient extends JFrame {
         prepareGui();
     }
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     private void prepareGui() {
         ArrayList<Day> days = (ArrayList<Day>) dayController.getAllDays();
         Day[] days1 = days.toArray(new Day[days.size()]);
@@ -95,6 +132,9 @@ public class SellTicketForNewClient extends JFrame {
         this.add(confirmBtn, gridBagConstraints);
     }
 
+    /**
+     * Centers the window
+     */
     private void centeringWindow() {
         // place window in the center
         Dimension center = new Dimension(

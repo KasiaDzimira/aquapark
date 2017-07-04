@@ -3,10 +3,19 @@ package View.UserProfile;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * User starting page
+ */
 public class HomeView extends JPanel {
 
+    /**
+     * Constructor without parameters
+     */
     public HomeView() {}
 
+    /**
+     * Creates every element of page and adds it to main panel
+     */
     public JPanel renderView() {
         JPanel jPanel = new JPanel();
 
@@ -57,7 +66,9 @@ public class HomeView extends JPanel {
 
         return this;
     }
-
+    /**
+     * Creates ImageIcon from file
+     */
     protected static ImageIcon createImageIcon(String path) {
         java.net.URL imgURL = HomeView.class.getResource(path);
         if (imgURL != null) {
